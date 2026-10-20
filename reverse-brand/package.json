@@ -1,0 +1,14 @@
+{
+  "name": "reverse-brand",
+  "version": "0.1.0",
+  "description": "Turn a public brand website into an unofficial, art-directed brand guide with measured design tokens.",
+  "license": "MIT",
+  "private": true,
+  "bin": { "reverse-brand": "bin/reverse-brand.js" },
+  "scripts": {
+    "verify": "node verify.js",
+    "test:fixture": "node test/run-fixture.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": { "playwright": "1.56.1" }
+}

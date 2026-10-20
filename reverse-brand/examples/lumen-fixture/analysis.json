@@ -1,0 +1,1342 @@
+{
+  "host": "127.0.0.1:40491",
+  "url": "http://127.0.0.1:40491/",
+  "capturedAt": "2026-10-20T18:02:49.981Z",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:40491/",
+      "label": "Home",
+      "score": null,
+      "isHome": true
+    },
+    {
+      "url": "http://127.0.0.1:40491/personal/",
+      "label": "Personal",
+      "score": 12,
+      "isHome": false
+    },
+    {
+      "url": "http://127.0.0.1:40491/business/",
+      "label": "Business",
+      "score": 12,
+      "isHome": false
+    },
+    {
+      "url": "http://127.0.0.1:40491/pricing/",
+      "label": "Pricing",
+      "score": 12,
+      "isHome": false
+    },
+    {
+      "url": "http://127.0.0.1:40491/company/",
+      "label": "Company",
+      "score": 12,
+      "isHome": false
+    }
+  ],
+  "type": {
+    "roles": {
+      "display": {
+        "size": 86.4,
+        "lineHeight": 1.02,
+        "weight": 800,
+        "tracking": -0.03,
+        "family": "Lumen Grotesk",
+        "transform": "none",
+        "samples": [
+          "Banking, made simple",
+          "Spend, save, send",
+          "Business accounts, sorted"
+        ],
+        "tags": [
+          "h1"
+        ],
+        "count": 5,
+        "mobile": 44,
+        "mobileMatched": 1,
+        "clamp": "clamp(2.75rem, 1.766rem + 4.04vw, 5.4rem)"
+      },
+      "h1": {
+        "size": 56,
+        "lineHeight": 1.08,
+        "weight": 700,
+        "tracking": -0.02,
+        "family": "Lumen Grotesk",
+        "transform": "none",
+        "samples": [
+          "Your money, in one place",
+          "Save, without thinking",
+          "Get the app"
+        ],
+        "tags": [
+          "h2"
+        ],
+        "count": 11,
+        "mobile": 32,
+        "mobileMatched": 3,
+        "clamp": "clamp(2rem, 1.443rem + 2.29vw, 3.5rem)"
+      },
+      "h2": {
+        "size": 40,
+        "lineHeight": 1.5,
+        "weight": 700,
+        "tracking": 0,
+        "family": "Lumen Grotesk",
+        "transform": "none",
+        "samples": [
+          "£12,480.20"
+        ],
+        "tags": [
+          "p"
+        ],
+        "count": 1,
+        "mobile": 40,
+        "mobileMatched": 1,
+        "clamp": "2.5rem"
+      },
+      "h3": {
+        "size": 24,
+        "lineHeight": 1.25,
+        "weight": 700,
+        "tracking": -0.01,
+        "family": "Lumen Grotesk",
+        "transform": "none",
+        "samples": [
+          "Spend abroad, no fees",
+          "Save in seconds",
+          "Split bills, instantly"
+        ],
+        "tags": [
+          "h3"
+        ],
+        "count": 14,
+        "mobile": 24,
+        "mobileMatched": 10,
+        "clamp": "1.5rem"
+      },
+      "h4": {
+        "size": 20,
+        "lineHeight": 1.25,
+        "weight": 700,
+        "tracking": -0.01,
+        "family": "Lumen Grotesk",
+        "transform": "none",
+        "samples": [
+          "Spend abroad, no fees",
+          "Save in seconds",
+          "Split bills, instantly"
+        ],
+        "tags": [
+          "h3"
+        ],
+        "count": 14,
+        "inferred": "interpolated (no cluster found)",
+        "mobile": 17.6,
+        "mobileInferred": true,
+        "clamp": "clamp(1.1rem, 1.044rem + 0.23vw, 1.25rem)"
+      },
+      "lead": {
+        "size": 20,
+        "lineHeight": 1.5,
+        "weight": 400,
+        "tracking": 0,
+        "family": "Lumen Grotesk",
+        "transform": "none",
+        "samples": [
+          "One app for spending, saving and sending money in 36 countries. Join 4 million c",
+          "See every account and card together. Track spending as it happens.",
+          "Set a goal. We round up each purchase and move the change for you."
+        ],
+        "tags": [
+          "p"
+        ],
+        "mobile": 18,
+        "clamp": "clamp(1.125rem, 1.079rem + 0.19vw, 1.25rem)"
+      },
+      "body": {
+        "size": 16,
+        "lineHeight": 1.5,
+        "weight": 400,
+        "tracking": 0,
+        "family": "Lumen Grotesk",
+        "transform": "none",
+        "samples": [
+          "Personal",
+          "Business",
+          "Pricing"
+        ],
+        "tags": [
+          "a",
+          "p"
+        ],
+        "mobile": 16,
+        "clamp": "1rem"
+      },
+      "small": {
+        "size": 13,
+        "lineHeight": 1.5,
+        "weight": 400,
+        "tracking": 0,
+        "family": "Lumen Grotesk",
+        "transform": "none",
+        "samples": [
+          "Total balance",
+          "Lumen is a fictional test bank used to exercise reverse-brand.",
+          "Products"
+        ],
+        "tags": [
+          "p",
+          "h4"
+        ],
+        "mobile": 13,
+        "clamp": "0.813rem"
+      }
+    },
+    "ratio": 1.401,
+    "interval": {
+      "name": "Augmented fourth",
+      "value": 1.414
+    },
+    "families": [
+      {
+        "family": "Lumen Grotesk",
+        "stack": "\"Lumen Grotesk\", Inter, system-ui, sans-serif",
+        "share": 0.997,
+        "weights": [
+          {
+            "weight": 400,
+            "share": 0.683
+          },
+          {
+            "weight": 500,
+            "share": 0.01
+          },
+          {
+            "weight": 600,
+            "share": 0.038
+          },
+          {
+            "weight": 700,
+            "share": 0.24
+          },
+          {
+            "weight": 800,
+            "share": 0.029
+          }
+        ]
+      }
+    ],
+    "sizesInUse": [
+      {
+        "size": 86.4,
+        "share": 0.029
+      },
+      {
+        "size": 56,
+        "share": 0.076
+      },
+      {
+        "size": 40,
+        "share": 0.003
+      },
+      {
+        "size": 24,
+        "share": 0.155
+      },
+      {
+        "size": 20,
+        "share": 0.135
+      },
+      {
+        "size": 16,
+        "share": 0.483
+      },
+      {
+        "size": 15,
+        "share": 0.01
+      },
+      {
+        "size": 14,
+        "share": 0.018
+      },
+      {
+        "size": 13,
+        "share": 0.091
+      }
+    ],
+    "totalChars": 3539,
+    "glyphsSeen": ",.-£+",
+    "clustersFound": 4
+  },
+  "colour": {
+    "roles": [
+      {
+        "role": "background",
+        "hex": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 0.0)",
+        "share": 0.774,
+        "shareOf": "bg",
+        "contrast": null,
+        "contrastAgainst": null
+      },
+      {
+        "role": "surface",
+        "hex": "#f2f3f7",
+        "oklch": "oklch(96.5% 0.005 275.0)",
+        "share": 0.138,
+        "shareOf": "bg",
+        "contrast": null,
+        "contrastAgainst": null
+      },
+      {
+        "role": "surface-inverse",
+        "hex": "#0f1222",
+        "oklch": "oklch(18.8% 0.033 274.7)",
+        "share": 0.05,
+        "shareOf": "bg",
+        "contrast": null,
+        "contrastAgainst": null
+      },
+      {
+        "role": "text",
+        "hex": "#0f1222",
+        "oklch": "oklch(18.8% 0.033 274.7)",
+        "share": 0.725,
+        "shareOf": "text",
+        "contrast": 18.59,
+        "contrastAgainst": "#ffffff"
+      },
+      {
+        "role": "text-muted",
+        "hex": "#6b6f80",
+        "oklch": "oklch(54.4% 0.027 275.0)",
+        "share": 0.018,
+        "shareOf": "text",
+        "contrast": 4.99,
+        "contrastAgainst": "#ffffff"
+      },
+      {
+        "role": "text-inverse",
+        "hex": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 0.0)",
+        "share": 0.234,
+        "shareOf": "text",
+        "contrast": 18.59,
+        "contrastAgainst": "#0f1222"
+      },
+      {
+        "role": "action",
+        "hex": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 0.0)",
+        "share": 0.359,
+        "shareOf": "all",
+        "note": "most common filled button",
+        "contrast": 5.28,
+        "contrastAgainst": "#6054ec"
+      },
+      {
+        "role": "on-action",
+        "hex": "#0f1222",
+        "oklch": "oklch(18.8% 0.033 274.7)",
+        "share": 0.422,
+        "shareOf": "all",
+        "note": "label on action buttons",
+        "contrast": 18.59,
+        "contrastAgainst": "#ffffff"
+      },
+      {
+        "role": "action-alt",
+        "hex": "#0f1222",
+        "oklch": "oklch(18.8% 0.033 274.7)",
+        "share": 0.422,
+        "shareOf": "all",
+        "note": "second filled button colour",
+        "contrast": null,
+        "contrastAgainst": null
+      },
+      {
+        "role": "accent",
+        "hex": "#6054ec",
+        "oklch": "oklch(55.0% 0.220 279.9)",
+        "share": 0.025,
+        "shareOf": "all",
+        "note": "most-used chromatic colour",
+        "contrast": null,
+        "contrastAgainst": null
+      },
+      {
+        "role": "border",
+        "hex": "#e6e7ee",
+        "oklch": "oklch(92.9% 0.009 279.7)",
+        "share": 0.025,
+        "shareOf": "all",
+        "contrast": 1.23,
+        "contrastAgainst": "#ffffff"
+      }
+    ],
+    "gradients": [
+      {
+        "type": "linear-gradient",
+        "stops": [
+          "#1b1340",
+          "#6054ec",
+          "#2fd6a4"
+        ],
+        "area": 3689460,
+        "count": 5,
+        "css": "linear-gradient(135deg, #1b1340, #6054ec, #2fd6a4)"
+      }
+    ],
+    "brandGradient": "linear-gradient(135deg, #1b1340, #6054ec, #2fd6a4)",
+    "pairs": [
+      {
+        "fg": "#0f1222",
+        "bg": "#ffffff",
+        "onImage": false,
+        "chars": 2037,
+        "share": 0.59,
+        "ratio": 18.59,
+        "aa": true,
+        "aaLarge": true,
+        "aaa": true
+      },
+      {
+        "fg": "#ffffff",
+        "bg": "#6054ec",
+        "onImage": true,
+        "chars": 467,
+        "share": 0.135,
+        "ratio": 5.28,
+        "aa": true,
+        "aaLarge": true,
+        "aaa": false
+      },
+      {
+        "fg": "#0f1222",
+        "bg": "#f2f3f7",
+        "onImage": false,
+        "chars": 465,
+        "share": 0.135,
+        "ratio": 16.76,
+        "aa": true,
+        "aaLarge": true,
+        "aaa": true
+      },
+      {
+        "fg": "#ffffff",
+        "bg": "#1d2135",
+        "onImage": false,
+        "chars": 180,
+        "share": 0.052,
+        "ratio": 15.89,
+        "aa": true,
+        "aaLarge": true,
+        "aaa": true
+      },
+      {
+        "fg": "#ffffff",
+        "bg": "#0f1222",
+        "onImage": false,
+        "chars": 162,
+        "share": 0.047,
+        "ratio": 18.59,
+        "aa": true,
+        "aaLarge": true,
+        "aaa": true
+      },
+      {
+        "fg": "#aeb2c4",
+        "bg": "#0b0d18",
+        "onImage": false,
+        "chars": 65,
+        "share": 0.019,
+        "ratio": 9.18,
+        "aa": true,
+        "aaLarge": true,
+        "aaa": true
+      },
+      {
+        "fg": "#6b6f80",
+        "bg": "#0b0d18",
+        "onImage": false,
+        "chars": 62,
+        "share": 0.018,
+        "ratio": 3.88,
+        "aa": false,
+        "aaLarge": true,
+        "aaa": false
+      },
+      {
+        "fg": "#e9e6ff",
+        "bg": "#6054ec",
+        "onImage": true,
+        "chars": 13,
+        "share": 0.004,
+        "ratio": 4.33,
+        "aa": false,
+        "aaLarge": true,
+        "aaa": false
+      }
+    ],
+    "palette": [
+      {
+        "hex": "#0f1222",
+        "oklch": "oklch(18.8% 0.033 274.7)",
+        "text": 0.725,
+        "bg": 0.05,
+        "usage": 0.422
+      },
+      {
+        "hex": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 0.0)",
+        "text": 0.234,
+        "bg": 0.774,
+        "usage": 0.359
+      },
+      {
+        "hex": "#f2f3f7",
+        "oklch": "oklch(96.5% 0.005 275.0)",
+        "text": 0,
+        "bg": 0.138,
+        "usage": 0.046
+      },
+      {
+        "hex": "#e6e7ee",
+        "oklch": "oklch(92.9% 0.009 279.7)",
+        "text": 0,
+        "bg": 0,
+        "usage": 0.025
+      },
+      {
+        "hex": "#d5d7e1",
+        "oklch": "oklch(88.1% 0.014 277.0)",
+        "text": 0,
+        "bg": 0,
+        "usage": 0.025
+      },
+      {
+        "hex": "#000000",
+        "oklch": "oklch(0.0% 0.000 0.0)",
+        "text": 0,
+        "bg": 0,
+        "usage": 0.025
+      },
+      {
+        "hex": "#0b0d18",
+        "oklch": "oklch(16.3% 0.023 275.6)",
+        "text": 0,
+        "bg": 0.022,
+        "usage": 0.007
+      },
+      {
+        "hex": "#aeb2c4",
+        "oklch": "oklch(76.6% 0.026 275.8)",
+        "text": 0.019,
+        "bg": 0,
+        "usage": 0.006
+      },
+      {
+        "hex": "#6b6f80",
+        "oklch": "oklch(54.4% 0.027 275.0)",
+        "text": 0.018,
+        "bg": 0,
+        "usage": 0.006
+      },
+      {
+        "hex": "#1d2135",
+        "oklch": "oklch(25.4% 0.038 274.7)",
+        "text": 0,
+        "bg": 0.015,
+        "usage": 0.005
+      },
+      {
+        "hex": "#e9e6ff",
+        "oklch": "oklch(93.5% 0.034 291.2)",
+        "text": 0.004,
+        "bg": 0,
+        "usage": 0.001
+      }
+    ],
+    "bar": [
+      {
+        "hex": "#0f1222",
+        "share": 0.422
+      },
+      {
+        "hex": "#ffffff",
+        "share": 0.359
+      },
+      {
+        "hex": "#f2f3f7",
+        "share": 0.046
+      },
+      {
+        "hex": "#e6e7ee",
+        "share": 0.025
+      },
+      {
+        "hex": "#d5d7e1",
+        "share": 0.025
+      },
+      {
+        "hex": "#000000",
+        "share": 0.025
+      },
+      {
+        "hex": "#1b1340",
+        "share": 0.025
+      },
+      {
+        "hex": "#6054ec",
+        "share": 0.025
+      },
+      {
+        "hex": "#2fd6a4",
+        "share": 0.025
+      },
+      {
+        "hex": "#0b0d18",
+        "share": 0.007
+      }
+    ],
+    "groundIsDark": false
+  },
+  "layout": {
+    "base": 8,
+    "shares": {
+      "2": 0.957,
+      "4": 0.923,
+      "8": 0.889
+    },
+    "onGrid": [
+      {
+        "px": 8,
+        "count": 6
+      },
+      {
+        "px": 16,
+        "count": 22
+      },
+      {
+        "px": 24,
+        "count": 92
+      },
+      {
+        "px": 32,
+        "count": 165
+      },
+      {
+        "px": 48,
+        "count": 1
+      },
+      {
+        "px": 64,
+        "count": 2
+      },
+      {
+        "px": 96,
+        "count": 28
+      },
+      {
+        "px": 120,
+        "count": 53
+      },
+      {
+        "px": 160,
+        "count": 1
+      }
+    ],
+    "offGrid": [
+      {
+        "px": 14,
+        "count": 14
+      },
+      {
+        "px": 20,
+        "count": 14
+      },
+      {
+        "px": 13,
+        "count": 12
+      },
+      {
+        "px": 18.6,
+        "count": 6
+      }
+    ],
+    "scale": [
+      8,
+      16,
+      24,
+      32,
+      96,
+      120
+    ],
+    "radii": [
+      {
+        "px": 24,
+        "count": 31
+      },
+      {
+        "px": 16,
+        "count": 6
+      },
+      {
+        "px": 12,
+        "count": 1
+      }
+    ],
+    "radiusTokens": [
+      12,
+      16,
+      24
+    ],
+    "pillCount": 13,
+    "container": 1200,
+    "columns": 3,
+    "gutter": 24,
+    "columnSource": "CSS grid",
+    "breakpoints": [
+      {
+        "px": 641,
+        "count": 1,
+        "kinds": [
+          "max"
+        ]
+      },
+      {
+        "px": 1025,
+        "count": 1,
+        "kinds": [
+          "max"
+        ]
+      },
+      {
+        "px": 1280,
+        "count": 1,
+        "kinds": [
+          "min"
+        ]
+      }
+    ],
+    "rhythm": [
+      {
+        "y": 72,
+        "h": 734,
+        "bg": "#6054ec",
+        "image": true,
+        "tone": "image"
+      },
+      {
+        "y": 806,
+        "h": 750,
+        "bg": "#ffffff",
+        "image": false,
+        "tone": "light"
+      },
+      {
+        "y": 1556,
+        "h": 752,
+        "bg": "#ffffff",
+        "image": false,
+        "tone": "light"
+      },
+      {
+        "y": 2308,
+        "h": 847,
+        "bg": "#0f1222",
+        "image": false,
+        "tone": "dark"
+      },
+      {
+        "y": 3155,
+        "h": 364,
+        "bg": "#f2f3f7",
+        "image": false,
+        "tone": "light"
+      }
+    ],
+    "shadows": [
+      {
+        "value": "rgba(15, 18, 34, 0.06) 0px 1px 2px 0px, rgba(15, 18, 34, 0.06) 0px 8px 24px 0px",
+        "count": 27
+      }
+    ]
+  },
+  "components": {
+    "buttons": {
+      "primary": {
+        "variant": "filled",
+        "count": 5,
+        "bg": "#ffffff",
+        "bgAlpha": 1,
+        "fg": "#0f1222",
+        "border": "none",
+        "radius": 9999,
+        "pill": true,
+        "padX": 24,
+        "padY": 0,
+        "height": 48,
+        "fontSize": 16,
+        "weight": 600,
+        "letterSpacing": 0,
+        "transform": "none",
+        "backdrop": null,
+        "ground": "#6054ec",
+        "labels": [
+          "Open an account",
+          "Get started"
+        ],
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "duration": "0.3s"
+      },
+      "secondary": {
+        "variant": "filled",
+        "count": 2,
+        "bg": "#0f1222",
+        "bgAlpha": 1,
+        "fg": "#ffffff",
+        "border": "none",
+        "radius": 9999,
+        "pill": true,
+        "padX": 24,
+        "padY": 0,
+        "height": 48,
+        "fontSize": 16,
+        "weight": 600,
+        "letterSpacing": 0,
+        "transform": "none",
+        "backdrop": null,
+        "ground": "#ffffff",
+        "labels": [
+          "Get started",
+          "Send link"
+        ],
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "duration": "0.3s"
+      },
+      "outline": {
+        "variant": "outline",
+        "count": 1,
+        "bg": null,
+        "bgAlpha": 0,
+        "fg": "#ffffff",
+        "border": "1px solid #ffffff",
+        "radius": 9999,
+        "pill": true,
+        "padX": 24,
+        "padY": 0,
+        "height": 48,
+        "fontSize": 16,
+        "weight": 600,
+        "letterSpacing": 0,
+        "transform": "none",
+        "backdrop": null,
+        "ground": "#0f1222",
+        "labels": [
+          "Learn more"
+        ],
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "duration": "0.3s"
+      },
+      "translucent": {
+        "variant": "translucent",
+        "count": 1,
+        "bg": "#ffffff",
+        "bgAlpha": 0.16,
+        "fg": "#ffffff",
+        "border": "none",
+        "radius": 9999,
+        "pill": true,
+        "padX": 24,
+        "padY": 0,
+        "height": 48,
+        "fontSize": 16,
+        "weight": 600,
+        "letterSpacing": 0,
+        "transform": "none",
+        "backdrop": "blur(12px)",
+        "ground": "#6054ec",
+        "labels": [
+          "See plans"
+        ],
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "duration": "0.3s"
+      }
+    },
+    "buttonGroups": [
+      {
+        "variant": "filled",
+        "count": 5,
+        "bg": "#ffffff",
+        "bgAlpha": 1,
+        "fg": "#0f1222",
+        "border": "none",
+        "radius": 9999,
+        "pill": true,
+        "padX": 24,
+        "padY": 0,
+        "height": 48,
+        "fontSize": 16,
+        "weight": 600,
+        "letterSpacing": 0,
+        "transform": "none",
+        "backdrop": null,
+        "ground": "#6054ec",
+        "labels": [
+          "Open an account",
+          "Get started"
+        ],
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "duration": "0.3s"
+      },
+      {
+        "variant": "filled",
+        "count": 2,
+        "bg": "#0f1222",
+        "bgAlpha": 1,
+        "fg": "#ffffff",
+        "border": "none",
+        "radius": 9999,
+        "pill": true,
+        "padX": 24,
+        "padY": 0,
+        "height": 48,
+        "fontSize": 16,
+        "weight": 600,
+        "letterSpacing": 0,
+        "transform": "none",
+        "backdrop": null,
+        "ground": "#ffffff",
+        "labels": [
+          "Get started",
+          "Send link"
+        ],
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "duration": "0.3s"
+      },
+      {
+        "variant": "translucent",
+        "count": 1,
+        "bg": "#ffffff",
+        "bgAlpha": 0.16,
+        "fg": "#ffffff",
+        "border": "none",
+        "radius": 9999,
+        "pill": true,
+        "padX": 24,
+        "padY": 0,
+        "height": 48,
+        "fontSize": 16,
+        "weight": 600,
+        "letterSpacing": 0,
+        "transform": "none",
+        "backdrop": "blur(12px)",
+        "ground": "#6054ec",
+        "labels": [
+          "See plans"
+        ],
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "duration": "0.3s"
+      },
+      {
+        "variant": "outline",
+        "count": 1,
+        "bg": null,
+        "bgAlpha": 0,
+        "fg": "#ffffff",
+        "border": "1px solid #ffffff",
+        "radius": 9999,
+        "pill": true,
+        "padX": 24,
+        "padY": 0,
+        "height": 48,
+        "fontSize": 16,
+        "weight": 600,
+        "letterSpacing": 0,
+        "transform": "none",
+        "backdrop": null,
+        "ground": "#0f1222",
+        "labels": [
+          "Learn more"
+        ],
+        "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "duration": "0.3s"
+      }
+    ],
+    "variantCount": 4,
+    "cards": [
+      {
+        "fill": "solid",
+        "radius": 24,
+        "count": 26,
+        "bg": "#ffffff",
+        "bgAlpha": 1,
+        "backdrop": null,
+        "shadow": "rgba(15, 18, 34, 0.06) 0px 1px 2px 0px, rgba(15, 18, 34, 0.06) 0px 8px 24px 0px",
+        "border": null,
+        "padX": 32,
+        "padY": 32,
+        "media": true,
+        "mediaShare": 41,
+        "w": 363,
+        "h": 398,
+        "ground": "#ffffff",
+        "titles": [
+          "Spend abroad, no fees",
+          "Save in seconds",
+          "Split bills, instantly",
+          "Travel, sorted"
+        ]
+      },
+      {
+        "fill": "translucent",
+        "radius": 24,
+        "count": 1,
+        "bg": "#ffffff",
+        "bgAlpha": 0.14,
+        "backdrop": "blur(24px)",
+        "shadow": null,
+        "border": null,
+        "padX": 24,
+        "padY": 24,
+        "media": false,
+        "mediaShare": 0,
+        "w": 320,
+        "h": 154,
+        "ground": "#6054ec",
+        "titles": []
+      }
+    ],
+    "input": {
+      "inferred": false,
+      "count": 1,
+      "height": 48,
+      "radius": 12,
+      "border": "1px #d5d7e1",
+      "bg": "#ffffff",
+      "color": "#000000",
+      "padX": 16,
+      "fontSize": 16,
+      "placeholder": "Phone number"
+    },
+    "nav": {
+      "height": 72,
+      "sticky": true,
+      "position": "sticky",
+      "bg": "#ffffff",
+      "bgA": 0.72,
+      "backdrop": "blur(20px)",
+      "linkCount": 7,
+      "links": [
+        "Personal",
+        "Business",
+        "Pricing",
+        "Company",
+        "Help",
+        "Log in",
+        "Get started"
+      ],
+      "linkSize": 15,
+      "linkWeight": 500,
+      "linkColor": "#0f1222",
+      "linkTransform": "none",
+      "linkDecoration": "none",
+      "logo": {
+        "w": 96,
+        "h": 24,
+        "color": "#0f1222",
+        "kind": "svg"
+      }
+    }
+  },
+  "imagery": {
+    "count": 15,
+    "svgCount": 0,
+    "formats": [
+      {
+        "format": "jpg",
+        "count": 15,
+        "share": 1
+      }
+    ],
+    "crops": [
+      {
+        "crop": "landscape",
+        "count": 14,
+        "share": 0.933
+      },
+      {
+        "crop": "wide (≥16:10)",
+        "count": 1,
+        "share": 0.067
+      }
+    ],
+    "fits": [
+      {
+        "fit": "cover",
+        "count": 15
+      }
+    ],
+    "fullBleedShare": 0.067,
+    "mediaShareOfPage": 0.091,
+    "emptyAlt": 0,
+    "altThemes": [
+      {
+        "word": "friends",
+        "count": 6
+      },
+      {
+        "word": "splitting",
+        "count": 6
+      },
+      {
+        "word": "bill",
+        "count": 6
+      },
+      {
+        "word": "traveller",
+        "count": 4
+      },
+      {
+        "word": "airport",
+        "count": 4
+      },
+      {
+        "word": "person",
+        "count": 2
+      },
+      {
+        "word": "paying",
+        "count": 2
+      },
+      {
+        "word": "phone",
+        "count": 2
+      },
+      {
+        "word": "cafe",
+        "count": 2
+      },
+      {
+        "word": "city",
+        "count": 2
+      }
+    ],
+    "roundedShare": 0.933,
+    "medianRadius": 16,
+    "sources": [
+      {
+        "url": "http://127.0.0.1:40491/",
+        "label": "Home",
+        "media": 7
+      },
+      {
+        "url": "http://127.0.0.1:40491/personal/",
+        "label": "Personal",
+        "media": 6
+      },
+      {
+        "url": "http://127.0.0.1:40491/business/",
+        "label": "Business",
+        "media": 6
+      },
+      {
+        "url": "http://127.0.0.1:40491/pricing/",
+        "label": "Pricing",
+        "media": 6
+      },
+      {
+        "url": "http://127.0.0.1:40491/company/",
+        "label": "Company",
+        "media": 6
+      }
+    ]
+  },
+  "voice": {
+    "stats": {
+      "headlines": 14,
+      "wordsMedian": 3,
+      "wordsP90": 5,
+      "wordsMax": 5,
+      "caseShares": {
+        "sentence": 1,
+        "title": 0,
+        "upper": 0
+      },
+      "you": 22,
+      "we": 7,
+      "youPer1000": 62.7,
+      "wePer1000": 19.9,
+      "numbersShare": 0,
+      "xyShare": 0.5,
+      "exclamations": 0,
+      "ctaVerbs": [
+        {
+          "verb": "Get",
+          "count": 1
+        },
+        {
+          "verb": "Open",
+          "count": 1
+        },
+        {
+          "verb": "See",
+          "count": 1
+        },
+        {
+          "verb": "Learn",
+          "count": 1
+        },
+        {
+          "verb": "Send",
+          "count": 1
+        }
+      ],
+      "ctaVerbShare": 1,
+      "ctaCount": 5,
+      "periodShare": 0,
+      "totalWords": 351
+    },
+    "quotes": [
+      {
+        "text": "Banking, made simple",
+        "source": "http://127.0.0.1:40491/",
+        "words": 3
+      },
+      {
+        "text": "Spend, save, send",
+        "source": "http://127.0.0.1:40491/personal/",
+        "words": 3
+      },
+      {
+        "text": "Business accounts, sorted",
+        "source": "http://127.0.0.1:40491/business/",
+        "words": 3
+      },
+      {
+        "text": "Plans for every pocket",
+        "source": "http://127.0.0.1:40491/pricing/",
+        "words": 4
+      },
+      {
+        "text": "We build money tools",
+        "source": "http://127.0.0.1:40491/company/",
+        "words": 4
+      }
+    ],
+    "rules": [
+      {
+        "score": 1,
+        "title": "Write headlines in sentence case",
+        "detail": "100% of headlines are sentence case.",
+        "stat": "case"
+      },
+      {
+        "score": 1,
+        "title": "Use the short \"X, Y\" pattern",
+        "detail": "50% of headlines are two short clauses joined by a comma.",
+        "stat": "\"X, Y\" pattern"
+      },
+      {
+        "score": 0.95,
+        "title": "Start calls to action with a verb",
+        "detail": "100% of 5 CTA labels start with a verb; most used: Get, Open, See, Learn.",
+        "stat": "CTA verbs"
+      }
+    ]
+  },
+  "motion": {
+    "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+    "duration": 300,
+    "declared": [
+      {
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "count": 26
+      },
+      {
+        "value": "ease",
+        "count": 2
+      },
+      {
+        "value": "cubic-bezier(.22,1,.36,1)",
+        "count": 1
+      }
+    ]
+  },
+  "fontsDeclared": [
+    "Lumen Grotesk"
+  ],
+  "typeVars": [],
+  "rootVarCount": 8,
+  "counts": {
+    "pages": 5,
+    "elementsWalked": 417,
+    "elementsVisible": 397,
+    "consentExcluded": 5,
+    "buttons": 9,
+    "cards": 27,
+    "media": 15,
+    "headings": 34,
+    "dedupedKeys": {
+      "textColors": 2,
+      "bgColors": 1,
+      "borderColors": 1,
+      "fills": 1,
+      "radii": 1,
+      "shadows": 0,
+      "maxWidths": 0,
+      "centredWidths": 0,
+      "breakpoints": 3,
+      "easings": 0,
+      "durations": 0,
+      "backdrop": 1,
+      "pairs": 2,
+      "spacing.padding": 2,
+      "spacing.margin": 4,
+      "spacing.gap": 1,
+      "textStyles": 4,
+      "buttons": 4,
+      "cards": 4,
+      "media": 16,
+      "headings": 28,
+      "paragraphs": 20,
+      "inputs": 0,
+      "grids": 4,
+      "flexRows": 0
+    }
+  },
+  "assumptions": [
+    "Type: h4 not found as its own size cluster; interpolated at 20px.",
+    "Type: some roles had no matching text at 390px; mobile size scaled by the median matched ratio (or ×0.7)."
+  ],
+  "header": {
+    "height": 72,
+    "sticky": true,
+    "position": "sticky",
+    "bg": "#ffffff",
+    "bgA": 0.72,
+    "backdrop": "blur(20px)",
+    "linkCount": 7,
+    "links": [
+      "Personal",
+      "Business",
+      "Pricing",
+      "Company",
+      "Help",
+      "Log in",
+      "Get started"
+    ],
+    "linkSize": 15,
+    "linkWeight": 500,
+    "linkColor": "#0f1222",
+    "linkTransform": "none",
+    "linkDecoration": "none",
+    "logo": {
+      "w": 96,
+      "h": 24,
+      "color": "#0f1222",
+      "kind": "svg"
+    }
+  }
+}

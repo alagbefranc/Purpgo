@@ -1,0 +1,62 @@
+{
+  "mode": "none",
+  "suffix": "photorealistic, no text, letters, logos, brand marks, cards or app screens",
+  "style": "contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures",
+  "note": "New subjects in the brand's photographic style, generated from text only. Every use is labelled \"AI-generated image\".",
+  "slots": [
+    {
+      "slot": "hero",
+      "aspectRatio": "16:9",
+      "resolution": 2000,
+      "prompt": "A wide city horizon at blue hour seen from a high terrace, a single person in silhouette looking out. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    },
+    {
+      "slot": "horizon",
+      "aspectRatio": "16:9",
+      "resolution": 2000,
+      "prompt": "A long horizon line over still water at dawn, layered atmospheric haze, minimal composition with open sky for text. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    },
+    {
+      "slot": "object",
+      "aspectRatio": "4:5",
+      "resolution": 1400,
+      "prompt": "Studio render of a single smooth sculptural object on a seamless backdrop, soft rim light. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    },
+    {
+      "slot": "street",
+      "aspectRatio": "4:5",
+      "resolution": 1400,
+      "prompt": "A person walking through a sunlit modern street, candid lifestyle moment, motion in the background. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    },
+    {
+      "slot": "sky",
+      "aspectRatio": "16:9",
+      "resolution": 2000,
+      "prompt": "Clean gradient sky with soft high clouds, very simple, plenty of empty space. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    },
+    {
+      "slot": "glass",
+      "aspectRatio": "1:1",
+      "resolution": 1400,
+      "prompt": "Orderly arrangement of frosted glass panels and translucent blocks in a grid, studio light, top-down. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    },
+    {
+      "slot": "grid",
+      "aspectRatio": "4:3",
+      "resolution": 1400,
+      "prompt": "Architectural facade with a precise repeating grid of windows, straight-on, symmetrical. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    },
+    {
+      "slot": "tokens",
+      "aspectRatio": "16:9",
+      "resolution": 2000,
+      "prompt": "Macro close-up of neatly arranged coloured material swatches and polished tiles in rows. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    },
+    {
+      "slot": "detail",
+      "aspectRatio": "1:1",
+      "resolution": 1400,
+      "prompt": "Close-up of hands holding a matte ceramic cup by a bright window, tactile detail. contained framing with generous negative space, composed to sit inside rounded crops, bright, soft daylight; colour palette of violet, deep blue, white; calm, modern, premium; shallow depth of field; natural textures. photorealistic, no text, letters, logos, brand marks, cards or app screens."
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+/* 127.0.0.1:40491 — unofficial analysis by reverse-brand. Not affiliated with or endorsed by the brand owner. */
+/* Measured 2026-10-20 from 5 pages. Colours: hex, with OKLCH in comments. */
+:root {
+  /* font */
+  --font-sans: "Lumen Grotesk", Inter, system-ui, sans-serif;
+  --font-display: "Lumen Grotesk", Inter, system-ui, sans-serif;
+  /* type */
+  --type-display-family: var(--font-display);
+  --type-display-size: clamp(2.75rem, 1.766rem + 4.04vw, 5.4rem); /* 44px @390 → 86.4px @1440 */
+  --type-display-leading: 1.02;
+  --type-display-weight: 800;
+  --type-display-tracking: -0.03em;
+  --type-h1-family: var(--font-display);
+  --type-h1-size: clamp(2rem, 1.443rem + 2.29vw, 3.5rem); /* 32px @390 → 56px @1440 */
+  --type-h1-leading: 1.08;
+  --type-h1-weight: 700;
+  --type-h1-tracking: -0.02em;
+  --type-h2-family: var(--font-display);
+  --type-h2-size: 2.5rem; /* 40px @390 → 40px @1440 */
+  --type-h2-leading: 1.5;
+  --type-h2-weight: 700;
+  --type-h2-tracking: 0em;
+  --type-h3-family: var(--font-display);
+  --type-h3-size: 1.5rem; /* 24px @390 → 24px @1440 */
+  --type-h3-leading: 1.25;
+  --type-h3-weight: 700;
+  --type-h3-tracking: -0.01em;
+  --type-h4-family: var(--font-display);
+  --type-h4-size: clamp(1.1rem, 1.044rem + 0.23vw, 1.25rem); /* 17.6px @390 → 20px @1440 */
+  --type-h4-leading: 1.25;
+  --type-h4-weight: 700;
+  --type-h4-tracking: -0.01em;
+  --type-lead-family: var(--font-sans);
+  --type-lead-size: clamp(1.125rem, 1.079rem + 0.19vw, 1.25rem); /* 18px @390 → 20px @1440 */
+  --type-lead-leading: 1.5;
+  --type-lead-weight: 400;
+  --type-lead-tracking: 0em;
+  --type-body-family: var(--font-sans);
+  --type-body-size: 1rem; /* 16px @390 → 16px @1440 */
+  --type-body-leading: 1.5;
+  --type-body-weight: 400;
+  --type-body-tracking: 0em;
+  --type-small-family: var(--font-sans);
+  --type-small-size: 0.813rem; /* 13px @390 → 13px @1440 */
+  --type-small-leading: 1.5;
+  --type-small-weight: 400;
+  --type-small-tracking: 0em;
+  /* color */
+  --color-background: #ffffff; /* oklch(100.0% 0.000 0.0) */
+  --color-surface: #f2f3f7; /* oklch(96.5% 0.005 275.0) */
+  --color-surface-inverse: #0f1222; /* oklch(18.8% 0.033 274.7) */
+  --color-text: #0f1222; /* oklch(18.8% 0.033 274.7) */
+  --color-text-muted: #6b6f80; /* oklch(54.4% 0.027 275.0) */
+  --color-text-inverse: #ffffff; /* oklch(100.0% 0.000 0.0) */
+  --color-action: #ffffff; /* oklch(100.0% 0.000 0.0) */
+  --color-on-action: #0f1222; /* oklch(18.8% 0.033 274.7) */
+  --color-action-alt: #0f1222; /* oklch(18.8% 0.033 274.7) */
+  --color-accent: #6054ec; /* oklch(55.0% 0.220 279.9) */
+  --color-border: #e6e7ee; /* oklch(92.9% 0.009 279.7) */
+  /* gradient */
+  --gradient-brand: linear-gradient(135deg, #1b1340, #6054ec, #2fd6a4);
+  /* space */
+  --space-base: 8px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 96px;
+  --space-6: 120px;
+  /* container */
+  --container: 1200px;
+  /* columns */
+  --columns: 3;
+  /* gutter */
+  --gutter: 24px;
+  /* bp */
+  --bp-1: 641px;
+  --bp-2: 1025px;
+  --bp-3: 1280px;
+  /* radius */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+  /* shadow */
+  --shadow-1: rgba(15, 18, 34, 0.06) 0px 1px 2px 0px, rgba(15, 18, 34, 0.06) 0px 8px 24px 0px;
+  /* ease */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  /* duration */
+  --duration-brand: 300ms;
+  /* button */
+  --button-primary-bg: #ffffff;
+  --button-primary-fg: #0f1222;
+  --button-primary-border-width: 0px;
+  --button-primary-border-color: transparent;
+  --button-primary-radius: 9999px;
+  --button-primary-pad-x: 24px;
+  --button-primary-pad-y: 0px;
+  --button-primary-height: 48px;
+  --button-primary-font-size: 16px;
+  --button-primary-weight: 600;
+  --button-primary-tracking: 0px;
+  --button-primary-backdrop: none;
+  --button-secondary-bg: #0f1222;
+  --button-secondary-fg: #ffffff;
+  --button-secondary-border-width: 0px;
+  --button-secondary-border-color: transparent;
+  --button-secondary-radius: 9999px;
+  --button-secondary-pad-x: 24px;
+  --button-secondary-pad-y: 0px;
+  --button-secondary-height: 48px;
+  --button-secondary-font-size: 16px;
+  --button-secondary-weight: 600;
+  --button-secondary-tracking: 0px;
+  --button-secondary-backdrop: none;
+  --button-outline-bg: transparent;
+  --button-outline-fg: #ffffff;
+  --button-outline-border-width: 1px;
+  --button-outline-border-color: #ffffff;
+  --button-outline-radius: 9999px;
+  --button-outline-pad-x: 24px;
+  --button-outline-pad-y: 0px;
+  --button-outline-height: 48px;
+  --button-outline-font-size: 16px;
+  --button-outline-weight: 600;
+  --button-outline-tracking: 0px;
+  --button-outline-backdrop: none;
+  --button-translucent-bg: #ffffff29;
+  --button-translucent-fg: #ffffff;
+  --button-translucent-border-width: 0px;
+  --button-translucent-border-color: transparent;
+  --button-translucent-radius: 9999px;
+  --button-translucent-pad-x: 24px;
+  --button-translucent-pad-y: 0px;
+  --button-translucent-height: 48px;
+  --button-translucent-font-size: 16px;
+  --button-translucent-weight: 600;
+  --button-translucent-tracking: 0px;
+  --button-translucent-backdrop: blur(12px);
+  /* card */
+  --card-bg: #ffffff;
+  --card-radius: 24px;
+  --card-pad-x: 32px;
+  --card-pad-y: 32px;
+  --card-shadow: rgba(15, 18, 34, 0.06) 0px 1px 2px 0px, rgba(15, 18, 34, 0.06) 0px 8px 24px 0px;
+  --card-border: none;
+  --card-backdrop: none;
+  --card-glass-bg: #ffffff24;
+  --card-glass-backdrop: blur(24px);
+  --card-glass-radius: 24px;
+  /* input */
+  --input-height: 48px;
+  --input-radius: 12px;
+  --input-border-width: 1px;
+  --input-border-color: #d5d7e1;
+  --input-bg: #ffffff;
+  --input-fg: #000000;
+  --input-pad-x: 16px;
+  --input-font-size: 16px;
+  /* nav */
+  --nav-height: 72px;
+  --nav-bg: #ffffffb8;
+  --nav-backdrop: blur(20px);
+  --nav-link-size: 15px;
+  --nav-link-weight: 500;
+  --nav-link-color: #0f1222;
+  --nav-logo-width: 96px;
+  --nav-logo-height: 24px;
+  --nav-logo-color: #0f1222;
+}
