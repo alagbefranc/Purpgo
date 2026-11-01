@@ -188,3 +188,15 @@ func MailvendorSandboxURL() string {
 	}
 	return strings.TrimRight(strings.TrimSpace(os.Getenv("MAILVENDOR_SANDBOX_URL")), "/")
 }
+
+// CloudLinkEnabled reports whether this self-hosted instance may link to an
+// upstream hosted warmup pool ("Purpgo Cloud"). Purpgo LLC runs no such
+// service, so it is off unless PURPGO_CLOUD_LINK_ENABLED=true; with it off the
+// /cloud-link routes are not registered and no link can be created.
+func CloudLinkEnabled() bool {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("PURPGO_CLOUD_LINK_ENABLED"))) {
+	case "1", "true", "yes", "on":
+		return true
+	}
+	return false
+}

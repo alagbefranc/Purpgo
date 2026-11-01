@@ -5,6 +5,7 @@
 // drawn from `lib/plans.PLAN_ACCENT_CLASSES` so the marketing site
 // and the dashboard always agree on what "Starter" looks like.
 
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import { Link } from "@tanstack/react-router";
 import { SparklesIcon } from "lucide-react";
 import useFeatureAccess from "@/hooks/useFeatureAccess";
@@ -19,7 +20,8 @@ export function PlanPill() {
     const pool = useCloudPool();
     // The Purpgo Cloud page is manage-settings gated; everyone else lands
     // on their profile rather than on a "no access" screen.
-    const cloudTo = usePermission("MANAGE_SETTINGS") ? "/app/settings/purpgo-cloud" : "/app/settings/profile";
+    const canSettings = usePermission("MANAGE_SETTINGS");
+    const cloudTo = CLOUD_POOL_ENABLED && canSettings ? "/app/settings/purpgo-cloud" : "/app/settings/profile";
     const isTest = useAppStore((s) => s.currentOrganization?.category === "test");
     if (isTest) {
         return (
@@ -64,8 +66,8 @@ export function PlanPill() {
                 to={cloudTo}
                 className="bg-indigo-50 text-indigo-700 border-indigo-100"
                 dot="bg-indigo-500"
-                label="Self-hosted"
-                title="Self-hosted: every feature is unlocked. Warm your mailboxes in the Purpgo pool"
+                label="All features"
+                title="Every feature is unlocked"
                 icon
             />
         );

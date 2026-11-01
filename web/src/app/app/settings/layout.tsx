@@ -8,6 +8,7 @@
 // back-button always lands on a real section. Navigating away from a tab with
 // unsaved auto-save changes is blocked by the dialog at the bottom.
 
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import React from "react";
 import { Link, Outlet, useBlocker, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
@@ -179,6 +180,7 @@ function SettingsLayoutInner() {
         items: g.items
             .filter(
                 (s) =>
+                    (CLOUD_POOL_ENABLED || s.path !== "purpgo-cloud") &&
                     (!restricted || s.scoped) &&
                     (!s.ownerOnly || access.isOwner) &&
                     (!s.billingOnly || access.billing) &&

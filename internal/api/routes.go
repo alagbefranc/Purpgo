@@ -1761,7 +1761,7 @@ func Run(
 
 			// Self-hosted side: Settings > Purpgo Cloud, registered on a self-host only.
 			// Cloud connections are workspace-scoped; approving their credential sharing still requires an instance administrator.
-			if config.SelfHosted() {
+			if config.SelfHosted() && config.CloudLinkEnabled() {
 				cloudLink := jwtOnly.Group("/cloud-link")
 				cloudLink.Use(m.RateLimitMiddleware(models.RateLimitWrite), m.RequireOrganization())
 				members := cloudLink.Group("", m.RequirePermission(models.PermManageEmails))

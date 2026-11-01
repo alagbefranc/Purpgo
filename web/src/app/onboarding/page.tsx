@@ -1,4 +1,5 @@
 // Modified by Purpgo LLC.
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
@@ -171,7 +172,7 @@ export default function OnboardingPage() {
     const selfHosted = authConfig.data?.self_hosted === true;
     // Linking is instance-wide, so only an instance admin who can complete it sees the step.
     const instanceAdmin = useInstanceAdmin();
-    const canLink = selfHosted && instanceAdmin.allowed;
+    const canLink = CLOUD_POOL_ENABLED && selfHosted && instanceAdmin.allowed;
     const STEPS = useMemo(() => (canLink ? [...BASE_STEPS, CLOUD_STEP] : BASE_STEPS), [canLink]);
     const cloudStep = canLink ? STEPS.length - 1 : -1;
     const [cloudLinked, setCloudLinked] = useState(false);

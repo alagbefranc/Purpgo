@@ -28,6 +28,7 @@
 // The OAuth popup (direct or through Purpgo Cloud) lives in useMailboxOAuth,
 // shared with the import wizard's per-row "Sign in".
 
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -547,7 +548,7 @@ function ProviderNotConfigured({ provider, selfHosted }: { provider: OAuthProvid
     const { label, vars } = PROVIDER_SETUP[provider];
     return (
         <div className="p-4">
-            {selfHosted && (
+            {CLOUD_POOL_ENABLED && selfHosted && (
                 <div className="mb-3 rounded-md border border-sky-200 bg-sky-50 p-3 flex items-start gap-2.5">
                     <CloudIcon className="w-4 h-4 text-sky-600 mt-0.5 shrink-0" />
                     <div className="min-w-0">

@@ -4,6 +4,7 @@
 // warms. Members who manage mailboxes see the link and use it for their own
 // mailboxes (`manageable`); linking it is the instance administrator's.
 
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import { useCallback, useMemo } from "react";
 import useAuthConfig from "@/lib/api/hooks/auth/useAuthConfig";
 import { useInstanceAdmin, usePermission } from "@/hooks/usePermission";
@@ -15,7 +16,7 @@ export default function useCloudPool() {
     const selfHosted = authConfig.data?.self_hosted === true;
     const instanceAdmin = useInstanceAdmin();
     const manageEmails = usePermission("MANAGE_EMAILS");
-    const manageable = selfHosted && (instanceAdmin.allowed || manageEmails);
+    const manageable = CLOUD_POOL_ENABLED && selfHosted && (instanceAdmin.allowed || manageEmails);
     const status = useCloudLinkStatus(manageable);
     const connected = manageable && status.data?.connected === true;
     const mailboxes = useCloudLinkMailboxes(connected);

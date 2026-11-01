@@ -65,23 +65,8 @@ export default function WarmupCoverageNotice({
                         Add mailboxes
                     </button>
                     <span className="text-amber-800/90">
-                        {hasIdle ? " (or turn warmup on for the ones you already have)" : ""}, or let{" "}
+                        {hasIdle ? " (or turn warmup on for the ones you already have)" : ""}.
                     </span>
-                    {onConnectCloud ? (
-                        <button type="button" onClick={onConnectCloud} className="font-medium underline underline-offset-2 hover:text-amber-950">
-                            Purpgo Cloud
-                        </button>
-                    ) : (
-                        <a
-                            href="https://docs.purpgo.com/guides/purpgo-cloud/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-medium underline underline-offset-2 hover:text-amber-950"
-                        >
-                            Purpgo Cloud
-                        </a>
-                    )}
-                    <span className="text-amber-800/90"> warm them against its large shared pool.</span>
                 </div>
             </div>
         </div>

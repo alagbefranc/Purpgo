@@ -3,6 +3,7 @@
 // mailboxes page, sending domains). Same overlay anatomy as NewCampaignDialog.
 // Portaled and layered above drawers, which a transformed parent would trap.
 
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,7 +13,7 @@ import CloudLinkCard from "./CloudLinkCard";
 import { CLOUD_LINK_KEY } from "@/lib/api/hooks/app/cloudlink/useCloudLink";
 import { usePermission } from "@/hooks/usePermission";
 
-export default function CloudConnectDialog({
+function CloudConnectDialogInner({
     open,
     onClose,
     cloudUrl,
@@ -130,4 +131,8 @@ export default function CloudConnectDialog({
         </AnimatePresence>,
         document.body,
     );
+}
+
+export default function CloudConnectDialog(props: React.ComponentProps<typeof CloudConnectDialogInner>) {
+    return CLOUD_POOL_ENABLED ? <CloudConnectDialogInner {...props} /> : null;
 }

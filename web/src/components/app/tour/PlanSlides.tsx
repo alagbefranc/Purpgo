@@ -3,6 +3,7 @@
 // and the cards to pick one. Every number comes from the plan catalog or the
 // AI credits guide, never from the slide copy.
 
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -390,6 +391,7 @@ export function PlanChoose({
 export function CloudCallout({ onLink, docs }: { onLink?: () => void; docs: string }) {
     const cls =
         "h-9 shrink-0 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 bg-white text-[12.5px] font-medium text-slate-800 ring-1 ring-slate-200 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400";
+    if (!CLOUD_POOL_ENABLED) return null;
     return (
         <div className="mt-5 flex flex-col gap-3 rounded-[12px] bg-sky-50/50 p-4 ring-1 ring-sky-100 @2xl:flex-row @2xl:items-center @2xl:gap-5">
             <span className="hidden size-9 shrink-0 items-center justify-center rounded-full bg-white text-sky-600 ring-1 ring-sky-100 @2xl:inline-flex">

@@ -3,6 +3,7 @@
 // countdown and a live "waiting" pulse, then a linked confirmation. Used by
 // Settings > Purpgo Cloud, the onboarding step and the mailboxes-page dialog.
 
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import React from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
@@ -12,7 +13,7 @@ import buildError from "@/lib/helper/buildError";
 import type { CloudLinkPendingConnect } from "@/lib/api/models/app/cloudlink/CloudLink";
 import { usePollCloudLinkConnect, useStartCloudLinkConnect } from "@/lib/api/hooks/app/cloudlink/useCloudLink";
 
-export default function CloudLinkCard({
+function CloudLinkCardInner({
     linked,
     orgName,
     cloudUrl,
@@ -274,4 +275,8 @@ function Illustration() {
             ))}
         </div>
     );
+}
+
+export default function CloudLinkCard(props: React.ComponentProps<typeof CloudLinkCardInner>) {
+    return CLOUD_POOL_ENABLED ? <CloudLinkCardInner {...props} /> : null;
 }

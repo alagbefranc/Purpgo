@@ -5,6 +5,7 @@
 // mailboxes it warms (GET/POST /cloud-link/*). Cloud: the self-hosted
 // instances linked to this workspace (GET /pool-link/instances).
 
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
@@ -25,7 +26,7 @@ import MailboxTable from "./MailboxTable";
 import CloudMailboxPicker from "@/components/app/emails/CloudMailboxPicker";
 import LinkedInstances from "./LinkedInstances";
 
-export default function PurpgoCloudSettingsPage() {
+function PurpgoCloudSettingsPageInner() {
     const canManage = usePermission("MANAGE_SETTINGS");
     const authConfig = useAuthConfig();
     const organization = useCurrentOrganization();
@@ -255,4 +256,8 @@ function PlanCard({ plan }: { plan: PoolLinkPlan }) {
             </div>
         </div>
     );
+}
+
+export default function PurpgoCloudSettingsPage() {
+    return CLOUD_POOL_ENABLED ? <PurpgoCloudSettingsPageInner /> : null;
 }
