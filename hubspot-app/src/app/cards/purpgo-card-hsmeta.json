@@ -1,0 +1,11 @@
+{
+  "uid": "purpgo_contact_card",
+  "type": "card",
+  "config": {
+    "name": "Purpgo",
+    "description": "Where this contact stands in Purpgo campaigns, with add, pause and resume.",
+    "location": "crm.record.sidebar",
+    "entrypoint": "/app/cards/PurpgoCard.tsx",
+    "objectTypes": ["contacts"]
+  }
+}

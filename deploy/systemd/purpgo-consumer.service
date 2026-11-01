@@ -1,0 +1,24 @@
+[Unit]
+Description=Purpgo event consumer
+Documentation=https://docs.purpgo.com/development/bare-metal/
+After=network-online.target postgresql.service redis.service nats.service purpgo-backend.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=purpgo
+Group=purpgo
+EnvironmentFile=/etc/purpgo/purpgo.env
+WorkingDirectory=/opt/purpgo
+ExecStart=/opt/purpgo/bin/consumer
+Restart=always
+RestartSec=3
+LimitNOFILE=65536
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/purpgo
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,25 @@
+Purpgo
+======
+
+Purpgo is based on Warmbly by Mindroot Ltd.
+
+Warmbly is licensed under the Apache License, Version 2.0, for this
+repository except where a directory carries its own license, and under the
+MIT License for the web/ and site/ directories. The original license texts
+and copyright notices are preserved:
+
+- LICENSE — Apache License 2.0, Copyright 2026 Mindroot Ltd
+- web/LICENSE — MIT License, Copyright (c) 2025 Warmbly
+- site/LICENSE — MIT License, Copyright (c) 2025 Warmbly
+
+Modifications by Purpgo LLC.
+
+This distribution rebrands Warmbly commit 8ce7c0c3225ac44bfa02afda95ed3ef119c0349c.
+Source files changed in that rebrand carry a "Modified by Purpgo LLC" notice
+where the file format allows a comment. JSON, lockfiles, Xcode project files,
+and images cannot carry a comment; this NOTICE is the prominent notice for
+those files.
+
+The Purpgo name, logo, and brand violet (#6339F0) are Purpgo's. They are not
+the Warmbly trademark. Purpgo LLC does not claim that it wrote the original
+Warmbly code.

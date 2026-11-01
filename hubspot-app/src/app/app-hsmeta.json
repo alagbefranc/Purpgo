@@ -1,0 +1,38 @@
+{
+  "uid": "purpgo",
+  "type": "app",
+  "config": {
+    "name": "Purpgo",
+    "description": "Cold email and warmup that runs on your HubSpot CRM: every send and reply logged as a HubSpot email, deals and tasks in sync both ways, campaigns that stop when a deal opens, and a Purpgo card on every contact.",
+    "distribution": "marketplace",
+    "auth": {
+      "type": "oauth",
+      "redirectUrls": ["https://api.purpgo.com/integrations/oauth/callback"],
+      "requiredScopes": [
+        "oauth",
+        "crm.objects.contacts.read",
+        "crm.objects.contacts.write",
+        "crm.objects.companies.read",
+        "crm.objects.companies.write",
+        "crm.objects.deals.read",
+        "crm.objects.deals.write",
+        "crm.objects.owners.read",
+        "crm.schemas.contacts.read",
+        "crm.schemas.contacts.write"
+      ],
+      "optionalScopes": ["crm.lists.read", "sales-email-read"],
+      "conditionallyRequiredScopes": []
+    },
+    "permittedUrls": {
+      "fetch": ["https://api.purpgo.com/api/v1/integrations/hubspot/app/"],
+      "iframe": [],
+      "img": []
+    },
+    "support": {
+      "supportEmail": "team@purpgo.com",
+      "documentationUrl": "https://docs.purpgo.com/guides/hubspot/",
+      "supportUrl": "https://purpgo.com",
+      "supportPhone": ""
+    }
+  }
+}

@@ -1,0 +1,28 @@
+[Unit]
+Description=Purpgo realtime service (Phoenix websocket fanout)
+Documentation=https://docs.purpgo.com/development/bare-metal/
+After=network-online.target postgresql.service redis.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=purpgo
+Group=purpgo
+EnvironmentFile=/etc/purpgo/purpgo.env
+# A mix release only starts its HTTP listener when PHX_SERVER is set.
+Environment=PHX_SERVER=true
+Environment=HOME=/var/lib/purpgo
+WorkingDirectory=/opt/purpgo/realtime
+ExecStart=/opt/purpgo/realtime/bin/realtime start
+ExecStop=/opt/purpgo/realtime/bin/realtime stop
+Restart=always
+RestartSec=3
+LimitNOFILE=65536
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/purpgo
+
+[Install]
+WantedBy=multi-user.target

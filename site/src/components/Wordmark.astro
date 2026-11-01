@@ -1,0 +1,18 @@
+---
+// Modified by Purpgo LLC.
+import Logo from './Logo.astro';
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg';
+  href?: string | null;
+}
+const { class: className = '', size = 'md', href = '/' } = Astro.props;
+const logoSize = size === 'sm' ? 'h-5' : size === 'lg' ? 'h-8' : 'h-6';
+const Tag = href ? 'a' : 'div';
+---
+<Tag
+  href={href ?? undefined}
+  class={`inline-flex items-center gap-2.5 text-foreground hover:text-foreground/80 transition-colors ${className}`}
+>
+  <Logo class={`${logoSize} text-foreground`} />
+</Tag>

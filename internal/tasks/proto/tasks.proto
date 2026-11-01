@@ -1,0 +1,11 @@
+// Modified by Purpgo LLC.
+syntax = "proto3";
+
+package tasks;
+
+option go_package = "purpgo/internal/tasks/proto;proto";
+
+message ProcessTask {
+  // UUID of the task
+  string task_id = 2;
+}

@@ -1,0 +1,12 @@
+---
+// Modified by Purpgo LLC.
+interface Props {
+  class?: string;
+}
+const { class: className = 'h-6' } = Astro.props;
+const onColor = /(?:^|\s)text-white(?:\s|$)/.test(className);
+const src = onColor ? '/brand/purpgo-logo-mono-white.svg' : '/brand/purpgo-logo.svg';
+const match = className.match(/\b(?:size|h|w)-(\d+(?:\.\d+)?)/);
+const height = match ? `h-${match[1] === '11' ? '8' : match[1]}` : 'h-6';
+---
+<img src={src} alt="Purpgo" class={`${height} w-auto max-w-full`} />

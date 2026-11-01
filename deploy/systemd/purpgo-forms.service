@@ -1,0 +1,23 @@
+[Unit]
+Description=Purpgo forms service (hosted form pages, embeds and submissions)
+Documentation=https://docs.purpgo.com/development/bare-metal/
+After=network-online.target purpgo-backend.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=purpgo
+Group=purpgo
+EnvironmentFile=/etc/purpgo/purpgo.env
+WorkingDirectory=/opt/purpgo
+ExecStart=/opt/purpgo/bin/forms
+Restart=always
+RestartSec=3
+LimitNOFILE=65536
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

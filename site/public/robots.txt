@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://purpgo.com/sitemap-index.xml

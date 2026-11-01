@@ -1,0 +1,56 @@
+{
+  "uid": "purpgo_add_to_campaign",
+  "type": "workflow-action",
+  "config": {
+    "actionUrl": "https://api.purpgo.com/api/v1/integrations/hubspot/actions/enroll",
+    "isPublished": true,
+    "supportedClients": [
+      {
+        "client": "WORKFLOWS"
+      }
+    ],
+    "objectTypes": [
+      "CONTACT"
+    ],
+    "inputFields": [
+      {
+        "typeDefinition": {
+          "name": "campaign",
+          "type": "enumeration",
+          "fieldType": "select",
+          "optionsUrl": "https://api.purpgo.com/api/v1/integrations/hubspot/actions/campaigns"
+        },
+        "supportedValueTypes": [
+          "STATIC_VALUE"
+        ],
+        "isRequired": true
+      }
+    ],
+    "outputFields": [
+      {
+        "typeDefinition": {
+          "name": "purpgo_result",
+          "type": "string",
+          "fieldType": "text"
+        }
+      }
+    ],
+    "labels": {
+      "en": {
+        "actionName": "Add to Purpgo campaign",
+        "actionDescription": "Enroll the contact in a Purpgo campaign. Contacts new to Purpgo are created from their HubSpot record; opted-out contacts are skipped.",
+        "appDisplayName": "Purpgo",
+        "actionCardContent": "Add to Purpgo campaign",
+        "inputFieldLabels": {
+          "campaign": "Campaign"
+        },
+        "outputFieldLabels": {
+          "purpgo_result": "Purpgo result"
+        },
+        "inputFieldDescriptions": {
+          "campaign": "The Purpgo campaign to add the contact to. Campaigns that have finished are not listed."
+        }
+      }
+    }
+  }
+}

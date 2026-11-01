@@ -1,0 +1,227 @@
+---
+# Modified by Purpgo LLC.
+title: Send safety and diagnostic controls
+description: Shared admission, explicit diagnostic participation, actual-message DKIM and conservative upgrade behavior.
+---
+
+This control system restricts sending using current authority and observed evidence. It does not manufacture engagement, promise inbox placement or establish a reputation benefit from local tests.
+
+## Explicit participation and complete stop
+
+`PATCH /emails/:id` keeps its existing `WRITE_EMAILS` scope and organization boundary. The additive fields are:
+
+| Field | Behavior |
+|---|---|
+| `test_mode` | New actions accept `diagnostic` or `off`. Historical `legacy` and NULL remain readable without relabeling; newly connected mailboxes default to `off` |
+| `test_send_enabled` | Enables diagnostic sending only in `diagnostic` mode |
+| `test_receive_enabled` | Separately enables receiving and provider-supported automated warmup mailbox actions in `diagnostic` mode |
+| `shared_daily_limit` | Positive mailbox-wide calendar-day ceiling across outbound lanes; PATCH zero clears the override, restoring the default shared ceiling. Manual Unibox sends do not count toward it; they have their own fair-use limits |
+| `rolling_recipient_limit` | Positive rolling 24-hour ceiling counting each To/CC/BCC occurrence; PATCH zero restores the default ceiling. Manual Unibox sends do not count toward it; they have their own fair-use limits |
+
+Choose sender-only, recipient-only or both explicitly. Receiving participation authorizes probabilistic spam rescue, reads, importance and stars or flags on verified warmup messages where the provider supports them. This applies to existing receive-enabled diagnostic mailboxes too; no database backfill or new setting is required. Recipient-only does not authorize a reply. Sender-only and `off` deny recipient engagement. `off` also excludes diagnostic starts, active-campaign health checks, reply-back and new recipient selection. It does not stop legitimate campaign/manual traffic by itself: pause the campaign or mailbox for that. These are disclosed automated actions, not human engagement or proof of improved reputation. Authorized filing and deletion remain housekeeping, not positive deliverability evidence. Cleanup can remove an already received diagnostic after participation stops.
+
+Deploy the updated consumer, backend and workers together before expecting restored engagement. The consumer still persists delayed actions and reloads current receiving permission and worker assignment when they become due; the worker rechecks admission after acquiring the mailbox execution context, just before provider dispatch. Revoking receiving or switching Off prevents queued recipient engagement, but cannot recall an action already dispatched to the provider. Previously filtered-out actions are not recreated, and old message recovery remains filing-only. Provider errors can still prevent individual actions; existing rescue-request counters are not confirmation of provider success.
+
+The control plane checks participation before publication; capable executors recheck it immediately before native execution. A queued command is not consent. Queue callbacks, received text and model output cannot authorize sending. Revoke receiving before a queued diagnostic starts and it is denied; revoke sending and a recipient-only mailbox cannot reply. No software can retroactively cancel a provider submission that already began.
+
+`warmup_generation.generation_enabled=false` is independent. It blocks new generation submissions, edits/replacements and generated source use; an already submitted provider job can drain. Preserve the configured credentials while it does. See [generation controls](/development/warmup-generation/).
+
+### Local aliases versus Cloud mailboxes
+
+Local participation restricts local use of an alias. Individually removing a managed mailbox stops diagnostic sending and receiving on Cloud before releasing the link; it retains the Cloud-owned mailbox, history and provider OAuth grant. Disconnecting an entire instance only releases managed links and preserves their Cloud warmup settings. Neither operation recalls already accepted provider sends. To erase the native mailbox and its grant, delete it directly on Cloud. Enrolled SMTP mirrors also have Cloud-side participation; a newly created Cloud mailbox is off until its owner explicitly enables it. Do not treat healthy standing as participation consent. Existing lifecycle enrollment and account IDs remain unchanged.
+
+## Shared send-time admission
+
+Every new outbound lane goes through a mailbox/task advisory lock and one durable SQL reservation: campaigns, manual/Unibox sends, normal warmup, campaign-backed health checks/reply-back, and placement/seed probes. Campaign progress already reserved for the same task is not counted twice. Cold and diagnostic allocations remain distinct constraints, with optional shared and rolling ceilings layered above them. Manual Unibox sends (reply, forward, compose) are conversations rather than outreach: they spend none of those allocations and are not refused by them, so a mailbox at its campaign limit can still answer a lead. They are held to fair use instead: a rolling 24-hour recipient allowance sized below the mailbox's provider cap and lowered by connection age, warmup standing and workspace risk, with an hourly, a per-message and a new-conversation bound under it, and a workspace-wide allowance of twice the plan's daily email limit (floor 100) checked under a per-workspace lock. `BILLING_PROVIDER=none` and plans without a daily limit set no workspace allowance (see [unibox sending controls](/guides/unibox/#sending-controls)). The same mailbox standing as every other lane still applies: active, current worker, no recovery hold or cooldown, no suppressed recipient. A Unibox forward is the one send exempt from the suppression list, because it relays received mail to recipients picked by hand; a refusal for a suppressed recipient is `RECIPIENT_SUPPRESSED` and names the address. Calendar days use the mailbox/organization timezone, including daylight-saving changes; rolling recipient totals do not reset at midnight.
+
+Before using suppressed-recipient forwarding, upgrade every backend handling submissions, queued send callbacks and worker/control-plane authorization, then drain old requests and retire old replicas. An old backend still refuses the forward. Pause Unibox submissions and queued send dispatch during a mixed-backend rollout. Existing clients can already submit forwards, so frontend ordering alone is insufficient. Verify old-replica retirement explicitly; release completion or a healthy backend does not establish it. This exemption requires no worker schema change or mailbox reconnect. See [self-host upgrade order](/development/install/#unibox-forwarding-upgrade-order).
+
+Reservation requires an active organization-owned mailbox, its current configured provider and worker, current suppression and recovery state, and the exact recipient envelope. Campaign sends additionally require active campaign/lead/progress state and current calendar/pacing policy. Diagnostic partners retain their real pool, role, tier, trust, standing and inbound capacity constraints. Seed mailboxes stay measurements, not conversation partners. Future, missing or stale positive Cloud standing is unavailable evidence; restrictive holds are not erased.
+
+Provider starts also write immutable per-nonce `outbound_attempts`. A definitive failure may refund successful-message capacity but never refunds attempt-rate evidence. Daily and rolling limits count those attempts plus outstanding reservations without double counting the same nonce. Campaign test sends create a real task before shared admission; rejection/publication failure records a task failure, with tracking still disabled.
+
+The executor rechecks organization, mailbox, worker, provider, durable task/nonce and exact recipients before starting. A command cannot broaden its CC/BCC or switch tenants after reservation. Worker silence, publication uncertainty, provider timeout and executor restart are unknown outcomes, not unsent proof. Their reservations and mailbox hold remain until a correlated definite result resolves them. Terminal replay returns the saved result without resending. A definite native throttle records only the evidence and scope actually observed; legacy codes preserve conservative mailbox/provider cooldowns without invented HTTP or SMTP codes.
+
+Warmup authorization and execution take shared participation locks before task/mailbox locks. Stop takes the exclusive participation lock and retires provably unstarted requests in both directions in the same transaction as disabling participation. Directional settings retire only that direction; switching the mailbox off retires both. Started sends, stored results, outbound attempts, delivered tokens and ambiguous completed legacy history remain intact. Only recorded warmup charges are refunded, once. Re-enabling an already-off mailbox also retires its older outstanding approvals, covering stops made before this upgrade.
+
+Warmup commands without current durable execution authority are refused, including old nonce-free commands and compatibility responses from an older backend. Old JSON/Avro payloads remain readable, but readability is not permission to send. Non-warmup compatibility and replay of already-recorded provider results are preserved. Upgrade the backend and execution workers together; an updated worker intentionally will not start legacy warmup against a backend that cannot authorize it. No new environment setting is required.
+
+Migration 300 adds typed `warmup_stopped_at` evidence and indexed mailbox/recipient lookups. For warmup mailboxes already off at upgrade, it records the upgrade time as a monitoring baseline, not an invented historical stop time. It does not rewrite mailbox history. The operations monitor checks actual execution-start timestamps in the last hour against a recorded stop for both sender and recipient, grouped by executor worker or fleet and deduplicated for six hours. Delayed consumer result application, old execution starts and provider delivery notices do not trigger this alert. Subscribe operator channels to `warmup.dispatch_after_stop` or their normal catch-all policy. Previously stopped mailboxes remain blocked by current eligibility; historical starts before the upgrade are not retrospectively labeled violations.
+
+Result reconciliation commits task, campaign progress, variant, suppression and warmup-health changes together. Bounce webhooks and notifications enter an idempotent durable outbox in that transaction, and result consumers drain it after commit. Failed delivery retains a leased retry row; a consumer restart does not lose the effect. Stable downstream webhook delivery and notification-feed IDs prevent duplicate stored rows. External integration, Slack/push and realtime delivery remain at least once/best effort, not exactly-once delivery. Core accounting and unknown holds remain durable.
+
+Warmup authorization records the UTC charge day and whether a reply was counted in the same transaction as the statistics increment. Outbound reservation preserves the initial completion timestamp. A definitive failure or safe unstarted cancellation refunds only that recorded charge, at most once, in the same transaction as the task change. Completion timestamps and dispatch/executor nonces alone never authorize a refund. Pre-upgrade and imported tasks have no positive charge record: known outcomes can still settle, but historical statistics are not decremented by inference. Unknown outcomes remain held and unresolved.
+
+If a modern warmup task becomes dead-lettered after its definitive failure and refund were committed, the matching authoritative result repairs only task and dead-letter metadata. It does not repeat accounting, callbacks or mailbox hold changes. Already-applied failures without positive refunded-charge proof remain protected.
+
+## Evidence-based repair holds
+
+Authentication, permanent and conflicting-result holds do not clear merely because time passed or an unrelated send succeeded. An authentication hold clears when the mailbox is reconnected: both reconnect flows (OAuth re-authorization and replacement SMTP/IMAP credentials) only complete after the provider accepted the credential, and SMTP/IMAP credentials pass a worker's SMTP AUTH and IMAP login check first. The release is recorded in `send_recovery_resolutions` with evidence type `credentials_reverified`, scoped to the mailbox's organization, and the hold is then recomputed, so an unresolved unknown send or outcome conflict still holds the mailbox. Permanent and conflicting-result holds are not released by a reconnect. An organization-authorized operator can also use `send_recovery_resolution` in the existing mailbox PATCH after investigating the current held task and reason:
+
+```json
+{
+  "send_recovery_resolution": {
+    "held_task_id": "00000000-0000-0000-0000-000000000001",
+    "held_reason": "authentication",
+    "evidence_type": "authentication_repaired",
+    "evidence_task_id": "00000000-0000-0000-0000-000000000002"
+  }
+}
+```
+
+`authentication_repaired` requires `evidence_task_id` naming a newer definitive, applied successful outbound send on the same mailbox; fresh inbox sync alone is not repair proof. `operator_provider_confirmation` requires a same-mailbox definitive, applied evidence task and non-empty `confirmation_reference`. Include the exact held task and reason (`authentication`, `permanent`, `conflict`). Changed holds, inactive mailboxes, cross-organization requests and remaining unknown sends refuse these repair resolutions. Repair history is inserted atomically before clearing only the repair hold. Cooldowns, suppression and other restrictions remain. References must not contain credentials, message bodies or provider payloads.
+
+### Resolving an unknown send
+
+#### Automatic warmup retirement
+
+Warmup-only unknown sends have an automatic alternative to confirming the old outcome: permanently retire the individual task without replaying it, then admit new, distinct tasks. After ten minutes, the warmup scheduler checks for an existing execution authorization and attempt, no definitive recorded result or receipt, and an exact `unknown` hold for that task. It rechecks under scheduling, task and mailbox send locks. Unstarted dispatches use their separate safe cancellation and refund path first.
+
+Retirement records `tasks.warmup_send_retired_at`, cancels execution permanently, preserves `send_result_state='unknown'`, and keeps all original reservation, charge, message ID, nonce, worker and result evidence. It neither refunds nor reconstructs charges, marks the message sent or failed, nor retries it. Late results cannot apply accounting, reauthorize the retired task or change a later task's hold. Other unresolved sends and conflict, authentication or permanent holds remain restrictive. The normal scheduler respects all existing warmup eligibility, cooldown and volume limits.
+
+This recovery includes eligible historical holds after upgrade. Legacy sends without execution fencing, messages with confirmed receipt/provider evidence, and tasks with a definitive result or operator confirmation awaiting reconciliation are not retired. Authorized campaign sends use the automatic isolation policy below. Other sends keep the provider-confirmation-only policy. No additional customer action or configuration is required for eligible warmup sends.
+
+Apply migration 315 before running the updated backend, consumer and scheduler. Upgrade all control-plane replicas before relying on the new policy. An old replica may temporarily reassert a retired task's unknown hold; the updated scheduler repairs that hold without replaying the task or touching a newer restrictive hold. Whole-instance backups and organization send-history exports retain the retirement marker. The down migration refuses to remove recorded retirements; retain the schema and roll forward rather than discarding the replay fence.
+
+#### Automatic campaign isolation
+
+After ten minutes, the result-recovery loop isolates a durably authorized, started campaign send whose outcome remains unknown. It permanently cancels the original command and releases only its matching unknown mailbox hold. Other contacts can use the mailbox while the affected campaign contact waits for confirmation. The recovery pause is independent of manual or automatic lead pauses, and ordinary resume cannot clear it.
+
+Isolation preserves the unknown outcome, original reservation, attempt history, and capacity charge. It never retries the uncertain email or infers failure from age or a missing Sent copy. A late definitive result is stored durably and applies the normal result effects once. That confirmed result removes the recovery pause while preserving an independent manual pause. A confirmed failure can permit a fresh task, but the original command remains permanently blocked.
+
+Migration 331 adds task execution protection and a portable campaign-membership recovery timestamp. It shipped in v0.6.68 with isolation off, so that release already reads recovery pauses. From the release after it, `CAMPAIGN_SEND_ISOLATION_ENABLED` defaults to on and only `false` turns it off. Roll back no further than v0.6.68 once isolation has run. An instance upgrading straight from a release older than v0.6.68 should stop its old control-plane replicas before starting new ones (the default Compose upgrade does), or set the variable to `false` until the old replicas have drained. Customers do not need to change anything on the hosted service.
+
+Database guards prevent replacement email reservations and executor starts, including alternate email branches. They cannot stop an older scheduler from executing a non-email action before writing progress, so activating while older replicas can run is unsupported. After activation, roll back only to a recovery-aware release and retain the expanded schema. No event or worker protocol changes are required. Self-hosts get the same recovery loop by default, with no cloud services.
+
+The campaign-membership protection travels with **Campaigns**, even without **Send history**. Imported task execution handles reset, and uncertain commands remain blocked. If the source result history is omitted, the destination retains the contact's protection rather than assuming delivery. The down migration refuses to discard isolation history or pending contact protection. Retain the expanded schema during rollback.
+
+#### Other held sends
+
+The same result-recovery loop frees a mailbox held by a send that can never run again or never started:
+
+- **Never started.** A campaign, Unibox or placement-test send reserved over 30 minutes ago with no executor start, attempt or result is released through the ordinary unstarted-release path under the send lock, so the worker's start check refuses it afterwards. A campaign step is handed back and sent as a fresh task.
+- **Started, outcome unknown.** A Unibox, placement-test or Purpgo Cloud send started over ten minutes ago gets `tasks.send_hold_lifted_at` (migrations 334 and 335) and stops holding its mailbox. It already cannot start a second time. Its unknown state, reservation, charge and attempt history are kept, and a late definitive result still applies once. A repeated unknown report does not hold the mailbox again.
+- **Gone.** An unknown hold whose task no longer exists is recomputed from the sends that are still unresolved. A hold left by an applied result stays until that result is resolved.
+
+Campaign and warmup sends that started keep the isolation and retirement rules above. An older replica may re-hold a lifted send during a rolling upgrade or rollback; the loop lifts it again on its next pass and keeps the first lift time. One mailbox that cannot be recovered does not hold up the others. The down migration refuses to remove recorded lifts.
+
+#### Provider-confirmed resolution
+
+Unknown means the provider outcome is unproven, not that sending failed. Neither an expired timeout nor the absence of a synced Sent copy is proof that nothing was sent. Obtain explicit provider evidence for the exact task before using the mailbox PATCH:
+
+```json
+{
+  "send_recovery_resolution": {
+    "held_task_id": "00000000-0000-0000-0000-000000000001",
+    "held_reason": "unknown",
+    "evidence_type": "operator_confirmed_sent",
+    "confirmation_reference": "Provider support ticket or delivery-trace reference",
+    "message_id": "provider-confirmed-message@example.com",
+    "provider_msg_id": "optional-provider-message-handle",
+    "thread_id": "optional-provider-conversation-handle"
+  }
+}
+```
+
+- `operator_confirmed_sent` requires the provider-confirmed `message_id`. It records success and preserves the campaign step without resending it. Optional provider/thread handles preserve conversation routing.
+- `operator_confirmed_not_sent` requires explicit provider confirmation that this task did not send. Omit all message/thread handles. Normal failure reconciliation releases the reservation and makes the step eligible for retry, subject to the existing attempt limit.
+- Both require a non-empty, bounded `confirmation_reference`, the exact current `held_task_id`/`held_reason`, and no `evidence_task_id`. A timeout or missing Sent copy alone is not an acceptable confirmation. Never use a not-sent confirmation merely to free capacity: an incorrect confirmation can duplicate an email.
+
+Execution must have been unresolved for at least two minutes, so a normal in-flight send and its bounded report cannot be overridden. Changed holds, inactive mailboxes, another organization's task, duplicate confirmations and already-recorded definitive outcomes are rejected. Definitive worker outcomes take precedence over queued operator confirmations.
+
+The PATCH atomically queues an immutable audited result; it does **not** immediately clear the hold. The consumer checks recorded results every 15 seconds and applies the normal success/failure accounting transaction exactly once. Admission stays closed until that transaction commits. If another unknown task remains, the hold moves to that task instead of reopening the mailbox. A later contradictory provider outcome produces a conflict hold rather than rewriting the earlier accounting.
+
+### From the admin panel
+
+**Sends > Holds** in the [admin panel](/development/admin-panel/) lists every held mailbox across the instance, switched-on ones first, with the held send's recipients, Message-ID when the worker recorded one, and when it was reserved. That is what to look for in the mailbox's Sent folder. The unknown hold every send takes while it runs is not listed until it is ten minutes old.
+
+**Resolve** records the verdict through the same resolution path as the mailbox PATCH, so every rule above still applies:
+
+- an unknown hold takes **It went out** (with the Message-ID of the sent copy) or **It did not go out**
+- an authentication, permanent or conflict hold takes a provider confirmation, with the held send as its evidence. Reconnecting the mailbox remains the normal way to clear a sign-in hold
+
+Each verdict needs a one-line note saying where it was checked, and is written to the admin audit log. The button is offered only when the hold can be resolved. Otherwise the row says why: the mailbox is switched off, the send is still running or finished under two minutes ago, a verdict is already queued, the worker's own result is being applied, other unknown sends are queued behind it, or the mailbox changed provider. Reading the tab needs `view_campaigns`; resolving needs `stop_campaigns`, the same bit as a dead-letter replay.
+
+### Campaign placement and result reporting
+
+Campaign routing, placement, day plans and estimates share durable mailbox send admission. Recovery-held or currently cooling mailboxes contribute no immediately available capacity and do not trap a lead when another healthy sender is available. Plans identify send recovery and provider cooldown separately. When the entire pool is unavailable, the campaign defers with a bounded recheck rather than completing or repeatedly dispatching refused sends. An admission read failure also closes the affected mailbox for that pass.
+
+Provider execution gets 120 seconds, which covers the SMTP client's own 90-second budget for a slow server's verdict after the message, so a send is not cut off waiting for an answer the server was about to give. After provider execution, workers record and publish the result on an independent 45-second context with at most four attempts, each bounded to 10 seconds. Failed reports retain the exact outcome in memory for command redelivery without another provider send. Persisted results survive worker replacement and lost broker events: the consumer replays them through the same idempotent reconciliation. A worker crash before durable recording can still leave an unknown outcome requiring investigation.
+
+Already-failed tasks with no outbound reservation or execution authorization cannot create unknown provider holds. The recorded-result sweep also reconciles existing invalid holds for such tasks. Real reserved or started unknown sends remain held until a definitive result is reconciled or an eligible warmup task is permanently retired; upgrades never infer failure from elapsed time. Deploy the backend/consumer (including the additive migration) before updated workers. No new configuration is required. Non-warmup and ineligible unknown holds need definitive worker evidence or the explicit operator confirmation above.
+
+## Actual-message authentication
+
+An updated worker retrieves bounded raw MIME for one authorized application-owned diagnostic through Gmail, Graph or IMAP. Authority binds the immutable token/task, exact identities, stamped message ID, current mailbox/worker and participation. A short-lived nonce binds completion. Gmail uses raw format, Graph the exact message's MIME `$value`, and IMAP the exact folder/UIDVALIDITY/UID with bounded `BODY.PEEK[]`. IMAP uses the existing authenticated connection after sync releases its folder mutex, never widening inbox ingestion or reconnecting outside the deadline.
+
+Receipt-before-send-result and transient DNS unknowns have metadata-only retries, at most three attempts within fifteen minutes. Each retries current authorization; absent, expired or revoked context never fetches MIME. The retry queue is bounded to 64 per worker mailbox and is in memory; restart or exhaustion can leave unknown rather than manufacture proof. Definitive stored pass/fail results do not authorize another raw fetch. Raw bytes are cleared after verification or errors and never stored or logged.
+
+Cryptographic verification uses `go-msgauth/dkim-v0.7.0`, at most 1 MiB of MIME and four signatures, with context-bounded key lookup. A valid DKIM signature is pass; exact From-domain/signer equality establishes only a conservative alignment-pass subset. Body mutation fails verification. Forged or copied Authentication-Results cannot become proof. The stored result includes verifier/version and observation time, not raw MIME or DNS responses. The exact receipt receives the minimal proof; duplicate results cannot replace it with unrelated evidence.
+
+SPF, DMARC and receiving-hop TLS remain unknown absent independent evidence. Unauthorized diagnostics, seed/placement messages outside this context, legacy workers, unavailable MIME, transient DNS failures and byte/signature bounds remain unknown. Parsed Authentication-Results stay unverified claims. DNS configuration is readiness input, not actual-message authentication. Generated prose cannot claim a provider/client check passed.
+
+## Unsubscribe and negative feedback
+
+The existing signed unsubscribe URL provides scanner-safe GET and a context-independent POST that durably suppresses future matching traffic. HTTPS messages emit `List-Unsubscribe` and `List-Unsubscribe-Post: List-Unsubscribe=One-Click`; the visible body link and suppression checks remain. A connected transport's DKIM signer must cover both headers for full RFC 8058 signing compliance. Purpgo cannot assert that arbitrary external SMTP/API signers covered them without inspecting a genuine delivered message. The scoped diagnostic DKIM verifier does not establish that broader signing requirement.
+
+Hard bounce/complaint/suppression and authentication failures remain negative evidence. Spam placement can slow sending but is not alone a quarantine reason. First-folder observation, native outcome, Cloud trust and content provenance are distinct measurements, not a synthetic engagement score. Coherent disclosed hypothetical diagnostic conversations preserve immutable subjects, versions, facts and exact-parent closure; they do not invent real customer relationships or actions.
+
+## Upgrade, rollback and portability
+
+1. Back up and preserve released migrations 1 through 265 byte-for-byte and main's workspace-link migration 266. Apply the contiguous additive 267 through 274 sequence; no new environment variable is required. Migration 274 preserves historical executor starts as attempt evidence and refuses rollback while attempts from the last 24 hours remain.
+2. Pause dispatch during a mixed control-plane rollout. Upgrade every backend/result consumer, including Cloud replicas, before relying on generation stop, exact-parent resolution, current participation or correlated managed consent.
+3. Drain/reconcile previously accepted work, then upgrade execution workers. Protocol `warmup_send_protocol=2` is required for shared reservations, execution-time action authority and cryptographic diagnostics. Protocol 1 supports only its previous lineage capability. Old JSON and Avro payloads remain readable; old capability is not stronger cancellation/admission support. Use matching Kafka-tagged binaries where applicable.
+4. Recheck holds, actual configured provider, worker liveness, schedules, directional participation, shared/rolling limits and Cloud-side settings before resuming. New mailboxes default off; existing NULL participation stays legacy rather than silently relabeling historical consent. No migration rewrites legacy AI provenance as reviewed. Legacy NULL-provenance sources do not count toward new versioned selection/readiness; existing exact-parent ambiguity stays closed.
+
+Organization export retains participation, ceilings, restrictive task/account evidence and repair history. Executor worker/nonce/start/result handles reset on import. Exact diagnostic authorization and nonces, including raw warmup receipt provenance, are instance-local and excluded; registered placement aggregates travel as history, never as execution grants. See [workspace moves](/guides/workspace-export-import/).
+
+Per-task warmup charge and refund markers reset on organization import; imported statistics remain history, not destination-instance refund authority. Whole-instance database backups retain those markers. The additive charge-provenance migration leaves all historical markers NULL without backfill; apply it before starting the updated backend and result consumers. Rollback refuses to remove recorded charge or refund evidence; retain the additive schema and roll forward.
+
+Immutable attempt timestamps and recipient counts travel with the sending group and retain restrictive rate evidence; their historical nonces do not authorize execution. Raw warmup receipt provenance remains source-instance-local and excluded, while registered placement aggregates travel.
+
+The source-instance reconciliation outbox is excluded from organization archives so an import cannot replay customer notifications. Drain pending effects before moving; whole-instance backups retain the queue. Delivered outbox rows expire after seven days; pending rows remain until delivery or organization/task deletion. They contain event/notification metadata, not raw MIME, provider responses or credentials. Repair history lasts with the organization and must not contain sensitive message content.
+
+Rollback refuses unresolved reservations, explicit participation state, diagnostic authorization/proof, pending outbox effects and repair history instead of discarding them. Earlier component migrations also refuse restrictive dispatch or managed consent history. Restore or complete a reviewed reconciliation; do not delete negative evidence simply to make downgrade succeed. Legacy deployments remain readable, but do not resume a mixed-old executor fleet assuming new guarantees.
+
+### Conflict-audit upgrade ordering
+
+The conflict-audit extension adds typed automatic contradiction evidence, local-record provenance and an explicit conflict-resolution projection. All historical rows remain intact, with no inferred provenance backfill. A historical confirmation without trustworthy local origin is history, not permission to apply an outcome or clear an unknown/conflict hold. Independent authoritative worker/provider results continue to reconcile unknown sends automatically. A genuine contradiction between definitive results preserves the original accounting and hold until a validated provider confirmation resolves the known conflict; arrival order and duplicate delivery do not decide the outcome.
+
+Normal customer sending, connection and authentication steps do not change. Exceptional uncertain history is an administrator recovery workflow using the existing `PATCH /emails/:id` recovery payload, workspace boundary and `manage_emails`/`WRITE_EMAILS` permissions. It does not add a customer log-reading or confirmation form. These are existing workspace/API permissions, not a new platform-admin-only authorization gate. Confirming an unknown outcome keeps admission held until the normal result reconciler commits accounting and hold transfer together. Authentication repair cannot resolve an unrelated outcome conflict.
+
+An additive schema alone is **not** a safe active mixed-version rollout. Old readers can still execute historical confirmations without checking provenance; old hold-clearing code cannot recognize automatic conflict rows. New binaries also require the added columns before using these paths. Use this ordering for a separately approved rollout:
+
+1. Preserve the database and audit evidence. Finish all predecessor migrations and review the allocated extension's up/down tests. Do not allocate a colliding migration or delete history to force rollback.
+2. Quiesce old dispatch/scheduling and all old processes that can apply send outcomes, mutate recovery holds, accept recovery confirmations or import workspace data. Preserve queued results and durable evidence. Merely disabling the admin confirmation screen or stopping one result consumer is insufficient.
+3. Apply the reviewed additive extension, then start only compatible backend, result-consumer, scheduler and import/repair binaries. Verify every control-plane replica, including Cloud and independently running consumers, before resuming these operations. Worker message/result formats are unchanged by this extension; it needs no new worker capability, credentials or customer configuration.
+4. Resume automatic stored-result reconciliation first, without resending tasks. Check task-scoped outcome, accounting, dead-letter and hold evidence. Remaining historical confirmations without local provenance require fresh administrator/provider confirmation only when independent authoritative evidence cannot resolve the unknown. Unknown outcomes and genuine conflicts remain restrictive.
+5. Keep the new schema and roll forward if a binary rollout fails. Recovery-audit down refuses whenever audit rows remain, including historical rows; older binaries must not resume recovery mutation against retained new evidence. A validated empty-audit downgrade still requires its matching compatible binaries.
+
+A refused downgrade preserves recovery rows, columns, constraints and indexes, but `golang-migrate` records the attempted down target as dirty before executing SQL. This is not a successful downgrade. Keep mutators quiesced and have an operator verify the retained schema and migration state before a reviewed roll-forward; do not blindly force a version, restart older binaries or delete evidence to bypass the refusal.
+
+This ordering is an operator deployment requirement, not permission to merge, deploy, replay, retire uncertain tasks or manually clear holds. A later applied send or failed/cancelled task is not recovery proof for a different held-task cohort. Local tests cannot establish that a provider executed a send.
+
+## Verification and limits
+
+### Research coverage and external gates
+
+The twelve research proposals have different evidence requirements. Implemented controls and local fixtures are not substitutes for provider approval, native-language review or a real-recipient experiment.
+
+| Proposal | Implemented path and regression coverage | Remaining external verification |
+|---|---|---|
+| R1: consent and complete stop | Mailbox and Cloud participation, final action authority; `review_corrections_live_test.go` and lifecycle/Cloud UI-model fixtures | Drain old accepted commands; verify every deployed control plane and worker before relying on cancellation |
+| R2: shared admission | `send_admission.go`, immutable attempt ledger, mixed-lane concurrency and failed-attempt fixtures | Operators must reserve headroom for other mail clients and configure known applicable provider limits; their traffic is not automatically metered here |
+| R3: errors and recovery | Native provider classification, durable holds, transactional accounting and outbox; recovery and legacy JSON/Avro fixtures | Reconcile ambiguous native outcomes with real provider evidence; external notifications remain at least once |
+| R4: measurement provenance | Separate receipt/folder/authentication observations, unknown categories and placement denominators; observation-evidence upgrade fixtures | Real provider/dashboard coverage and missingness remain measured inputs, not inferred success |
+| R5: message authentication and unsubscribe | Authorized bounded Gmail/Graph/IMAP DKIM and exact-domain alignment; cryptographic/raw-MIME fixtures and existing scanner-safe unsubscribe | SPF, DMARC, receiving-hop TLS and delivered RFC 8058 signer coverage require actual evidence; provider enrollment and route remediation remain operator tasks |
+| R6: exact-parent lifecycle | Durable token/receipt ancestry, stable subject/References and one successor; `warmup_lineage_live_test.go` and dispatch fixtures | Canary the actual deployed queue/provider path; ambiguous legacy ancestry never becomes a reply grant |
+| R7: coherent content | Versioned vetted scenarios and final canonical rendering; `content_quality_test.go` and generation fixtures | Human and native-language quality benchmarks have not been run; prose never proves a real provider outcome |
+| R8: effective generation controls | Settings round-trip, effective settings and credential-independent stop; warmup-content control/batch and upgrade fixtures | Configured model visibility is not Batch/structured-output support; actual provider submission must confirm capability |
+| R9: trust and Cloud reconciliation | Current role/tier/standing gates, durable consent and restrictive history; managed-consent fault/import fixtures | Upgrade all Cloud replicas before correlated operations; local alias unlink is not global native-mailbox revocation |
+| R10: queue and diagnostic parity | SQL-bound callbacks, replay fencing, untouched first-folder evidence and seed isolation; lineage, worker and placement fixtures | Actual hosted/local queue fleets and fixed-panel coverage require rollout verification; missing reports remain unknown |
+| R11: legitimate response-adaptive pacing | Conservative cold ceiling uses fresh distinct campaign replies, with negative feedback and configured caps; unknown lookups preserve known warmup and conservative execution/projection/explanation fixtures | Adequate real-recipient coverage, provider-stratified holdouts and a preregistered controlled evaluation are required before any efficacy claim |
+| R12: readiness and claims | DNS discovery is not authentication; operational health is not reputation; UI/docs explain diagnostic scope and unknowns | No guaranteed inbox or universal safe-volume claim; marketing benefits require replicated real-recipient evidence |
+
+Upgrade fixtures start at the released 265 schema and preserve legacy IDs/state. Mixed campaign/warmup/placement/manual contenders prove shared capacity and unknown reservation retention; worker fixtures exercise replay, envelope binding, current consent and old JSON/Avro readability. Provider MIME fixtures test mutation, forged headers, timeout and bounds without provider access.
+
+These checks establish local engineering behavior, not production efficacy, provider consent, real delivery, all-provider authentication, signed RFC 8058 headers or exactly-once external notification delivery. They perform no live sends, browser proof or production reads.
