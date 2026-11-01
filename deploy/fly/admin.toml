@@ -1,0 +1,27 @@
+# Admin panel. NOT DEPLOYED. See DEPLOY-PLAN.md.
+# Public hostname (new): admin.purpgo.com
+# Minimal tier leaves this stopped until a request arrives.
+# Comfortable tier: set min_machines_running = 1 and auto_stop_machines = "off".
+app = "purpgo-admin"
+primary_region = "yyz"
+
+[build]
+  dockerfile = "admin/Dockerfile"
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "5s"
+    grace_period = "20s"
+    method = "GET"
+    path = "/"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

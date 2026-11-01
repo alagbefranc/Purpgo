@@ -1,0 +1,22 @@
+# NATS JetStream. NOT DEPLOYED. No public address.
+# Private: purpgo-nats.internal:4222
+app = "purpgo-nats"
+primary_region = "yyz"
+
+[build]
+  dockerfile = "deploy/fly/nats.Dockerfile"
+
+[mounts]
+  source = "nats_data"
+  destination = "/data"
+
+[[checks]]
+  grace_period = "10s"
+  interval = "15s"
+  method = "tcp"
+  port = 4222
+  timeout = "2s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

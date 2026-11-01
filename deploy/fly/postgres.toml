@@ -1,0 +1,27 @@
+# Single-node Postgres 16. NOT DEPLOYED. No public address.
+# Private: purpgo-pg.internal:5432
+# Upgrade path is Fly Managed Postgres Basic, not a second volume.
+app = "purpgo-pg"
+primary_region = "yyz"
+
+[build]
+  dockerfile = "deploy/fly/postgres.Dockerfile"
+
+[env]
+  POSTGRES_USER = "purpgo"
+  POSTGRES_DB = "purpgo"
+
+[mounts]
+  source = "pg_data"
+  destination = "/var/lib/postgresql/data"
+
+[[checks]]
+  grace_period = "30s"
+  interval = "15s"
+  method = "tcp"
+  port = 5432
+  timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1gb"

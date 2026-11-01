@@ -1,0 +1,11 @@
+# Event consumer. NOT DEPLOYED. No public address.
+# Reachable only on the Fly private network if something dials it; it dials out.
+app = "purpgo-consumer"
+primary_region = "yyz"
+
+[build]
+  dockerfile = "deploy/docker/consumer.Dockerfile"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
