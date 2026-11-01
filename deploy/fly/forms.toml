@@ -1,4 +1,4 @@
-# Public forms. NOT DEPLOYED. See DEPLOY-PLAN.md.
+# Public forms. See DEPLOY-PLAN.md.
 # Public hostname (new): forms.purpgo.com
 # Optional for v1. Ships stopped until the first request.
 # Comfortable tier: min_machines_running = 1 and auto_stop_machines = "off".
@@ -6,7 +6,7 @@ app = "purpgo-forms"
 primary_region = "yyz"
 
 [build]
-  dockerfile = "deploy/docker/forms.Dockerfile"
+  dockerfile = "../../deploy/docker/forms.Dockerfile"
 
 [http_service]
   internal_port = 8090

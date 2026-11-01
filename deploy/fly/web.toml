@@ -1,4 +1,4 @@
-# Dashboard. NOT DEPLOYED. See DEPLOY-PLAN.md.
+# Dashboard. See DEPLOY-PLAN.md.
 # Public hostname (new): app.purpgo.com
 app = "purpgo-web"
 primary_region = "yyz"

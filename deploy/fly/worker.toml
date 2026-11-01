@@ -1,11 +1,15 @@
-# Send/sync worker. NOT DEPLOYED. No public address.
+# Send/sync worker. No public address.
 # Outbound SMTP/IMAP uses Fly's shared egress. See DEPLOY-PLAN.md risks.
 # Comfortable tier: fly scale count 2 -a purpgo-worker
 app = "purpgo-worker"
 primary_region = "yyz"
 
 [build]
-  dockerfile = "deploy/docker/worker.Dockerfile"
+  dockerfile = "../../deploy/docker/worker.Dockerfile"
+
+[env]
+  AWS_CONFIG_ENABLED = "false"
+  WORKER_STATE_DIR = "/data/state"
 
 [mounts]
   source = "worker_state"

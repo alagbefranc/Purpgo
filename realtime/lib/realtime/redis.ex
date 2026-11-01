@@ -43,6 +43,15 @@ defmodule Realtime.Redis do
   # Redix drops only the keys given here from its own defaults, so verify_peer
   # and the system CA store still apply.
   def tls_opts(url) do
+    # Fly private networking (<app>.internal) is IPv6-only.
+    if System.get_env("REDIS_IPV6") == "true" and not String.starts_with?(url, "rediss://") do
+      [socket_opts: [:inet6]]
+    else
+      tls_opts_tls(url)
+    end
+  end
+
+  defp tls_opts_tls(url) do
     if String.starts_with?(url, "rediss://") do
       [
         socket_opts: [

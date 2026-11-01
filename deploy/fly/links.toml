@@ -1,4 +1,4 @@
-# Open/click tracking (compose service "tracking"). NOT DEPLOYED.
+# Open/click tracking (compose service "tracking").
 # Public hostname (new): links.purpgo.com
 # Upstream prefers a separate registered domain. This subdomain is the v1
 # compromise and will trip the tracking_domain_shares_brand health check.
@@ -6,14 +6,20 @@ app = "purpgo-links"
 primary_region = "yyz"
 
 [build]
-  dockerfile = "tracking/Dockerfile"
+  # Build context is tracking/: fly deploy tracking -c deploy/fly/links.toml
+  dockerfile = "../../tracking/Dockerfile"
+
+[env]
+  AWS_CONFIG_ENABLED = "false"
+  TRACKING_HOST = "0.0.0.0"
+  TRACKING_PORT = "3000"
 
 [http_service]
   internal_port = 3000
   force_https = true
-  auto_stop_machines = "off"
+  auto_stop_machines = "stop"
   auto_start_machines = true
-  min_machines_running = 1
+  min_machines_running = 0
 
   [[http_service.checks]]
     interval = "15s"

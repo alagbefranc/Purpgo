@@ -146,6 +146,8 @@ if config_env() == :prod do
   config :realtime, Realtime.Repo,
     url: database_url,
     ssl: database_ssl,
+    # Fly private networking (<app>.internal) is IPv6-only.
+    socket_options: if(System.get_env("ECTO_IPV6") == "true", do: [:inet6], else: []),
     pool_size: String.to_integer(System.get_env("DATABASE_POOL_SIZE") || "10"),
     # Left off deliberately: this prints the whole Repo config, password
     # included, into the logs the first time Postgres is unreachable.

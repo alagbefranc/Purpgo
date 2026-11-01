@@ -1,4 +1,4 @@
-# Admin panel. NOT DEPLOYED. See DEPLOY-PLAN.md.
+# Admin panel. See DEPLOY-PLAN.md.
 # Public hostname (new): admin.purpgo.com
 # Minimal tier leaves this stopped until a request arrives.
 # Comfortable tier: set min_machines_running = 1 and auto_stop_machines = "off".

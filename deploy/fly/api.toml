@@ -1,11 +1,20 @@
-# API (compose service "backend"). NOT DEPLOYED. See DEPLOY-PLAN.md.
+# API (compose service "backend"). See DEPLOY-PLAN.md.
 # Public hostname (new): api.purpgo.com
 # Also reachable inside the org at purpgo-api.internal:8080
 app = "purpgo-api"
 primary_region = "yyz"
 
 [build]
-  dockerfile = "deploy/docker/backend.Dockerfile"
+  dockerfile = "../../deploy/docker/backend.Dockerfile"
+
+[env]
+  API_HOST = ":8080"
+  GIN_MODE = "release"
+  AWS_CONFIG_ENABLED = "false"
+  GEODB_PATH = "/app/data/GeoLite2-City.mmdb"
+  ENCRYPTED_KEYS_PROVIDER = "postgres"
+  CAPTCHA_PROVIDER = "none"
+  INBOX_TAGGING_ENABLED = "false"
 
 [http_service]
   internal_port = 8080

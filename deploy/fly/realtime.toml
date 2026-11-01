@@ -1,17 +1,24 @@
-# WebSocket fanout. NOT DEPLOYED. See DEPLOY-PLAN.md.
+# WebSocket fanout. See DEPLOY-PLAN.md.
 # Public hostname (new): rt.purpgo.com
 app = "purpgo-rt"
 primary_region = "yyz"
 
 [build]
-  dockerfile = "deploy/docker/realtime.Dockerfile"
+  dockerfile = "../../deploy/docker/realtime.Dockerfile"
+
+[env]
+  # Fly private networking is IPv6-only.
+  ECTO_IPV6 = "true"
+  REDIS_IPV6 = "true"
+  DATABASE_SSL = "false"
+  PUBSUB_ENABLED = "false"
 
 [http_service]
   internal_port = 4000
   force_https = true
-  auto_stop_machines = "off"
+  auto_stop_machines = "stop"
   auto_start_machines = true
-  min_machines_running = 1
+  min_machines_running = 0
 
   [[http_service.checks]]
     interval = "15s"

@@ -1,19 +1,19 @@
-# Redis 7. NOT DEPLOYED. No public address.
+# Redis 7. No public address.
 # Private: purpgo-redis.internal:6379
 app = "purpgo-redis"
 primary_region = "yyz"
 
 [build]
-  dockerfile = "deploy/fly/redis.Dockerfile"
+  dockerfile = "../../deploy/fly/redis.Dockerfile"
 
 [mounts]
   source = "redis_data"
   destination = "/data"
 
-[[checks]]
+[checks.tcp]
   grace_period = "10s"
   interval = "15s"
-  method = "tcp"
+  type = "tcp"
   port = 6379
   timeout = "2s"
 
