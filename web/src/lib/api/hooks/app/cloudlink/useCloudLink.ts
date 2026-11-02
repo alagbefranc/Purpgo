@@ -1,4 +1,5 @@
 // Modified by Purpgo LLC.
+import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     adoptCloudMailbox,
@@ -37,12 +38,12 @@ export const POOL_LINK_KEY = ["pool-link"];
 // Each read asks Purpgo Cloud, so a surface that only needs the redirect offer can take a longer staleTime.
 export function useCloudLinkStatus(enabled = true, staleTime = 10_000) {
     const organization = useCurrentOrganization();
-    return useQuery({ queryKey: [...CLOUD_LINK_KEY, organization.data?.id, "status"], queryFn: getCloudLinkStatus, enabled: enabled && !!organization.data?.id, staleTime });
+    return useQuery({ queryKey: [...CLOUD_LINK_KEY, organization.data?.id, "status"], queryFn: getCloudLinkStatus, enabled: CLOUD_POOL_ENABLED && enabled && !!organization.data?.id, staleTime });
 }
 
 export function useCloudLinkMailboxes(enabled = true) {
     const organization = useCurrentOrganization();
-    return useQuery({ queryKey: [...CLOUD_LINK_KEY, organization.data?.id, "mailboxes"], queryFn: listCloudLinkMailboxes, enabled: enabled && !!organization.data?.id, staleTime: 10_000 });
+    return useQuery({ queryKey: [...CLOUD_LINK_KEY, organization.data?.id, "mailboxes"], queryFn: listCloudLinkMailboxes, enabled: CLOUD_POOL_ENABLED && enabled && !!organization.data?.id, staleTime: 10_000 });
 }
 
 export function useStartCloudLinkConnect() {
@@ -121,7 +122,7 @@ export function useCloudLinkMailboxLifecycle() {
 
 export function useCloudWorkspaceMailboxes(enabled = true) {
     const organization = useCurrentOrganization();
-    return useQuery({ queryKey: [...CLOUD_LINK_KEY, organization.data?.id, "workspace-mailboxes"], queryFn: listCloudWorkspaceMailboxes, enabled: enabled && !!organization.data?.id, staleTime: 10_000 });
+    return useQuery({ queryKey: [...CLOUD_LINK_KEY, organization.data?.id, "workspace-mailboxes"], queryFn: listCloudWorkspaceMailboxes, enabled: CLOUD_POOL_ENABLED && enabled && !!organization.data?.id, staleTime: 10_000 });
 }
 
 export function useAdoptCloudMailbox() {
@@ -141,7 +142,7 @@ export function usePoolLinkCode(code: string) {
     return useQuery({
         queryKey: [...POOL_LINK_KEY, "code", code],
         queryFn: () => describePoolLinkCode(code),
-        enabled: code.replace(/[^A-Za-z0-9]/g, "").length === 8,
+        enabled: CLOUD_POOL_ENABLED && code.replace(/[^A-Za-z0-9]/g, "").length === 8,
         retry: 0,
     });
 }
@@ -160,7 +161,7 @@ export function useDenyPoolLinkCode() {
 
 export function usePoolLinkInstances(enabled = true) {
     const organization = useCurrentOrganization();
-    return useQuery({ queryKey: [...POOL_LINK_KEY, organization.data?.id, "instances"], queryFn: listPoolLinkInstances, enabled: enabled && !!organization.data?.id, staleTime: 10_000 });
+    return useQuery({ queryKey: [...POOL_LINK_KEY, organization.data?.id, "instances"], queryFn: listPoolLinkInstances, enabled: CLOUD_POOL_ENABLED && enabled && !!organization.data?.id, staleTime: 10_000 });
 }
 
 export function useRevokePoolLinkInstance() {

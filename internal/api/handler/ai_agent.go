@@ -275,7 +275,9 @@ func (h *Handler) AgentApprove(c *gin.Context) {
 // ListAIToolPolicies — GET /ai/tool-policies lists the tools the assistant runs without asking.
 func (h *Handler) ListAIToolPolicies(c *gin.Context) {
 	if h.AIAgentService == nil {
-		errx.JSON(c, errx.New(errx.ServiceUnavailable, "the AI assistant is not configured"))
+		// No assistant configured: there are no policies, and the settings page
+		// reads this on load, so answer an empty list rather than a 503.
+		c.JSON(http.StatusOK, gin.H{"data": []any{}})
 		return
 	}
 	inv, xerr := h.jwtInvocation(c)
