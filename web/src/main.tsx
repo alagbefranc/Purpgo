@@ -12,7 +12,11 @@ import { initErrorReporting } from "@/lib/observability";
 import { initProductAnalytics } from "@/lib/productAnalytics";
 import { installDomMutationGuard } from "@/lib/domGuard";
 import { queryClient } from "@/lib/queryClient";
+import { installChunkReload } from "@/lib/chunkReload";
 import { dashboardPages, router } from "./router";
+
+// Before any lazy import, so a stale chunk after a deploy reloads once.
+installChunkReload();
 
 // Before the first render, so a translated page never commits unguarded.
 installDomMutationGuard();

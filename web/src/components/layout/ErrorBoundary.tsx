@@ -15,6 +15,7 @@ import { AlertTriangleIcon, RefreshCcwIcon } from "@/components/icons";
 import { captureException } from "@/lib/observability";
 import { SENTRY_RELEASE } from "@/lib/information";
 import { isModuleLoadError } from "@/lib/moduleLoadError";
+import { isChunkLoadError, reloadForStaleChunk } from "@/lib/chunkReload";
 
 interface State {
     error: Error | null;
@@ -66,7 +67,10 @@ export class ErrorBoundary extends React.Component<BoundaryProps, State> {
 
 export function BoundaryFallback({ error, info, reset }: { error: Error; info: Pick<React.ErrorInfo, "componentStack"> | null; reset: () => void }) {
     const router = useRouter();
-    const reload = isModuleLoadError(error);
+    const reload = isModuleLoadError(error) || isChunkLoadError(error);
+    React.useEffect(() => {
+        if (reload) reloadForStaleChunk();
+    }, [reload, error]);
     return (
         <div className="flex flex-col min-h-full bg-white">
             <div className="min-h-12 md:h-12 px-5 py-1.5 md:py-0 border-b border-slate-200 flex flex-wrap md:flex-nowrap items-center gap-3 gap-y-1.5 shrink-0 bg-white">
