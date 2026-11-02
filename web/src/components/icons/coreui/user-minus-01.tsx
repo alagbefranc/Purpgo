@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): user-minus-01. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiUserMinus01", "<path d=\"M5.2 14.83a11.4 11.4 0 0 1 10.08-.76c.38.16.57.6.41.98a.75.75 0 0 1-.98.4 9 9 0 0 0-2.3-.6 9.7 9.7 0 0 0-6.44 1.27c-.8.46-1.93 1.04-2.68 1.75q-.51.54-.53.86c-.02.18.02.49.47.91 1.04.98 2.1 1.6 3.37 1.6h5.9a.75.75 0 0 1 0 1.5H6.6c-1.82 0-3.24-.9-4.4-2.02-.68-.64-1.02-1.37-.93-2.15.08-.73.51-1.31.98-1.77.9-.89 2.33-1.6 2.94-1.97\"/><path d=\"M22 17.74a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.76-.75c0-.41.34-.75.77-.75z\"/><path fill-rule=\"evenodd\" d=\"M12 1.24a5.24 5.24 0 1 1 0 10.49 5.24 5.24 0 0 1 0-10.49m0 1.5a3.76 3.76 0 1 0 0 7.51 3.76 3.76 0 0 0 0-7.51\" clip-rule=\"evenodd\"/>");

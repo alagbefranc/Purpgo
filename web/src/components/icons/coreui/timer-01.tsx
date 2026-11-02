@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): timer-01. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiTimer01", "<path d=\"M13.02 1.24a10.77 10.77 0 0 1-1 21.5A10.76 10.76 0 0 1 4.47 4.28a.75.75 0 0 1 1.06 0c.3.31.28.78-.01 1.07A9.27 9.27 0 0 0 12 21.25a9.29 9.29 0 0 0 .98-18.5c-.12 0-.13.01-.15.03l-.01.03-.05.14c-.03.2-.03.5-.03 1.01v1c0 .4-.33.76-.74.76a.76.76 0 0 1-.76-.76v-1q-.01-.7.05-1.25c.08-.4.22-.8.59-1.09.35-.29.73-.38 1.13-.38\"/><path fill-rule=\"evenodd\" d=\"M7.53 6.42a.75.75 0 0 1 .94-.01l5.42 4.28a2.27 2.27 0 0 1 0 3.56 2.3 2.3 0 0 1-3.48-.77L7.33 7.34a.76.76 0 0 1 .2-.92m4.23 6.4c.22.43.8.58 1.2.25s.4-.9 0-1.2l-2.78-2.19z\" clip-rule=\"evenodd\"/>");

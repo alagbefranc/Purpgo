@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): chemistry-01. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiChemistry01", "<path fill-rule=\"evenodd\" d=\"M4.99 2.24c.42 0 .76.33.76.76v5.25h4.49V4.74h-.25a.75.75 0 0 1-.75-.75c0-.4.34-.74.75-.74h8c.4 0 .75.33.75.74s-.34.75-.75.75h-.25v3.5h2.25a.75.75 0 0 1 0 1.5h-2.25v5.03c0 2.14-1.64 3.97-3.76 3.97-2.1 0-3.74-1.83-3.74-3.97V9.74h-4.5v3.25c0 1.9 0 3.26.14 4.28.13 1.01.4 1.6.82 2.02.42.43 1 .67 2 .8 1.03.15 2.39.15 4.29.15h8a.75.75 0 0 1 0 1.5h-8c-1.86 0-3.34 0-4.5-.15a4.7 4.7 0 0 1-2.86-1.25 4.6 4.6 0 0 1-1.23-2.86c-.16-1.16-.16-2.62-.16-4.5V9.75H3A.75.75 0 0 1 2.24 9c0-.42.33-.74.76-.74h1.24V3c0-.43.34-.76.75-.76m6.75 2.5v10.03c0 1.42 1.06 2.47 2.24 2.47 1.2 0 2.25-1.05 2.25-2.47V4.74z\" clip-rule=\"evenodd\"/>");

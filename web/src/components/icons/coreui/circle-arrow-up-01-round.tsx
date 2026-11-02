@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): circle-arrow-up-01-round. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiCircleArrowUp01Round", "<path d=\"M12 9.76q.44.01.78.19.36.16.7.39a24 24 0 0 1 2.56 2.15l.36.35.1.1.03.02v.01c.29.3.29.78 0 1.07a.77.77 0 0 1-1.07-.01l-.12-.12-.33-.34-1.1-1a11 11 0 0 0-1.74-1.25l-.18-.07-.16.07q-.2.09-.48.28c-.4.25-.83.6-1.26.96q-.64.57-1.1 1.01-.22.2-.33.34l-.12.12a.8.8 0 0 1-1.07.01.77.77 0 0 1-.01-1.07l.01-.01.03-.02.1-.1.36-.35a24 24 0 0 1 2.56-2.15q.34-.24.7-.4t.77-.18\"/><path fill-rule=\"evenodd\" d=\"M12 1.26a10.75 10.75 0 1 1 0 21.5 10.75 10.75 0 0 1 0-21.5m0 1.49a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5\" clip-rule=\"evenodd\"/>");
