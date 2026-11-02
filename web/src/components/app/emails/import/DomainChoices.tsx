@@ -3,7 +3,7 @@
 // to the company website. One base value covers every domain; the dropdown under
 // it changes any domain on its own.
 import React from "react";
-import { SparklesIcon } from "lucide-react";
+import { SparklesIcon } from "@/components/icons";
 import { TextInput } from "@/components/ui/field";
 import { CheckSquare } from "@/components/ui/check-square";
 import { Chip, SuggestionChip } from "@/components/app/emails/domains/parts";

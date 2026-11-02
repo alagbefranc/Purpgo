@@ -5,7 +5,7 @@
 
 import React from "react";
 import { Reorder, useDragControls } from "framer-motion";
-import { ArrowDownIcon, ArrowUpIcon, Columns3Icon, GripVerticalIcon, LockIcon, RotateCcwIcon } from "lucide-react";
+import { ArrowDownIcon, ArrowUpIcon, Columns3Icon, GripVerticalIcon, LockIcon, RotateCcwIcon } from "@/components/icons";
 import { CheckSquare } from "@/components/ui/check-square";
 import type { SearchContactsSortBy } from "@/lib/api/models/app/contacts/search-contacts.types";
 import {

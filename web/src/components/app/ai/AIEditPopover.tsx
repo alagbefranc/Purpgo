@@ -23,7 +23,7 @@ import {
     SpellCheckIcon,
     SmileIcon,
     BriefcaseIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 export interface AIQuickAction {
     key: string;

@@ -5,7 +5,7 @@ import React from "react";
 import { Link } from "@tanstack/react-router";
 import toast from "react-hot-toast/headless";
 import { useQueryClient } from "@tanstack/react-query";
-import { CheckIcon, ChevronDownIcon, ClockIcon, InboxIcon, MegaphoneIcon, UsersIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, ClockIcon, InboxIcon, MegaphoneIcon, UsersIcon } from "@/components/icons";
 import { Row, Section } from "../_components/SectionShell";
 import { SelectMenu, type SelectOption } from "@/components/ui/select-menu";
 import { Loading } from "@/components/loader";

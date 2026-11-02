@@ -4,7 +4,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { FolderIcon, GlobeIcon, InboxIcon, Loader2Icon, LockIcon, MegaphoneIcon, PlusIcon, SparklesIcon, XIcon } from "lucide-react";
+import { FolderIcon, GlobeIcon, InboxIcon, Loader2Icon, LockIcon, MegaphoneIcon, PlusIcon, SparklesIcon, XIcon } from "@/components/icons";
 
 import { CheckSquare } from "@/components/ui/check-square";
 import { Label } from "@/components/ui/field";

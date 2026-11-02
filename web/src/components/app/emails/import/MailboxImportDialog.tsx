@@ -1,6 +1,6 @@
 // MailboxImportDialog: reopens a running or recent import at its result
 // screen, from the Imports menu on the mailboxes page.
-import { FileSpreadsheetIcon } from "lucide-react";
+import { FileSpreadsheetIcon } from "@/components/icons";
 import ImportDialogShell from "./ImportDialogShell";
 import MailboxImportWizard from "./MailboxImportWizard";
 

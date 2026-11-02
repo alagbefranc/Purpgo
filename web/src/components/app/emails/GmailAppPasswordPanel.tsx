@@ -20,7 +20,7 @@ import {
     Loader2Icon,
     ShieldCheckIcon,
     SparklesIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { TextInput } from "@/components/ui/field";

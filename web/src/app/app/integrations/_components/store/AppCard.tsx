@@ -3,7 +3,7 @@
 // on it in place.
 
 import React from "react";
-import { BadgeCheckIcon } from "lucide-react";
+import { BadgeCheckIcon } from "@/components/icons";
 
 import type { IntegrationConnection } from "@/lib/api/models/app/integrations/Integration";
 import { cn } from "@/lib/utils";

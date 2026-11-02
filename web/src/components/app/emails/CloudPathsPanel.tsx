@@ -9,7 +9,7 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { CloudIcon, InboxIcon, PlusIcon } from "lucide-react";
+import { CloudIcon, InboxIcon, PlusIcon } from "@/components/icons";
 import useFeatureAccess from "@/hooks/useFeatureAccess";
 import useAuthConfig from "@/lib/api/hooks/auth/useAuthConfig";
 import { usePoolLinkInstances } from "@/lib/api/hooks/app/cloudlink/useCloudLink";

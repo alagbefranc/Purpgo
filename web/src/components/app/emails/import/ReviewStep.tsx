@@ -2,7 +2,7 @@
 // settings detected for every domain, grouped problems with their fix, the
 // first rows, and the defaults every new mailbox gets.
 import React from "react";
-import { ChevronLeftIcon, ChevronRightIcon, ExternalLinkIcon, InfoIcon, Loader2Icon, WandSparklesIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, ExternalLinkIcon, InfoIcon, Loader2Icon, WandSparklesIcon } from "@/components/icons";
 import type {
     DomainDetection,
     ImportLeg,

@@ -4,7 +4,7 @@
 // to outreach. Edits the shared settings draft; the page owns the save bar.
 
 import React from "react";
-import { AlertTriangleIcon, InfoIcon } from "lucide-react";
+import { AlertTriangleIcon, InfoIcon } from "@/components/icons";
 
 import { NumberInput, TextInput } from "@/components/ui/field";
 import { SelectMenu } from "@/components/ui/select-menu";

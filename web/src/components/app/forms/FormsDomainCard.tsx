@@ -5,7 +5,7 @@
 // section supplies the heading and the explanation; this renders controls only.
 
 import React from "react";
-import { CheckIcon, CopyIcon, Loader2Icon } from "lucide-react";
+import { CheckIcon, CopyIcon, Loader2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { Label, TextInput } from "@/components/ui/field";

@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): pencil-edit-01. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiPencilEdit01", "<path d=\"M17 19.25c.42 0 .75.33.75.74s-.33.75-.75.75h-6a.75.75 0 0 1-.75-.75c0-.4.34-.74.75-.74z\"/><path fill-rule=\"evenodd\" d=\"M16.09 4.05a2.73 2.73 0 1 1 3.86 3.86l-9.64 9.63a12 12 0 0 1-2.37 2.06c-.4.22-1.02.4-1.65.58-.65.2-1.4.37-2.1.54a.8.8 0 0 1-.72-.2.8.8 0 0 1-.2-.7l.53-2.12a9 9 0 0 1 .6-1.66c.43-.74 1.04-1.34 2.05-2.36zm-8.57 10.7a10 10 0 0 0-1.8 2.02q-.2.37-.47 1.34l-.23.86.87-.22c.63-.18 1.1-.34 1.32-.47.53-.3.97-.73 2.05-1.8l7.7-7.7-1.75-1.74zM18.88 5.1a1.23 1.23 0 0 0-1.74 0l-.86.88 1.74 1.74.86-.87c.48-.49.48-1.26 0-1.75\" clip-rule=\"evenodd\"/>");

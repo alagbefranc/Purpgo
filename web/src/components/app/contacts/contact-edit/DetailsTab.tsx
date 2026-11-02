@@ -17,7 +17,7 @@ import {
     SendIcon,
     UserIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { Label, TextInput } from "@/components/ui/field";
 import useCampaigns from "@/lib/api/hooks/app/campaigns/useCampaigns";

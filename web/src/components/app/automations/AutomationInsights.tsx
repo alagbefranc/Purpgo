@@ -5,7 +5,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2Icon, CheckIcon, Loader2Icon, PlayIcon, XCircleIcon, XIcon } from "lucide-react";
+import { CheckCircle2Icon, CheckIcon, Loader2Icon, PlayIcon, XCircleIcon, XIcon } from "@/components/icons";
 import { useAutomationRuns } from "@/lib/api/hooks/app/automations/useAutomationRuns";
 import type { AutomationNodeResult, AutomationRun, DryRunResponse } from "@/lib/api/models/app/automations/Automation";
 import { actionLabel, sampleEventData } from "@/lib/api/models/app/automations/meta";

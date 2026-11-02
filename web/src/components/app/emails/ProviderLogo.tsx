@@ -1,7 +1,7 @@
 // One mark for every mail host, inbox vendor and sign-in provider the app names:
 // the Google and Microsoft SVGs, the shipped PNG/SVG logos, else a lettered tile.
 import React from "react";
-import { ServerIcon } from "lucide-react";
+import { ServerIcon } from "@/components/icons";
 import { Google, Outlook } from "@/components/svg";
 import { GENERIC_BRAND_IDS, GOOGLE_BRAND_IDS, MICROSOFT_BRAND_IDS, brandImage, brandLabel, normBrand } from "@/lib/brands";
 import { cn } from "@/lib/utils";

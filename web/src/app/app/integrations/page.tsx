@@ -25,7 +25,7 @@ import {
     UsersIcon,
     WebhookIcon,
     WrenchIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import { Page, PageTopbar, TopbarAction } from "@/components/layout/Page";
 import { useSearchParams } from "@/hooks/useSearchParams";

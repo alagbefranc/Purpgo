@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): sliders-vertical. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiSlidersVertical", "<path d=\"M8 13.24a.75.75 0 0 1 0 1.5H5.75V20c0 .41-.34.75-.75.75a.75.75 0 0 1-.74-.75v-5.25H2a.74.74 0 0 1-.74-.74c0-.43.32-.76.74-.76zm4-3c.42 0 .75.33.75.76v9a.75.75 0 0 1-1.5 0v-9c0-.43.33-.76.74-.76M19 14.25c.4 0 .74.33.74.74v5c0 .41-.33.75-.74.75a.75.75 0 0 1-.75-.75v-5c0-.4.34-.75.75-.75m0-10.99c.4 0 .74.33.74.74v7.26H22a.74.74 0 0 1 0 1.49h-6a.75.75 0 0 1-.75-.75c0-.4.34-.74.75-.74h2.25V3.99c0-.4.34-.74.75-.74m-14 0c.41 0 .75.33.75.74v7a.75.75 0 0 1-1.5 0V4c0-.4.34-.74.75-.74m7-.01c.42 0 .75.33.75.74v3.25h2.26a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1 0-1.5h2.25V3.99c0-.4.33-.74.74-.74\"/>");

@@ -4,7 +4,7 @@
 
 import React from "react";
 import { Link, useParams } from "@tanstack/react-router";
-import { ArrowLeftIcon, ArrowUpRightIcon, Loader2Icon, SquareIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowUpRightIcon, Loader2Icon, SquareIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { EmptyBlock, SectionBar } from "@/components/layout/Page";
 import PermissionButton from "@/components/ui/PermissionButton";

@@ -2,7 +2,7 @@
 // pane slide, and the sticky footer that explains why a step cannot be left.
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertCircleIcon, CheckIcon, ChevronLeftIcon } from "lucide-react";
+import { AlertCircleIcon, CheckIcon, ChevronLeftIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 export interface WizardStep<K extends string> {

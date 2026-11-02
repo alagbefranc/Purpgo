@@ -1,7 +1,7 @@
 // The unibox Compose button, in the list's title row on every viewport. The
 // label is visually hidden on phones and the key hint below md.
 
-import { PenLineIcon } from "lucide-react";
+import { PenLineIcon } from "@/components/icons";
 import ShortcutTooltip, { shortcutLabel } from "@/components/ui/shortcut-tooltip";
 import { useComposeStore } from "@/hooks/useComposeStore";
 import { useAccessRestricted } from "@/hooks/usePermission";

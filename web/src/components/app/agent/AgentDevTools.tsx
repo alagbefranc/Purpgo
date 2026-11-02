@@ -2,7 +2,7 @@
 // can be seen without an AI provider. Lazy-loaded behind import.meta.env.DEV,
 // so none of this reaches a production build.
 
-import { PlayIcon } from "lucide-react";
+import { PlayIcon } from "@/components/icons";
 
 export default function AgentDevTools({ onDemo }: { onDemo: () => void }) {
     return (

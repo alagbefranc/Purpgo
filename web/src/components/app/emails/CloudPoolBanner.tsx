@@ -7,7 +7,7 @@
 
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRightIcon, CloudIcon, ExternalLinkIcon, MailCheckIcon, TrendingUpIcon, XIcon } from "lucide-react";
+import { ArrowRightIcon, CloudIcon, ExternalLinkIcon, MailCheckIcon, TrendingUpIcon, XIcon } from "@/components/icons";
 import useCloudPool from "@/hooks/useCloudPool";
 
 const DISMISS_KEY = "purpgo.cloud-pool-banner.dismissed";

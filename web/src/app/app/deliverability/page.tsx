@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { deliverabilityView, deliverabilityHiddenMetrics } from "@/lib/browse-accounts-analytics";
 import { Link } from "@tanstack/react-router";
-import { AlertTriangleIcon, ArrowUpRightIcon, CheckIcon, RefreshCcwIcon, SlidersHorizontalIcon } from "lucide-react";
+import { AlertTriangleIcon, ArrowUpRightIcon, CheckIcon, RefreshCcwIcon, SlidersHorizontalIcon } from "@/components/icons";
 import { EmptyBlock, Page, PageBody, PageTopbar, SectionBar, Stat, StatStrip } from "@/components/layout/Page";
 import { MultiTrend, type TrendSeries } from "@/components/ui/charts";
 import { TONE_DOT } from "@/components/ui/tones";

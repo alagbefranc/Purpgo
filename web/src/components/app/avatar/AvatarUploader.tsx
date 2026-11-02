@@ -14,7 +14,7 @@
 
 import React from "react";
 import { DashboardImage } from "@/components/ui/dashboard-image";
-import { CameraIcon, ImageIcon, Loader2Icon, TrashIcon } from "lucide-react";
+import { CameraIcon, ImageIcon, Loader2Icon, TrashIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import {
     AVATAR_ACCEPT,

@@ -5,7 +5,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { SquareIcon, XIcon } from "lucide-react";
+import { SquareIcon, XIcon } from "@/components/icons";
 import AgentMark from "@/components/app/agent/AgentMark";
 
 export const AI_PILL_CLASS =

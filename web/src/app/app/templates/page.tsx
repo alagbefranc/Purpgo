@@ -22,7 +22,7 @@ import {
     XIcon,
     ChevronUpIcon,
     ChevronDownIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { AnimatePresence, motion } from "framer-motion";
 import {

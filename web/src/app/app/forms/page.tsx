@@ -7,7 +7,7 @@ import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseSearchSchema, formsSortSchema, formsStatusSchema } from "@/lib/browse-other-lists";
 import { useNavigate } from "@tanstack/react-router";
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon, ClipboardListIcon, LinkIcon, Loader2Icon, MoreHorizontalIcon, PlusIcon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon, ClipboardListIcon, LinkIcon, Loader2Icon, MoreHorizontalIcon, PlusIcon, XIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { EmptyBlock, Page, PageBody, PageTopbar, SectionBar, Stat, StatStrip, TopbarAction } from "@/components/layout/Page";

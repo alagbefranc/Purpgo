@@ -13,7 +13,7 @@
 // measured, so the denominator is stated on the card instead.
 
 import { Link } from "@tanstack/react-router";
-import { EyeIcon, InboxIcon, MailIcon, ReplyIcon } from "lucide-react";
+import { EyeIcon, InboxIcon, MailIcon, ReplyIcon } from "@/components/icons";
 
 import { EmptyBlock, SectionBar, Stat, StatStrip } from "@/components/layout/Page";
 import { MultiTrend, type TrendSeries } from "@/components/ui/charts";

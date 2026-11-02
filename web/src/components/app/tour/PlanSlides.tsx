@@ -25,7 +25,7 @@ import {
     UsersIcon,
     WalletIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import AgentMark from "@/components/app/agent/AgentMark";
 import BillingIntervalToggle from "@/components/app/billing/BillingIntervalToggle";
 import { PAID_PLANS, getPlan, planOrder, type PlanDef, type PlanID } from "@/lib/plans";

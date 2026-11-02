@@ -28,7 +28,7 @@ import {
     SaveIcon,
     SheetIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import MapStep from "./import/MapStep";

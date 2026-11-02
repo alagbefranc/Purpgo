@@ -4,7 +4,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertCircleIcon, ChevronDownIcon, ForwardIcon } from "lucide-react";
+import { AlertCircleIcon, ChevronDownIcon, ForwardIcon } from "@/components/icons";
 import EmailBody from "./EmailBody";
 import useUniboxEmail from "@/lib/api/hooks/app/unibox/useUniboxEmail";
 import type UniboxEmail from "@/lib/api/models/app/unibox/UniboxEmail";

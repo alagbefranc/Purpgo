@@ -16,7 +16,7 @@ import {
     Loader2Icon,
     QrCodeIcon,
     ShieldCheckIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { cn } from "@/lib/utils";
 import type { AppError } from "@/lib/api/client/normalizeError";
 import buildError from "@/lib/helper/buildError";

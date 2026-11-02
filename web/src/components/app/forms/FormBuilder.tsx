@@ -17,7 +17,7 @@ import {
     SettingsIcon,
     Share2Icon,
     WrenchIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import {
     DndContext,
@@ -37,7 +37,7 @@ import {
     type UniqueIdentifier,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "@/components/icons";
 
 import { TextInput } from "@/components/ui/field";
 import ResourceViewers from "@/components/app/presence/ResourceViewers";

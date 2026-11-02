@@ -38,7 +38,7 @@ import {
     PlusIcon,
     RefreshCcwIcon,
     Settings2Icon,
-} from "lucide-react";
+} from "@/components/icons";
 import {
     EmptyBlock,
     Page,

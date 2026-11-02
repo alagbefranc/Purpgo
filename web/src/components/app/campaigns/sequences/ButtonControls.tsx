@@ -14,7 +14,7 @@ import {
     SquircleIcon,
     StretchHorizontalIcon,
     Trash2Icon,
-} from "lucide-react";
+} from "@/components/icons";
 import type { Editor } from "@tiptap/react";
 import { BubbleBtn, BubbleDivider, NodeBubble, selectedNode, useNodeAnchor } from "./NodeBubble";
 import {

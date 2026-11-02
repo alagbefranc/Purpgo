@@ -11,7 +11,7 @@ import useAuthConfig from "@/lib/api/hooks/auth/useAuthConfig";
 import { useInstanceAdmin } from "@/hooks/usePermission";
 import CloudLinkCard from "@/components/app/cloud/CloudLinkCard";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "@/components/icons";
 
 import AuthButton from "@/components/auth/button";
 import useCompleteOnboarding from "@/lib/api/hooks/auth/useCompleteOnboarding";

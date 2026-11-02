@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): plug-01. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiPlug01", "<path d=\"M13 8.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5z\"/><path fill-rule=\"evenodd\" d=\"M15.5 1.26c.41 0 .75.33.75.74v3.25h.22c1.31 0 2.37 1.1 2.27 2.43l-.18 2.37a11 11 0 0 1-1.81 5.15l-.6.89a3.8 3.8 0 0 1-3.16 1.66h-.24V22c0 .4-.33.74-.76.74a.75.75 0 0 1-.74-.74v-4.25H11a3.8 3.8 0 0 1-3.16-1.66l-.6-.9a10.6 10.6 0 0 1-1.8-5.14l-.19-2.37a2.25 2.25 0 0 1 2.27-2.43h.22V2c0-.4.34-.74.75-.74.42 0 .74.33.74.74v3.25h5.5V2c0-.4.34-.74.76-.74m-7.97 5.5c-.47 0-.8.38-.77.8l.17 2.37c.13 1.58.66 3.1 1.55 4.43l.6.88a2.3 2.3 0 0 0 1.93 1h2c.77 0 1.49-.37 1.91-1l.6-.88a9 9 0 0 0 1.55-4.43l.2-2.37a.76.76 0 0 0-.78-.8z\" clip-rule=\"evenodd\"/>");

@@ -4,7 +4,7 @@
 
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpIcon, RefreshCwIcon, SparklesIcon } from "lucide-react";
+import { ArrowUpIcon, RefreshCwIcon, SparklesIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { motion } from "framer-motion";
 import useWritingStream, { isAbort } from "@/components/app/ai/useWritingStream";

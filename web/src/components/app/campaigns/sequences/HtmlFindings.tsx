@@ -7,7 +7,7 @@
 // send path can never disagree about what ships (internal/pkg/mailhtml).
 
 import React from "react";
-import { AlertCircleIcon, AlertTriangleIcon, ChevronDownIcon, InfoIcon } from "lucide-react";
+import { AlertCircleIcon, AlertTriangleIcon, ChevronDownIcon, InfoIcon } from "@/components/icons";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TemplateHtmlFinding } from "@/lib/api/client/app/campaigns/previewTemplate";
 

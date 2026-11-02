@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
-import { AlertTriangleIcon, CloudIcon, Loader2Icon, XIcon } from "lucide-react";
+import { AlertTriangleIcon, CloudIcon, Loader2Icon, XIcon } from "@/components/icons";
 import type { SendingDomain } from "@/lib/api/models/app/emails/SendingDomain";
 import { useSetDomainRedirect } from "@/lib/api/hooks/app/emails/useSendingDomains";
 import { useConfirm } from "@/hooks/context/confirm";

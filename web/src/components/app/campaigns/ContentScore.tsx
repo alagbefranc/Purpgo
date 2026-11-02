@@ -24,7 +24,7 @@ import {
     ShieldCheckIcon,
     SparklesIcon,
     WandSparklesIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import scoreTemplate from "@/lib/api/client/app/campaigns/scoreTemplate";
 import useAnalyzeTemplate from "@/lib/api/hooks/app/campaigns/useAnalyzeTemplate";

@@ -5,7 +5,7 @@
 
 import React from "react";
 import { AnimatePresence } from "framer-motion";
-import { KeyRoundIcon, RefreshCwIcon, ShieldCheckIcon, SmartphoneIcon, TriangleAlertIcon } from "lucide-react";
+import { KeyRoundIcon, RefreshCwIcon, ShieldCheckIcon, SmartphoneIcon, TriangleAlertIcon } from "@/components/icons";
 import { useTwoFactorStatus } from "@/lib/api/hooks/auth/useTwoFactor";
 import { useUserProfile } from "@/hooks/context/user";
 import { cn } from "@/lib/utils";

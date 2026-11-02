@@ -36,7 +36,7 @@ import useAuthConfig from "@/lib/api/hooks/auth/useAuthConfig";
 import { useEnrollCloudLinkMailbox, useUnenrollCloudLinkMailbox, useCloudLinkMailboxLifecycle } from "@/lib/api/hooks/app/cloudlink/useCloudLink";
 import { cloudMailboxPickerOpened } from "@/lib/cloudMailboxConnect";
 import { providerSupported } from "@/app/app/settings/purpgo-cloud/providers";
-import { CloudIcon, MailCheckIcon } from "lucide-react";
+import { CloudIcon, MailCheckIcon } from "@/components/icons";
 import { PlacementRateBadge } from "@/components/app/placement/PlacementCharts";
 import type { CloudLinkMailboxRow } from "@/lib/api/models/app/cloudlink/CloudLink";
 import { cloudSendFailure, cloudWarmupPaused } from "@/lib/cloudWarmup";
@@ -82,7 +82,7 @@ import {
     UnplugIcon,
     XIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { Dash, InfoHeader } from "@/components/app/contacts/cells";
 import { SearchInput } from "@/components/ui/field";
 import AnimatedNumber from "@/components/ui/AnimatedNumber";

@@ -23,7 +23,7 @@ import {
     Trash2Icon,
     XIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import type {
     SendingDomain,
     DNSRecord,

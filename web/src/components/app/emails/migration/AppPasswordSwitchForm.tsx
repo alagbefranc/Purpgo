@@ -2,7 +2,7 @@
 // mailbox, same history. The server checks the password with Gmail first.
 import React from "react";
 import toast from "react-hot-toast/headless";
-import { CheckIcon, ExternalLinkIcon, Loader2Icon } from "lucide-react";
+import { CheckIcon, ExternalLinkIcon, Loader2Icon } from "@/components/icons";
 import { useQueryClient } from "@tanstack/react-query";
 import { SIGNIN_MIGRATION_KEY, useSwitchToAppPassword } from "@/lib/api/hooks/app/emails/useMailboxGrants";
 import type { AppError } from "@/lib/api/client/normalizeError";

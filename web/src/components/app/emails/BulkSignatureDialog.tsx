@@ -13,7 +13,7 @@ import {
     PenLineIcon,
     XCircleIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import EmailEditor from "@/components/app/EmailEditor";
 import EmailBody from "@/components/app/unibox/EmailBody";
 import { Toggle } from "@/components/app/campaigns/preferences/components/CampaignPreferenceBoolBox";

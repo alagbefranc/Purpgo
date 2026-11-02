@@ -4,7 +4,7 @@
 // server's certificate, so nobody turns verification off by accident.
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ShieldAlertIcon } from "lucide-react";
+import { ShieldAlertIcon } from "@/components/icons";
 
 import { Checkbox } from "@/components/ui/checkbox";
 

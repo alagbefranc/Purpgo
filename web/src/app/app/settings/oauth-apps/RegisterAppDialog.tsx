@@ -8,7 +8,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import toast from "react-hot-toast/headless";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeftIcon, CheckIcon, Loader2Icon, PlusIcon, XIcon } from "lucide-react";
+import { ArrowLeftIcon, CheckIcon, Loader2Icon, PlusIcon, XIcon } from "@/components/icons";
 
 import { AvatarUploader } from "@/components/app/avatar/AvatarUploader";
 import { Toggle } from "@/components/app/campaigns/preferences/components/CampaignPreferenceBoolBox";

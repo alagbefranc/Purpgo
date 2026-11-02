@@ -2,7 +2,7 @@
 // surface is the mailbox signature editor: visual, source, preview, plain text.
 
 import React from "react";
-import { CodeXmlIcon } from "lucide-react";
+import { CodeXmlIcon } from "@/components/icons";
 import EmailEditor from "@/components/app/EmailEditor";
 import { useConfirm } from "@/hooks/context/confirm";
 import { htmlHasContent, htmlToPlain, toHtmlMode, toPlainMode } from "@/lib/email/composerBody";

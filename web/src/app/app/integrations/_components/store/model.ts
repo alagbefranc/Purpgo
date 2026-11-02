@@ -12,7 +12,7 @@ import {
     SparklesIcon,
     WorkflowIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import { communityAppPath, LISTING_CATEGORY_LABELS, type CommunityApp } from "@/lib/api/models/app/integrations/Community";
 import {

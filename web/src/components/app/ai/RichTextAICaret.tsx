@@ -13,7 +13,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import type { Editor } from "@tiptap/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpIcon, PenLineIcon, SparklesIcon } from "lucide-react";
+import { ArrowUpIcon, PenLineIcon, SparklesIcon } from "@/components/icons";
 import { usePermission } from "@/hooks/usePermission";
 import useAiMetered from "@/hooks/useAiMetered";
 import { useAnchoredFloating, caretReference } from "@/hooks/useAnchoredFloating";

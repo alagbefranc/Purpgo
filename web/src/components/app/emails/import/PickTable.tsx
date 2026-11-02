@@ -5,7 +5,7 @@
 import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseString, importPickFilter } from "@/lib/browse-accounts-analytics";
-import { ChevronLeftIcon, ChevronRightIcon, LayersIcon, MailIcon, RefreshCwIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, LayersIcon, MailIcon, RefreshCwIcon } from "@/components/icons";
 import { SearchInput } from "@/components/ui/field";
 import { CheckSquare } from "@/components/ui/check-square";
 import ProviderLogo from "@/components/app/emails/ProviderLogo";

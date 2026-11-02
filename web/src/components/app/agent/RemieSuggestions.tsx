@@ -5,7 +5,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { SEVERITY_DOT, SEVERITY_RANK } from "@/lib/api/models/app/advisor/Advisor";
 import { useAdvisorFindings } from "@/lib/api/hooks/app/advisor/useAdvisor";

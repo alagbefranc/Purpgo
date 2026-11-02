@@ -7,7 +7,7 @@
 
 import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import { Link } from "@tanstack/react-router";
-import { SparklesIcon } from "lucide-react";
+import { SparklesIcon } from "@/components/icons";
 import useFeatureAccess from "@/hooks/useFeatureAccess";
 import useCloudPool from "@/hooks/useCloudPool";
 import { usePermission } from "@/hooks/usePermission";

@@ -8,7 +8,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import toast from "react-hot-toast/headless";
 import { AnimatePresence, motion } from "framer-motion";
-import { BlocksIcon, CopyIcon, EyeOffIcon, ExternalLinkIcon, LinkIcon, Loader2Icon, StarIcon, XIcon } from "lucide-react";
+import { BlocksIcon, CopyIcon, EyeOffIcon, ExternalLinkIcon, LinkIcon, Loader2Icon, StarIcon, XIcon } from "@/components/icons";
 
 import { Label, TextInput } from "@/components/ui/field";
 import { useConfirm } from "@/hooks/context/confirm";

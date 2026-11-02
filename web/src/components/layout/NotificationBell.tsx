@@ -21,7 +21,7 @@ import {
     TriangleAlertIcon,
     UsersIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { hrefTarget } from "@/lib/routerSearch";
 import { PopoverMenu, PopoverMenuContent, PopoverMenuTrigger } from "@/components/ui/popover-menu";
 import {

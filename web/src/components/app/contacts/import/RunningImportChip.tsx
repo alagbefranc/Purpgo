@@ -1,5 +1,5 @@
 import React from "react";
-import { Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { useContactImports } from "@/lib/api/hooks/app/contacts/useContactImports";

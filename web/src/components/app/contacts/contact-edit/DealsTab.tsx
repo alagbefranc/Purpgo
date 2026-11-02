@@ -4,7 +4,7 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
 import toast from "react-hot-toast/headless";
-import { CheckIcon, ChevronDownIcon, CircleDollarSignIcon, Loader2Icon, MegaphoneIcon, PlusIcon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, CircleDollarSignIcon, Loader2Icon, MegaphoneIcon, PlusIcon, XIcon } from "@/components/icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { NumberInput, TextInput } from "@/components/ui/field";
 import { PopoverMenu, PopoverMenuContent, PopoverMenuItem, PopoverMenuTrigger } from "@/components/ui/popover-menu";

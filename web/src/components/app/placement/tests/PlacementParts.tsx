@@ -1,7 +1,7 @@
 // Small presentational pieces shared by the placement test list, detail and
 // campaign surfaces.
 import React from "react";
-import { EyeIcon, EyeOffIcon, InfoIcon, SplitIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, InfoIcon, SplitIcon } from "@/components/icons";
 import { DitherStack } from "@/components/ui/dither";
 import { cn } from "@/lib/utils";
 import type {

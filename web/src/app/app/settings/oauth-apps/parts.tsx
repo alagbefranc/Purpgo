@@ -3,7 +3,7 @@ import { DashboardImage } from "@/components/ui/dashboard-image";
 // Pieces shared by the OAuth apps page and its register dialog.
 
 import React from "react";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@/components/icons";
 
 import { SearchInput } from "@/components/ui/field";
 import type { WebhookEventDescriptor } from "@/lib/api/models/app/webhooks/Webhook";

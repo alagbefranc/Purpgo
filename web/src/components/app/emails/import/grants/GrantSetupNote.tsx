@@ -1,6 +1,6 @@
 // What an operator sets to turn on admin grants, named exactly, for the
 // connect picker's switched-off rows and the grant wizard's notice.
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon } from "@/components/icons";
 import type { GrantConfig, GrantProvider } from "@/lib/api/models/app/emails/MailboxSources";
 import { MS_GRANT_PERMISSIONS, grantMissing } from "./grantSetup";
 import { cn } from "@/lib/utils";

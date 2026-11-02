@@ -11,7 +11,7 @@
 
 import React from "react";
 import { useLocation, useRouter } from "@tanstack/react-router";
-import { AlertTriangleIcon, RefreshCcwIcon } from "lucide-react";
+import { AlertTriangleIcon, RefreshCcwIcon } from "@/components/icons";
 import { captureException } from "@/lib/observability";
 import { SENTRY_RELEASE } from "@/lib/information";
 import { isModuleLoadError } from "@/lib/moduleLoadError";

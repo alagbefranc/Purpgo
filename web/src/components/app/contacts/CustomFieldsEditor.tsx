@@ -1,7 +1,7 @@
 // A contact's custom fields as a form: each workspace field is a labelled input.
 
 import React from "react";
-import { ChevronDownIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { ChevronDownIcon, PlusIcon, TrashIcon } from "@/components/icons";
 import { SearchInput, TextInput } from "@/components/ui/field";
 import useCustomFieldKeys from "@/lib/api/hooks/app/contacts/useCustomFieldKeys";
 import { cn } from "@/lib/utils";

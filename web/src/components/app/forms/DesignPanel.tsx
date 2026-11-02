@@ -6,7 +6,7 @@ import { DashboardImage } from "@/components/ui/dashboard-image";
 // re-renders live. Images save immediately (they are not part of the draft).
 
 import React from "react";
-import { ImageIcon, PlusIcon, XIcon } from "lucide-react";
+import { ImageIcon, PlusIcon, XIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { Label, NumberInput, TextInput } from "@/components/ui/field";

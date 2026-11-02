@@ -8,7 +8,7 @@
 "use client";
 
 import React from "react";
-import { Loader2Icon, PlusIcon, Trash2Icon } from "lucide-react";
+import { Loader2Icon, PlusIcon, Trash2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { TextInput } from "@/components/ui/field";

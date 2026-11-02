@@ -9,7 +9,7 @@ import {
     RefreshCwIcon,
     UserPlusIcon,
     XCircleIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import type { ImportResult } from "@/lib/api/client/app/contacts/importContacts";
 import { downloadBlob } from "@/lib/api/client/app/contacts/exportContacts";
 import StatCard from "./StatCard";

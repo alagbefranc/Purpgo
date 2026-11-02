@@ -2,7 +2,7 @@
 // send, and what the add-step picker offers.
 
 import React from "react";
-import { CornerDownRightIcon, GitBranchIcon, LogInIcon, MailIcon, MessageSquareReplyIcon, SparklesIcon, SplitIcon, ZapIcon } from "lucide-react";
+import { CornerDownRightIcon, GitBranchIcon, LogInIcon, MailIcon, MessageSquareReplyIcon, SparklesIcon, SplitIcon, ZapIcon } from "@/components/icons";
 import type Sequence from "@/lib/api/models/app/campaigns/sequences/Sequence";
 import type { StepTone } from "@/components/app/flow/StepCard";
 import type { PickerItem } from "@/components/app/flow/StepPicker";

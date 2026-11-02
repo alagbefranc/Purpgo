@@ -4,7 +4,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { XIcon } from "lucide-react";
+import { XIcon } from "@/components/icons";
 import MailboxAllowanceDialog from "@/components/app/emails/MailboxAllowanceDialog";
 import useMailboxAllowance from "@/lib/api/hooks/app/emails/useMailboxAllowance";
 import { allowanceFull } from "@/lib/api/models/app/emails/MailboxAllowance";

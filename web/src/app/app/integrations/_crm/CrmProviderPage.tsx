@@ -3,7 +3,7 @@
 // unfinished): the setup wizard. Its mode: health and every setting, editable.
 
 import type { ReactNode } from "react";
-import { Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "@/components/icons";
 
 import { CRM_INFO, type ExternalCrm } from "@/components/app/crm/crmProviders";
 import { Page } from "@/components/layout/Page";

@@ -17,7 +17,7 @@ import {
     UserPlusIcon,
     WandSparklesIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { triggerVariables } from "@/lib/api/models/app/automations/meta";
 import { cn } from "@/lib/utils";
 

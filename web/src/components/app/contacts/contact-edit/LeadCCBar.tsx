@@ -4,7 +4,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Loader2Icon, PlusIcon, SearchIcon, UsersIcon, XIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon, SearchIcon, UsersIcon, XIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import useClickOutside from "@/hooks/useClickOutside";
 import useFlipPlacement from "@/hooks/useFlipPlacement";

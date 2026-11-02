@@ -18,7 +18,7 @@
 // pixel cannot learn when, where or in what client a message was read.
 
 import React from "react";
-import { ImageOffIcon, MoreHorizontalIcon } from "lucide-react";
+import { ImageOffIcon, MoreHorizontalIcon } from "@/components/icons";
 import { hasRemoteContent, plainToDisplayHtml } from "@/lib/email/body";
 import { isSafeLinkHref } from "@/lib/safeUrl";
 import { useAppStore } from "@/stores";

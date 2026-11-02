@@ -8,7 +8,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertCircleIcon, ChevronLeftIcon, ChevronRightIcon, Loader2Icon, UploadIcon } from "lucide-react";
+import { AlertCircleIcon, ChevronLeftIcon, ChevronRightIcon, Loader2Icon, UploadIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { usePreviewMailboxImport, useCreateMailboxImport } from "@/lib/api/hooks/app/emails/useMailboxImportActions";
 import type {

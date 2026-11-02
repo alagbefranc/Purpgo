@@ -6,7 +6,7 @@
 
 import React from "react";
 import { useAppStore } from "@/stores";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@/components/icons";
 import { Row, Section, SectionShell, Toggle } from "../_components/SectionShell";
 import { NoAccess } from "@/components/layout/NoAccess";
 import { usePermission } from "@/hooks/usePermission";

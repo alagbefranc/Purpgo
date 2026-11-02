@@ -3,7 +3,7 @@
 // new theme from wherever it was picked.
 
 import React from "react";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon } from "@/components/icons";
 import { useAppStore } from "@/stores";
 import type { Theme, ThemeOrigin } from "@/lib/theme";
 import { cn } from "@/lib/utils";

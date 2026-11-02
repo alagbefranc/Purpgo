@@ -7,7 +7,7 @@ import { DashboardImage } from "@/components/ui/dashboard-image";
 import React from "react";
 import { Link, Navigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckIcon, ExternalLinkIcon, LinkIcon, Loader2Icon, TriangleAlertIcon } from "lucide-react";
+import { CheckIcon, ExternalLinkIcon, LinkIcon, Loader2Icon, TriangleAlertIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import BrandMark from "@/components/shared/BrandMark";

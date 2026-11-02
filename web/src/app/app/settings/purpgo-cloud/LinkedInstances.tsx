@@ -4,7 +4,7 @@
 
 import React from "react";
 import toast from "react-hot-toast/headless";
-import { Loader2Icon, ServerIcon } from "lucide-react";
+import { Loader2Icon, ServerIcon } from "@/components/icons";
 import type { AppError } from "@/lib/api/client/normalizeError";
 import buildError from "@/lib/helper/buildError";
 import { usePoolLinkInstances, useRevokePoolLinkInstance } from "@/lib/api/hooks/app/cloudlink/useCloudLink";

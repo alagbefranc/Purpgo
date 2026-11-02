@@ -7,7 +7,7 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "@tanstack/react-router";
-import { BellOffIcon, XIcon } from "lucide-react";
+import { BellOffIcon, XIcon } from "@/components/icons";
 import { useAppStore } from "@/stores";
 import useClickOutside from "@/hooks/useClickOutside";
 import { usePermission } from "@/hooks/usePermission";

@@ -19,7 +19,7 @@ import {
     ShieldCheckIcon,
     SparklesIcon,
     WandSparklesIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import type { ImportColumnMapping, ImportPreview } from "@/lib/api/client/app/contacts/importContacts";
 import {

@@ -18,7 +18,7 @@ import {
     UserPlusIcon,
     XCircleIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 

@@ -6,7 +6,7 @@ import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseSearchSchema } from "@/lib/browse-other-lists";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRightIcon, CornerDownLeftIcon } from "lucide-react";
+import { ArrowRightIcon, CornerDownLeftIcon } from "@/components/icons";
 
 import { SearchInput } from "@/components/ui/field";
 import useClickOutside from "@/hooks/useClickOutside";

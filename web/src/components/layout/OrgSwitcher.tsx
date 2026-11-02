@@ -13,7 +13,7 @@ import { DashboardImage } from "@/components/ui/dashboard-image";
 
 import React from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { ChevronDownIcon, PlusIcon, Settings2Icon } from "lucide-react";
+import { ChevronDownIcon, PlusIcon, Settings2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { useAppStore } from "@/stores";
 import useSwitchOrganization from "@/lib/api/hooks/app/organizations/useSwitchOrganization";

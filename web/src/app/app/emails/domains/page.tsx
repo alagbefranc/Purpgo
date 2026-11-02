@@ -8,7 +8,7 @@ import { browseString, domainFilter, domainTab } from "@/lib/browse-accounts-ana
 import { Link } from "@tanstack/react-router";
 import { useSearchParams } from "@/hooks/useSearchParams";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeftIcon, ChevronRightIcon, GlobeIcon, PlusIcon, SparklesIcon, XIcon } from "lucide-react";
+import { ArrowLeftIcon, ChevronRightIcon, GlobeIcon, PlusIcon, SparklesIcon, XIcon } from "@/components/icons";
 import { NoAccess } from "@/components/layout/NoAccess";
 import { usePermission } from "@/hooks/usePermission";
 import { useUserProfile } from "@/hooks/context/user";

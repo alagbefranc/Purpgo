@@ -4,7 +4,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { HourglassIcon, MailIcon, UserPlusIcon, ZapIcon } from "lucide-react";
+import { HourglassIcon, MailIcon, UserPlusIcon, ZapIcon } from "@/components/icons";
 import type Campaign from "@/lib/api/models/app/campaigns/Campaign";
 import { Label } from "@/components/ui/field";
 import EntryDelayPicker from "@/components/app/campaigns/schedule/EntryDelayPicker";

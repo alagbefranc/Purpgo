@@ -6,7 +6,7 @@ import React from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useSearchParams } from "@/hooks/useSearchParams";
 import { motion } from "framer-motion";
-import { InboxIcon, Layers3Icon, Loader2Icon, ListIcon, PlusIcon, XIcon } from "lucide-react";
+import { InboxIcon, Layers3Icon, Loader2Icon, ListIcon, PlusIcon, XIcon } from "@/components/icons";
 import { EmptyBlock, Page, PageTopbar, SectionBar, TopbarAction } from "@/components/layout/Page";
 import ScrollStrip from "@/components/ui/scroll-strip";
 import { usePermission, showPermissionDenied } from "@/hooks/usePermission";

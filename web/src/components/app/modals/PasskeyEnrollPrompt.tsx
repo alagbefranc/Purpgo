@@ -1,7 +1,7 @@
 // Modified by Purpgo LLC.
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast/headless";
-import { KeyRound } from "lucide-react";
+import { KeyRound } from "@/components/icons";
 import {
     Dialog,
     DialogContent,

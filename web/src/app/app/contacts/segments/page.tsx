@@ -5,7 +5,7 @@ import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseText } from "@/lib/browse-contacts-campaigns";
 import { useNavigate } from "@tanstack/react-router";
-import { MoreHorizontalIcon, PlusIcon } from "lucide-react";
+import { MoreHorizontalIcon, PlusIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { EmptyBlock, Page, PageBody, PageTopbar, SectionBar, StatStrip, Stat, TopbarAction } from "@/components/layout/Page";

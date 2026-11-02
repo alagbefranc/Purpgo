@@ -7,7 +7,7 @@ import useBrowseState from "@/hooks/useBrowseState";
 import { browseText } from "@/lib/browse-contacts-campaigns";
 import { useNavigate } from "@tanstack/react-router";
 import { useQueries } from "@tanstack/react-query";
-import { CheckIcon, MoreHorizontalIcon, PlusIcon, XIcon } from "lucide-react";
+import { CheckIcon, MoreHorizontalIcon, PlusIcon, XIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { EmptyBlock, Page, PageBody, PageTopbar, SectionBar, TopbarAction } from "@/components/layout/Page";

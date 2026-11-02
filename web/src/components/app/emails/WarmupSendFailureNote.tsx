@@ -1,5 +1,5 @@
 // Modified by Purpgo LLC.
-import { AlertTriangleIcon } from "lucide-react";
+import { AlertTriangleIcon } from "@/components/icons";
 import { useEffect, useState } from "react";
 import type { WarmupSendFailure } from "@/lib/api/models/app/analytics/AccountStatus";
 

@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): arrow-down-01-round. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiArrowDown01Round", "<path d=\"M17.39 8.56a.75.75 0 1 1 1.2.89l-.02.01-.02.06q-.08.05-.15.2l-.53.68c-.45.57-1.07 1.33-1.72 2.09a24 24 0 0 1-2.05 2.13q-.52.47-1.01.77c-.3.19-.69.36-1.1.36-.4 0-.79-.17-1.1-.36a6 6 0 0 1-1-.77c-.68-.6-1.4-1.37-2.07-2.13a50 50 0 0 1-1.7-2.1l-.53-.68-.15-.19-.04-.06v-.01h-.02a.76.76 0 0 1 .16-1.05.76.76 0 0 1 1.06.16l.01.01.03.06.15.17.5.68c.45.55 1.03 1.3 1.67 2.03.65.75 1.32 1.46 1.92 1.99q.45.4.8.6c.22.14.31.14.31.14-.01 0 .09 0 .32-.14q.33-.2.8-.6a23 23 0 0 0 1.91-1.99 62 62 0 0 0 1.67-2.03c.2-.28.4-.52.5-.68l.14-.17.05-.06z\"/>");

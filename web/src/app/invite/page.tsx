@@ -9,7 +9,7 @@ import { DashboardImage } from "@/components/ui/dashboard-image";
 import React from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useSearchParams } from "@/hooks/useSearchParams";
-import { Loader2Icon, AlertCircleIcon, MailIcon } from "lucide-react";
+import { Loader2Icon, AlertCircleIcon, MailIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import getToken from "@/lib/helper/getToken";
 import usePreviewInvitation from "@/lib/api/hooks/app/organizations/usePreviewInvitation";

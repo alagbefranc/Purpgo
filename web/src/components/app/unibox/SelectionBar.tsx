@@ -15,7 +15,7 @@ import {
     MailOpenIcon,
     MoonIcon,
     TrashIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import {
     PopoverMenu,

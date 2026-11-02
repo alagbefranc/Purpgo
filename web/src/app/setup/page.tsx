@@ -24,7 +24,7 @@ import {
     Loader2Icon,
     RefreshCwIcon,
     ShieldCheckIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import claimSetup from "@/lib/api/client/auth/claimSetup";

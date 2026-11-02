@@ -9,7 +9,7 @@ import {
     PowerIcon,
     ShieldCheckIcon,
     XCircleIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { useSalesforcePermissionCheck } from "@/lib/api/hooks/app/integrations/useSalesforce";

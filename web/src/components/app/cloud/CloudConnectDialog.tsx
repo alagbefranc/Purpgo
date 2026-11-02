@@ -7,7 +7,7 @@ import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { LockIcon, XIcon } from "lucide-react";
+import { LockIcon, XIcon } from "@/components/icons";
 import { useQueryClient } from "@tanstack/react-query";
 import CloudLinkCard from "./CloudLinkCard";
 import { CLOUD_LINK_KEY } from "@/lib/api/hooks/app/cloudlink/useCloudLink";

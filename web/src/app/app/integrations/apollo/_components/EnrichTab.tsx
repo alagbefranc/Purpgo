@@ -3,7 +3,7 @@
 // from the Contacts page selection bar.
 
 import { Link } from "@tanstack/react-router";
-import { AlertTriangleIcon, DatabaseZapIcon, Loader2Icon, UsersIcon } from "lucide-react";
+import { AlertTriangleIcon, DatabaseZapIcon, Loader2Icon, UsersIcon } from "@/components/icons";
 
 import { useApolloEnrichments } from "@/lib/api/hooks/app/integrations/useApollo";
 import type { ApolloEnrichmentRun } from "@/lib/api/models/app/integrations/Apollo";

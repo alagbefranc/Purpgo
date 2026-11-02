@@ -1,6 +1,6 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BanIcon, GlobeIcon, MailIcon, TriangleAlertIcon, XIcon } from "lucide-react";
+import { BanIcon, GlobeIcon, MailIcon, TriangleAlertIcon, XIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { Label, TextInput } from "@/components/ui/field";

@@ -3,7 +3,7 @@
 // They live apart from the table so the column registry can render them
 // without importing the table that renders the registry.
 
-import { AlertTriangleIcon, BanIcon, CheckIcon, ClockIcon, CornerUpLeftIcon, InfoIcon, PauseIcon, type LucideIcon } from "lucide-react";
+import { AlertTriangleIcon, BanIcon, CheckIcon, ClockIcon, CornerUpLeftIcon, InfoIcon, PauseIcon, type LucideIcon } from "@/components/icons";
 import clippedTitle from "@/lib/helper/clippedTitle";
 import { holdSummary } from "@/lib/api/models/app/contacts/Contact";
 import type { ContactCampaignProgress, LeadStatus } from "@/lib/api/models/app/contacts/Contact";

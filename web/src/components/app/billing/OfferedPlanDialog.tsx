@@ -8,7 +8,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
-import { ArrowRightIcon, CheckIcon, Loader2Icon, XIcon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, Loader2Icon, XIcon } from "@/components/icons";
 import { useAppStore } from "@/stores";
 import { useStartPlanOfferCheckout } from "@/lib/api/hooks/app/subscription/usePlanOffers";
 import type PlanOffer from "@/lib/api/models/app/subscription/PlanOffer";

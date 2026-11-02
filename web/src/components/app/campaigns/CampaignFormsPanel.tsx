@@ -3,7 +3,7 @@
 // submitted. Renders nothing when the campaign links to no forms.
 
 import { Link } from "@tanstack/react-router";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon } from "@/components/icons";
 
 import { SectionBar } from "@/components/layout/Page";
 import AnimatedNumber from "@/components/ui/AnimatedNumber";

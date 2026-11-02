@@ -16,7 +16,7 @@
 // off.
 
 import { useCallback, useEffect, useState } from "react";
-import { FlaskConicalIcon } from "lucide-react";
+import { FlaskConicalIcon } from "@/components/icons";
 import {
     Dialog,
     DialogContent,

@@ -7,7 +7,7 @@ import useBrowseState from "@/hooks/useBrowseState";
 import { browseSearchSchema } from "@/lib/browse-other-lists";
 import { UserContext } from "@/hooks/context/user";
 import { useAppStore } from "@/stores/useAppStore";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { SearchInput } from "@/components/ui/field";

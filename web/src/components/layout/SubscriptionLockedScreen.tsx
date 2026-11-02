@@ -7,7 +7,7 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRightIcon, CheckIcon, CloudIcon, InboxIcon, SparklesIcon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, CloudIcon, InboxIcon, SparklesIcon } from "@/components/icons";
 import { getPlan } from "@/lib/plans";
 import { useAppStore } from "@/stores";
 import { useUpgradeDialog } from "@/hooks/context/upgrade";

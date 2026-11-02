@@ -52,7 +52,7 @@ import {
     PowerOffIcon,
     CloudIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { relativeTime } from "@/lib/unibox/messageDetails";
 import useMailboxSwitch from "@/components/app/emails/useMailboxSwitch";
 import toast from "react-hot-toast/headless";

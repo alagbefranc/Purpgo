@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { hrefTarget } from "@/lib/routerSearch";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDownIcon, ClockIcon, UsersIcon } from "lucide-react";
+import { ChevronDownIcon, ClockIcon, UsersIcon } from "@/components/icons";
 import useCampaignSendPlan from "@/lib/api/hooks/app/campaigns/useCampaignSendPlan";
 import type SendPlan from "@/lib/api/models/app/campaigns/SendPlan";
 import type { MailboxPlan, SendBottleneck, SendLimitKind } from "@/lib/api/models/app/campaigns/SendPlan";

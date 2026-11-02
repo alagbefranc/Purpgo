@@ -3,7 +3,7 @@
 // typed question never makes the whole settings save fail validation.
 
 import React from "react";
-import { PencilIcon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
+import { PencilIcon, PlusIcon, Trash2Icon, XIcon } from "@/components/icons";
 import { NumberInput, TextInput } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SelectMenu, type SelectOption } from "@/components/ui/select-menu";

@@ -1,7 +1,7 @@
 // Modified by Purpgo LLC.
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CheckIcon, CloudIcon, Loader2Icon } from "lucide-react";
+import { CheckIcon, CloudIcon, Loader2Icon } from "@/components/icons";
 import { useCloudWorkspaceMailboxes, CLOUD_LINK_KEY } from "@/lib/api/hooks/app/cloudlink/useCloudLink";
 import { adoptCloudMailbox } from "@/lib/api/client/app/cloudlink/cloudLink";
 import type { PoolLinkWorkspaceMailbox } from "@/lib/api/models/app/cloudlink/CloudLink";

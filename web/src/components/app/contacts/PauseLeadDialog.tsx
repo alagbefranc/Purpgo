@@ -3,7 +3,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Loader2Icon, PauseIcon, XIcon } from "lucide-react";
+import { Loader2Icon, PauseIcon, XIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { DatePicker } from "@/components/ui/DatePicker";

@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): arrow-move-down-right-round. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiArrowMoveDownRightRound", "<path d=\"M4 2.25c.42 0 .75.34.75.75v2.08c0 2.03 0 2.95.13 3.71.74 4.24 4.42 7.65 9.19 8.34.79.11 2.46.11 4.48.11l-.31-.26-.98-.79c-.3-.23-.6-.47-.78-.66a.73.73 0 0 1-.01-1.05c.28-.3.76-.3 1.05-.02q.18.18.67.54c.3.25.68.53 1.03.84.33.3.69.61.96.93q.23.25.37.53c.1.18.2.43.2.7 0 .28-.1.52-.2.7q-.14.27-.37.52c-.27.32-.63.66-.96.95-.35.3-.73.58-1.03.82q-.5.38-.67.55a.74.74 0 0 1-1.05-.03.7.7 0 0 1 .01-1.05c.18-.18.48-.42.78-.66a15 15 0 0 0 1.29-1.05c-1.98 0-3.78-.02-4.7-.15-5.34-.76-9.58-4.59-10.44-9.56-.16-.9-.16-2-.16-3.96V3c0-.41.33-.75.76-.75\"/>");

@@ -9,7 +9,7 @@
 import { DashboardImage } from "@/components/ui/dashboard-image";
 import React from "react";
 import { useSearchParams } from "@/hooks/useSearchParams";
-import { CheckIcon, ExternalLinkIcon, MinusIcon, ShieldAlertIcon, ShieldCheckIcon } from "lucide-react";
+import { CheckIcon, ExternalLinkIcon, MinusIcon, ShieldAlertIcon, ShieldCheckIcon } from "@/components/icons";
 
 import getAuthorizeDetails from "@/lib/api/client/app/oauth/getAuthorizeDetails";
 import authorizeConsent from "@/lib/api/client/app/oauth/authorizeConsent";

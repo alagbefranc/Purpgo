@@ -1,7 +1,7 @@
 // Modified by Purpgo LLC.
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckIcon, CopyIcon, DownloadIcon, ImageIcon, Loader2Icon, XIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, DownloadIcon, ImageIcon, Loader2Icon, XIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import useExportCard from "@/hooks/useExportCard";
 import StatsShareCard, { type ShareAspect, type ShareCardData } from "./StatsShareCard";

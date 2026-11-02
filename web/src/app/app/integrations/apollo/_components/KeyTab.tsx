@@ -2,7 +2,7 @@
 // Settings: the API key the connection acts with, and what it is allowed to do.
 
 import React from "react";
-import { KeyRoundIcon, Loader2Icon } from "lucide-react";
+import { KeyRoundIcon, Loader2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { FieldError, Label, TextInput } from "@/components/ui/field";

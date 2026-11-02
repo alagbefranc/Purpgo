@@ -3,7 +3,7 @@
 // their own, with optional ways to switch their connection method.
 // "Later" hides it for a week, per workspace.
 import React from "react";
-import { AlertTriangleIcon, ArrowRightIcon } from "lucide-react";
+import { AlertTriangleIcon, ArrowRightIcon } from "@/components/icons";
 import { useCurrentOrg } from "@/stores/useAppStore";
 import ProviderLogo from "@/components/app/emails/ProviderLogo";
 import { cn } from "@/lib/utils";

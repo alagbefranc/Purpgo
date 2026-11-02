@@ -5,7 +5,7 @@
 
 import React from "react";
 import toast from "react-hot-toast/headless";
-import { CheckIcon, CopyIcon, DownloadIcon, PrinterIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, DownloadIcon, PrinterIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 

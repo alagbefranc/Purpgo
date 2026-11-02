@@ -21,7 +21,7 @@ import {
     Loader2Icon,
     Trash2Icon,
     UploadCloudIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import type { Editor } from "@tiptap/react";
 import useClickOutside from "@/hooks/useClickOutside";

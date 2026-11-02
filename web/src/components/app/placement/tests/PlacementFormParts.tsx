@@ -2,7 +2,7 @@
 // dialogs: the copy to test, tracking, pace, seed panel and the pickers they use.
 
 import React from "react";
-import { AlertCircleIcon, Loader2Icon, MegaphoneIcon, UserRoundIcon } from "lucide-react";
+import { AlertCircleIcon, Loader2Icon, MegaphoneIcon, UserRoundIcon } from "@/components/icons";
 import { Label, SearchInput, TextInput } from "@/components/ui/field";
 import {
     PopoverMenu,

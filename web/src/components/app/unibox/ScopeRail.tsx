@@ -68,7 +68,7 @@ import {
   BanIcon,
   TriangleAlertIcon,
   XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { useAppStore } from "@/stores";
 import {
   applyRailOrder,

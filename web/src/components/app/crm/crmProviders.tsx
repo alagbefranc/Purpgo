@@ -2,7 +2,7 @@
 // CRM surface reads this through useCrmProvider, so HubSpot and Pipedrive mode
 // share one set of screens with each provider's own logo and words.
 
-import { ExternalLink } from "lucide-react";
+import { ExternalLink } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import type { CRMExternalRef } from "@/lib/api/models/app/crm/CRMProvider";
 import { HubSpotMark } from "./HubSpot";

@@ -1,7 +1,7 @@
 // Shared pieces of the floating AI cards: their surface, and the one-tap
 // changes offered while reviewing what AI wrote.
 
-import { BriefcaseIcon, MinusIcon, PlusIcon, SmileIcon, SpellCheckIcon } from "lucide-react";
+import { BriefcaseIcon, MinusIcon, PlusIcon, SmileIcon, SpellCheckIcon } from "@/components/icons";
 import { AI_PILL_CLASS } from "./AIBusyStatus";
 import type { EditorAIPhase } from "./useEditorAIRun";
 

@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): flash. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiFlash", "<path fill-rule=\"evenodd\" d=\"M11.64 1.87a1.54 1.54 0 0 1 1.87-.5c.62.25 1.04.88 1.04 1.64v6.95q0 .15.07.22.06.05.08.04h3.4c.77 0 1.3.51 1.51 1.07.24.56.2 1.27-.25 1.83l-6.99 8.98c-.5.63-1.24.77-1.87.51a1.7 1.7 0 0 1-1.04-1.64v-6.94q-.01-.16-.07-.24-.06-.04-.09-.04H5.9c-.75 0-1.3-.51-1.51-1.07-.22-.56-.2-1.26.25-1.83zm1.24.86q0 .02-.05.06l-7 8.98a.3.3 0 0 0-.04.35c.04.14.1.14.12.14h3.4c.99 0 1.64.87 1.64 1.77v6.94c0 .18.1.24.14.27h.04l.06-.06 6.99-8.98q.11-.14.04-.35c-.04-.12-.1-.12-.11-.12H14.7c-1 0-1.65-.88-1.65-1.77V3.01c0-.17-.1-.25-.12-.26z\" clip-rule=\"evenodd\"/>");

@@ -4,7 +4,7 @@
 // something is unavailable rather than rendering nothing.
 
 import { Link } from "@tanstack/react-router";
-import { LockIcon } from "lucide-react";
+import { LockIcon } from "@/components/icons";
 
 export function NoAccess({
     feature,

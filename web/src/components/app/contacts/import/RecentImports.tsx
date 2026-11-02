@@ -9,7 +9,7 @@ import {
     Loader2Icon,
     PencilLineIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { CONTACT_IMPORTS_KEY, useContactImports } from "@/lib/api/hooks/app/contacts/useContactImports";

@@ -1,0 +1,4 @@
+// Core UI 17.3 Pro (Hugeicons stroke-rounded): table-01. Licensed kit, do not redistribute.
+/* eslint-disable react-refresh/only-export-components */
+import { createCoreIcon } from "./createCoreIcon";
+export default /* @__PURE__ */ createCoreIcon("CiTable01", "<path d=\"M13 7.75c.41 0 .75-.33.75-.75a.75.75 0 0 0-.75-.75h-2a.75.75 0 0 0 0 1.5z\"/><path fill-rule=\"evenodd\" d=\"M21.48 20.53c.3.3.78.28 1.06-.03a.73.73 0 0 0-.03-1.05c-.4-.38-1.33-1.96-.43-4.55a4.7 4.7 0 0 0-.38-4.02 6 6 0 0 0-.8-1.08l-.15-.15v-4.9H22c.4 0 .74-.33.74-.76a.75.75 0 0 0-.74-.74H2a.75.75 0 0 0-.74.74c0 .43.33.76.74.76h1.25v4.9l-.15.15c-.23.26-.54.61-.8 1.08a4.7 4.7 0 0 0-.38 4.02c.9 2.6-.03 4.17-.43 4.55a.73.73 0 0 0-.03 1.05c.28.31.76.33 1.06.03.86-.8 1.91-3 .82-6.11a3.2 3.2 0 0 1 .26-2.78q.3-.52.58-.79l.1-.1h15.43l.1.1q.28.27.6.8c.39.66.66 1.6.25 2.77-1.1 3.1-.02 5.3.82 6.11M4.75 9.24V4.75h14.5v4.5z\" clip-rule=\"evenodd\"/>");

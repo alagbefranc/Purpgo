@@ -26,7 +26,7 @@ import {
     WrenchIcon,
     XCircleIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { DitherMeter } from "@/components/ui/dither";
 import { TextInput } from "@/components/ui/field";
 import useMailboxImport from "@/lib/api/hooks/app/emails/useMailboxImport";

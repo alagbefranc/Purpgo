@@ -3,7 +3,7 @@
 // summary) and what the add-step picker offers.
 
 import React from "react";
-import { FlagIcon, GitBranchIcon, CornerDownRightIcon, SparklesIcon, ZapIcon, PlugIcon } from "lucide-react";
+import { FlagIcon, GitBranchIcon, CornerDownRightIcon, SparklesIcon, ZapIcon, PlugIcon } from "@/components/icons";
 import type { AutomationNode } from "@/lib/api/models/app/automations/Automation";
 import {
     actionLabel,
