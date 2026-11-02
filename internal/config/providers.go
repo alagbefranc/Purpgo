@@ -200,3 +200,13 @@ func CloudLinkEnabled() bool {
 	}
 	return false
 }
+
+// AICreditsMetered meters AI credits even with BILLING_PROVIDER=none, so the
+// plan allowances and per-workspace balances cap AI spend (AI_CREDITS_METERED=true).
+func AICreditsMetered() bool {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("AI_CREDITS_METERED"))) {
+	case "1", "true", "yes", "on":
+		return true
+	}
+	return false
+}

@@ -127,6 +127,7 @@ var commands = []command{
 	{"keys generate", "Print fresh values for the instance-wide keys and tokens", composeExec + "keys generate CREDENTIALS_ENCRYPTION_KEY"},
 	{"inbox-tag backfill", "Classify mail that arrived before automatic tagging was switched on", composeExec + "inbox-tag backfill --org you@example.com --days 30 --dry-run"},
 	{"inbox-tag follow-ups", "Recompute who owes whom a reply from stored mail and classifications", composeExec + "inbox-tag follow-ups --org you@example.com"},
+	{"org set-credits", "Set a workspace's monthly AI-credit allowance", composeExec + "org set-credits --org you@example.com --allowance 300"},
 	{"org list", "List the workspaces on this instance with their id, owner, and size", composeExec + "org list"},
 	{"org export", "Write a whole workspace to a portable archive file", composeExec + "org export --org you@example.com --out /tmp/workspace.purpgo.zip"},
 	{"org import", "Apply an archive to a workspace on this instance", composeExec + "org import --org you@example.com --file /tmp/workspace.purpgo.zip"},

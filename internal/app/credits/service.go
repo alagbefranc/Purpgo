@@ -188,7 +188,7 @@ func NewService(repo repository.CreditRepository, settings repository.AISettings
 		cache:      c,
 		shortLimit: DefaultShortLimit,
 		dailyLimit: DefaultDailyLimit,
-		selfHost:   config.BillingProvider() == "none",
+		selfHost:   config.BillingProvider() == "none" && !config.AICreditsMetered(),
 	}
 }
 

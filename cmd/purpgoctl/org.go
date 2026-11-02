@@ -32,6 +32,8 @@ func runOrg(ctx context.Context, args []string) error {
 		return runOrgExport(ctx, args[1:])
 	case "import":
 		return runOrgImport(ctx, args[1:])
+	case "set-credits":
+		return runOrgSetCredits(ctx, args[1:])
 	}
 
 	orgUsage(os.Stderr)
