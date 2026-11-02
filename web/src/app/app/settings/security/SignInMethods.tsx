@@ -1,5 +1,5 @@
 import toast from "react-hot-toast/headless";
-import { Link2, Trash2 } from "lucide-react";
+import { Link2, Trash2 } from "@/components/icons";
 import { Section } from "../_components/SectionShell";
 import { Loading } from "@/components/loader";
 import { useConfirm } from "@/hooks/context/confirm";

@@ -3,7 +3,7 @@
 // card has a fixed size because the tree layout places it without measuring.
 
 import React from "react";
-import { MoreHorizontalIcon } from "lucide-react";
+import { MoreHorizontalIcon } from "@/components/icons";
 import { PopoverMenu, PopoverMenuContent, PopoverMenuItem, PopoverMenuSeparator, PopoverMenuTrigger } from "@/components/ui/popover-menu";
 import { cn } from "@/lib/utils";
 

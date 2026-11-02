@@ -5,7 +5,7 @@ import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseString, browseBoolean, domainListLimit } from "@/lib/browse-accounts-analytics";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDownIcon, RotateCcwIcon } from "lucide-react";
+import { ChevronDownIcon, RotateCcwIcon } from "@/components/icons";
 import { SearchInput, TextInput } from "@/components/ui/field";
 import { CheckSquare } from "@/components/ui/check-square";
 import { cn } from "@/lib/utils";

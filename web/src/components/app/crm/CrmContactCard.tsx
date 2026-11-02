@@ -14,7 +14,7 @@ import {
     Loader2Icon,
     PlusIcon,
     RefreshCwIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { PopoverMenu, PopoverMenuContent, PopoverMenuItem, PopoverMenuTrigger } from "@/components/ui/popover-menu";
 import { SearchInput } from "@/components/ui/field";
 import { usePermission } from "@/hooks/usePermission";

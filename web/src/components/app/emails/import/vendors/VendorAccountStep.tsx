@@ -14,7 +14,7 @@ import {
     PlugIcon,
     PlusIcon,
     Trash2Icon,
-} from "lucide-react";
+} from "@/components/icons";
 import { Label, TextInput } from "@/components/ui/field";
 import ProviderLogo from "@/components/app/emails/ProviderLogo";
 import {

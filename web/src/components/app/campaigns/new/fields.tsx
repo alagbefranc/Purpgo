@@ -1,7 +1,7 @@
 // Small building blocks the new-campaign steps share.
 
 import React from "react";
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "@/components/icons";
 import { Label } from "@/components/ui/field";
 import { SelectMenu, type SelectOption } from "@/components/ui/select-menu";
 import { TimePicker } from "@/components/ui/TimePicker";

@@ -4,7 +4,7 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
-import { CheckIcon, KeyRoundIcon } from "lucide-react";
+import { CheckIcon, KeyRoundIcon } from "@/components/icons";
 import type { AppError } from "@/lib/api/client/normalizeError";
 import buildError from "@/lib/helper/buildError";
 import { useTwoFactorRegenerateRecoveryCodes } from "@/lib/api/hooks/auth/useTwoFactor";

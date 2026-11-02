@@ -1,5 +1,5 @@
 import type React from "react";
-import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
+import { MonitorIcon, MoonIcon, SunIcon } from "@/components/icons";
 import type { Theme, ThemeOrigin } from "@/lib/theme";
 
 export const THEME_OPTIONS: { value: Theme; label: string; icon: React.ComponentType<{ className?: string }> }[] = [

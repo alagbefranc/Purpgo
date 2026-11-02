@@ -15,7 +15,7 @@ import {
     RefreshCwIcon,
     UsersIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { SearchInput } from "@/components/ui/field";
 import { Toggle } from "@/components/app/campaigns/preferences/components/CampaignPreferenceBoolBox";
 import { type CrmInfo, CrmMark } from "@/components/app/crm/crmProviders";

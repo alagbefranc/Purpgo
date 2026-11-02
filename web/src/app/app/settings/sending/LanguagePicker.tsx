@@ -3,7 +3,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { PlusIcon, XIcon } from "lucide-react";
+import { PlusIcon, XIcon } from "@/components/icons";
 import { CheckSquare } from "@/components/ui/check-square";
 import { SearchInput } from "@/components/ui/field";
 import useClickOutside from "@/hooks/useClickOutside";

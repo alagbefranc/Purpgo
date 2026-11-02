@@ -13,7 +13,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
-import { ArrowRightIcon, CheckIcon, Loader2Icon, MinusIcon, XIcon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, Loader2Icon, MinusIcon, XIcon } from "@/components/icons";
 import { useAppStore } from "@/stores";
 import { usePoolLinkInstances, usePoolLinkOffer, useStartPoolLinkCheckout } from "@/lib/api/hooks/app/cloudlink/useCloudLink";
 import type { AppError } from "@/lib/api/client/normalizeError";

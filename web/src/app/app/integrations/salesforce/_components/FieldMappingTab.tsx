@@ -3,7 +3,7 @@
 // per object, in which direction, and whether it may overwrite a value.
 
 import React from "react";
-import { AlertTriangleIcon, PlusIcon, RotateCcwIcon, Trash2Icon, XIcon } from "lucide-react";
+import { AlertTriangleIcon, PlusIcon, RotateCcwIcon, Trash2Icon, XIcon } from "@/components/icons";
 
 import { TextInput } from "@/components/ui/field";
 import { SelectMenu } from "@/components/ui/select-menu";

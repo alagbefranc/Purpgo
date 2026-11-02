@@ -15,7 +15,7 @@ import {
     TriangleAlertIcon,
     XIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { Label, NumberInput, TextInput } from "@/components/ui/field";
 import { SelectMenu, type SelectOption } from "@/components/ui/select-menu";
 import type { AutomationCondition, AITagRef } from "@/lib/api/models/app/automations/Automation";

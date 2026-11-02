@@ -8,7 +8,7 @@
 
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDownIcon, SparklesIcon } from "lucide-react";
+import { ChevronDownIcon, SparklesIcon } from "@/components/icons";
 import type {
     AdvisorCategory,
     AdvisorFinding,

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Flame, Inbox, BarChart3, Send, CheckCircle2 } from "lucide-react";
+import { Flame, Inbox, BarChart3, Send, CheckCircle2 } from "@/components/icons";
 
 /* ═══════════════════════════════════════════
    Auth showcase — a horizontal slide carousel on an airy sky.

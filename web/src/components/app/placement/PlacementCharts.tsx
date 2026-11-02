@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { placementGroup } from "@/lib/browse-accounts-analytics";
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon } from "@/components/icons";
 import { DitherColumns, DitherStack, type DitherTone } from "@/components/ui/dither";
 import { EmptyChart } from "@/components/ui/charts";
 import ProviderLogo from "@/components/app/emails/ProviderLogo";

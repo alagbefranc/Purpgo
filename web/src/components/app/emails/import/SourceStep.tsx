@@ -2,7 +2,7 @@
 // either one; a file moves on by itself once read, a pasted list shows its
 // counts live under the box.
 import React from "react";
-import { FileSpreadsheetIcon, UploadIcon, XIcon } from "lucide-react";
+import { FileSpreadsheetIcon, UploadIcon, XIcon } from "@/components/icons";
 import type { MailboxImportPreview } from "@/lib/api/models/app/emails/MailboxImport";
 import useMailboxAllowance from "@/lib/api/hooks/app/emails/useMailboxAllowance";
 import { cn } from "@/lib/utils";

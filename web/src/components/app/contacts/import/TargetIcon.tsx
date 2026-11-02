@@ -10,7 +10,7 @@ import {
     UserIcon,
     UserRoundIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { isCustomTarget } from "../importShared";
 
 const ICONS: Record<string, LucideIcon> = {

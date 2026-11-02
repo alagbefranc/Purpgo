@@ -17,7 +17,7 @@ import {
     UserXIcon,
     XIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { Checkbox } from "@/components/ui/checkbox";

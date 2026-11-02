@@ -13,7 +13,7 @@ import {
     MousePointerClickIcon,
     PhoneIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import clippedTitle from "@/lib/helper/clippedTitle";
 import type { ContactCampaignProgress, VerificationSource, VerificationStatus } from "@/lib/api/models/app/contacts/Contact";
 import type { SearchContactsSortBy } from "@/lib/api/models/app/contacts/search-contacts.types";

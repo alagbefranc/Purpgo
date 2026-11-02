@@ -6,7 +6,7 @@
 
 import type { ComponentType, ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { CheckIcon, HashIcon, ListTodoIcon, PauseIcon, SparklesIcon, XIcon } from "lucide-react";
+import { CheckIcon, HashIcon, ListTodoIcon, PauseIcon, SparklesIcon, XIcon } from "@/components/icons";
 import AgentMark from "@/components/app/agent/AgentMark";
 import { EASE, SCENE_W, useLoop, useSceneHeight } from "./sceneTokens";
 import type { SceneId } from "./tourSteps";

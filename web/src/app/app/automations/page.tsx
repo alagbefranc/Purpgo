@@ -5,7 +5,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { PlusIcon, Trash2Icon, ZapIcon, Loader2Icon } from "lucide-react";
+import { PlusIcon, Trash2Icon, ZapIcon, Loader2Icon } from "@/components/icons";
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast/headless";
 import {

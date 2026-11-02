@@ -8,7 +8,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useSta
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast/headless";
-import { ArrowLeftIcon, ArrowRightIcon, CheckIcon, XIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRightIcon, CheckIcon, XIcon } from "@/components/icons";
 import AgentMark from "@/components/app/agent/AgentMark";
 import ScrollStrip from "@/components/ui/scroll-strip";
 import { askRemie } from "@/components/app/agent/askRemie";

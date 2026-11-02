@@ -6,7 +6,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "@/components/icons";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { cn } from "@/lib/utils";
 

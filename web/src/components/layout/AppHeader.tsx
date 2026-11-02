@@ -14,7 +14,7 @@
 
 import { useRef } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronRight, Menu, Search } from "lucide-react";
+import { ChevronRight, Menu, Search } from "@/components/icons";
 import { Logo } from "@/components/svg";
 import AgentMark from "@/components/app/agent/AgentMark";
 import RemieTip from "@/components/app/agent/RemieTip";

@@ -1,6 +1,6 @@
 // The reply composer's follow-up pause: armed here, applied by the composer once the reply is accepted.
 
-import { CheckIcon, ChevronDownIcon, PauseIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, PauseIcon } from "@/components/icons";
 import {
     PopoverMenu,
     PopoverMenuContent,

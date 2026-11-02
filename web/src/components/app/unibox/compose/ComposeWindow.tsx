@@ -33,7 +33,7 @@ import {
     PenLineIcon,
     SendIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { useComposeStore } from "@/hooks/useComposeStore";
 import { resolveSendAt, useOutboxStore } from "@/hooks/useOutboxStore";
 import { useUserProfile } from "@/hooks/context/user";

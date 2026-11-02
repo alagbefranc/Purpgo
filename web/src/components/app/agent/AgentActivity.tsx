@@ -5,7 +5,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckIcon, ChevronDownIcon, CopyIcon, ExternalLinkIcon, KeyRoundIcon, ShieldCheckIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, CopyIcon, ExternalLinkIcon, KeyRoundIcon, ShieldCheckIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import type { AgentPending, AgentToolStep } from "@/stores/slices/agentSlice";
 import AgentMark from "./AgentMark";

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BracesIcon } from "lucide-react";
+import { BracesIcon } from "@/components/icons";
 import { TextInput } from "@/components/ui/field";
 import useClickOutside from "@/hooks/useClickOutside";
 import useFlipPlacement from "@/hooks/useFlipPlacement";

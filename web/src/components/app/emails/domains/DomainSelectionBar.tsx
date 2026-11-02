@@ -15,7 +15,7 @@ import {
     RefreshCwIcon,
     Trash2Icon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { PopoverMenu, PopoverMenuContent, PopoverMenuItem, PopoverMenuSeparator, PopoverMenuTrigger } from "@/components/ui/popover-menu";
 import { useConfirm } from "@/hooks/context/confirm";
 import type { SendingDomain } from "@/lib/api/models/app/emails/SendingDomain";

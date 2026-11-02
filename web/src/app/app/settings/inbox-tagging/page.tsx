@@ -9,7 +9,7 @@
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseFlagSchema } from "@/lib/browse-other-lists";
 import { Link } from "@tanstack/react-router";
-import { CheckIcon, FilterIcon, InfoIcon, SparklesIcon } from "lucide-react";
+import { CheckIcon, FilterIcon, InfoIcon, SparklesIcon } from "@/components/icons";
 
 import {
     EmptyBlock,

@@ -1,7 +1,7 @@
 import { resolveValue, toast, useToaster, type Toast } from "react-hot-toast/headless";
 import { useLayoutEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { CheckIcon, CircleXIcon, LoaderCircleIcon, XIcon } from "lucide-react";
+import { CheckIcon, CircleXIcon, LoaderCircleIcon, XIcon } from "@/components/icons";
 
 const TOAST_MAX_WIDTH = 640;
 const ERROR_DURATION = 12000;

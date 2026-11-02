@@ -10,7 +10,7 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { UndoRedo } from "@tiptap/extensions";
-import { GitBranchIcon, ShuffleIcon } from "lucide-react";
+import { GitBranchIcon, ShuffleIcon } from "@/components/icons";
 import { parseToken } from "@/lib/templateVars";
 import { escapeHTML, oneLine, subjectInline, subjectToHTML } from "./subjectText";
 import { VariableNode } from "./nodes/VariableNode";

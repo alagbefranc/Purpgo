@@ -3,7 +3,7 @@
 // card with the same job handed to it (or to @Purpgo in Slack).
 
 import type { ReactNode } from "react";
-import { ArrowRightIcon, CheckIcon, MousePointerClickIcon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, MousePointerClickIcon } from "@/components/icons";
 import AgentMark from "@/components/app/agent/AgentMark";
 import ProviderGlyph from "@/app/app/integrations/_components/ProviderGlyph";
 import { cn } from "@/lib/utils";

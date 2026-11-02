@@ -1,7 +1,7 @@
 // A lead's Pause and Resume actions, shared by the contact drawer and the unibox contact panel.
 
 import React from "react";
-import { Loader2Icon, PauseIcon, PlayIcon } from "lucide-react";
+import { Loader2Icon, PauseIcon, PlayIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import PauseLeadDialog from "./PauseLeadDialog";
 import { useResumeLead } from "@/lib/api/hooks/app/campaigns/useLeadHold";

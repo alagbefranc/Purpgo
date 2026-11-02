@@ -12,7 +12,7 @@ import {
     RefreshCwIcon,
     ServerIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import type { DomainRedirect, RedirectServer } from "@/lib/api/models/app/emails/SendingDomain";
 import timeAgo from "@/lib/helper/timeAgo";
 import { cn } from "@/lib/utils";

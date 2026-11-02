@@ -7,7 +7,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ClockIcon, CornerDownRightIcon, MaximizeIcon, MinusIcon, PlusIcon, XIcon } from "lucide-react";
+import { ClockIcon, CornerDownRightIcon, MaximizeIcon, MinusIcon, PlusIcon, XIcon } from "@/components/icons";
 import type { BranchTone, FlowLayout, InsertPoint, PlacedEdge, PlacedNode } from "./tree";
 import type { RemoteCursor } from "@/hooks/useLiveCursors";
 import type { RemoteSelection } from "@/hooks/useLiveCanvas";

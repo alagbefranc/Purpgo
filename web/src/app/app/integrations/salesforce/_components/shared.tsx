@@ -2,7 +2,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDownIcon, Loader2Icon, PlusIcon, XIcon } from "lucide-react";
+import { ChevronDownIcon, Loader2Icon, PlusIcon, XIcon } from "@/components/icons";
 
 import { CheckSquare } from "@/components/ui/check-square";
 import {

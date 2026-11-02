@@ -15,7 +15,7 @@ import {
     PaperclipIcon,
     PencilLineIcon,
     SparklesIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import RichTextEditor from "./RichTextEditor";
 import EmailBody from "@/components/app/unibox/EmailBody";

@@ -1,5 +1,5 @@
 import React from "react";
-import { MegaphoneIcon } from "lucide-react";
+import { MegaphoneIcon } from "@/components/icons";
 import {
     PopoverMenu,
     PopoverMenuContent,

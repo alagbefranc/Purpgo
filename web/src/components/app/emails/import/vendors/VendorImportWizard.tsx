@@ -2,7 +2,7 @@
 // (a saved vendor key, or a new one) -> Mailboxes -> Settings -> Import, the
 // last being the file import's result screen.
 import React from "react";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon } from "@/components/icons";
 import {
     useImportVendorMailboxes,
     useVendorCatalog,

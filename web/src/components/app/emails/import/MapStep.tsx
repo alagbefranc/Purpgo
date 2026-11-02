@@ -1,7 +1,7 @@
 // Columns step: what each column holds. The server's reading comes first
 // (a saved mapping, a vendor export, a recognised header, a guess from the
 // values) and every change re-reads the list, so the counts stay honest.
-import { KeyRoundIcon, Loader2Icon, SparklesIcon } from "lucide-react";
+import { KeyRoundIcon, Loader2Icon, SparklesIcon } from "@/components/icons";
 import type { ImportField, ImportMapping, MailboxImportPreview } from "@/lib/api/models/app/emails/MailboxImport";
 import { SelectMenu } from "@/components/ui/select-menu";
 import { Label, TextInput } from "@/components/ui/field";

@@ -5,7 +5,7 @@
 
 import React from "react";
 import { useAppStore } from "@/stores";
-import { ClockIcon } from "lucide-react";
+import { ClockIcon } from "@/components/icons";
 import { Row, Section, SectionShell, Toggle } from "../_components/SectionShell";
 import { NoAccess } from "@/components/layout/NoAccess";
 import { usePermission } from "@/hooks/usePermission";

@@ -17,7 +17,7 @@ import {
     Trash2Icon,
     XIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import type Sequence from "@/lib/api/models/app/campaigns/sequences/Sequence";
 import type { SequenceBranch, BranchCondition, BranchField } from "@/lib/api/models/app/campaigns/sequences/Branching";

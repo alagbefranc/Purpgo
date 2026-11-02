@@ -4,7 +4,7 @@
 //
 // Order matches the visible tab strip in the slide-over header.
 
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "@/components/icons";
 import {
     GaugeIcon,
     ActivityIcon,
@@ -12,7 +12,7 @@ import {
     SlidersHorizontalIcon,
     SparklesIcon,
     CircleDollarSignIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 export type ContactSlideTab = "overview" | "activity" | "deals" | "notes" | "details" | "research";
 

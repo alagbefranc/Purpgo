@@ -3,7 +3,7 @@
 // whole-domain setup first, or an app password right here.
 import React from "react";
 import toast from "react-hot-toast/headless";
-import { ArrowRightIcon, Building2Icon, Loader2Icon } from "lucide-react";
+import { ArrowRightIcon, Building2Icon, Loader2Icon } from "@/components/icons";
 import ProviderLogo from "@/components/app/emails/ProviderLogo";
 import { MoveError, useGrantConfig, useMoveToGrant, useSigninMigration } from "@/lib/api/hooks/app/emails/useMailboxGrants";
 import type { AppError } from "@/lib/api/client/normalizeError";

@@ -5,7 +5,7 @@
 // Discard, which puts the document back the way it was.
 
 import React from "react";
-import { ArrowUpIcon, CheckIcon, RefreshCwIcon, SparklesIcon, Trash2Icon } from "lucide-react";
+import { ArrowUpIcon, CheckIcon, RefreshCwIcon, SparklesIcon, Trash2Icon } from "@/components/icons";
 import { Kbd } from "@/components/ui/shortcut-tooltip";
 import useFocusOnOpen from "@/hooks/useFocusOnOpen";
 import AIBusyStatus from "./AIBusyStatus";

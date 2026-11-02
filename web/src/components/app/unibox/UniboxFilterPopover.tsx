@@ -9,7 +9,7 @@
 // scope alone would query; anything different from it is the user's.
 
 import React from "react";
-import { ListFilterIcon, XIcon } from "lucide-react";
+import { ListFilterIcon, XIcon } from "@/components/icons";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { TextInput } from "@/components/ui/field";
 import {

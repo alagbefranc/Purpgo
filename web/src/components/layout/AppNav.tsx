@@ -34,7 +34,7 @@ import {
     PanelLeftOpenIcon,
     XIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { type ReactElement, type ReactNode, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useAppStore } from "@/stores";

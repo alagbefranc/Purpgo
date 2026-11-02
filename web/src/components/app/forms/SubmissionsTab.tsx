@@ -7,7 +7,7 @@ import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseSearchSchema, submissionsStatusSchema } from "@/lib/browse-other-lists";
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckIcon, Loader2Icon, Trash2Icon, XIcon } from "lucide-react";
+import { CheckIcon, Loader2Icon, Trash2Icon, XIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { EmptyBlock } from "@/components/layout/Page";

@@ -20,7 +20,7 @@ import {
     ReplyIcon,
     ShieldCheckIcon,
     ShieldXIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import type { ContactVerificationDetail, VerificationEvidenceKind } from "@/lib/api/models/app/contacts/ContactDetail";
 import { useContactVerification, useRequestContactVerification } from "@/lib/api/hooks/app/contacts/useContactVerification";
 import { reverifyNotice } from "@/lib/api/client/app/contacts/verification";

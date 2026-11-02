@@ -21,7 +21,7 @@ import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
 import { RiAppleFill } from "@remixicon/react";
-import { KeyRoundIcon, Loader2Icon, LogInIcon, ShieldCheckIcon, XIcon } from "lucide-react";
+import { KeyRoundIcon, Loader2Icon, LogInIcon, ShieldCheckIcon, XIcon } from "@/components/icons";
 
 import reauth from "@/lib/api/client/auth/reauth";
 import getReauthMethods from "@/lib/api/client/auth/reauth/methods";

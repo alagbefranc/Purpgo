@@ -25,7 +25,7 @@ import {
     SearchIcon,
     ShieldCheckIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import {
     EmptyBlock,
     Page,

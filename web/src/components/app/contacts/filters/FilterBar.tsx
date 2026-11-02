@@ -6,7 +6,7 @@ import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { contactExtrasSchema, contactGeneralExtrasSchema } from "@/lib/browse-contacts-campaigns";
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckIcon, ChevronDownIcon, LayersIcon, Loader2Icon, PlusIcon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, LayersIcon, Loader2Icon, PlusIcon, XIcon } from "@/components/icons";
 
 import ProviderLogo from "@/components/app/emails/ProviderLogo";
 import { DatePicker } from "@/components/ui/DatePicker";

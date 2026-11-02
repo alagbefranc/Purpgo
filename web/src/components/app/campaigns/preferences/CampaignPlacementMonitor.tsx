@@ -5,7 +5,7 @@
 
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { AlertTriangleIcon, ArrowUpRightIcon, Layers3Icon, Loader2Icon } from "lucide-react";
+import { AlertTriangleIcon, ArrowUpRightIcon, Layers3Icon, Loader2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { Label, NumberInput } from "@/components/ui/field";
 import { SelectMenu } from "@/components/ui/select-menu";

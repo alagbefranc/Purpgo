@@ -4,7 +4,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { XIcon } from "lucide-react";
+import { XIcon } from "@/components/icons";
 import { StepTile, type StepTone } from "./StepCard";
 import { cn } from "@/lib/utils";
 

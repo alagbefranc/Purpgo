@@ -9,7 +9,7 @@ import {
     TableIcon,
     UploadCloudIcon,
     WandSparklesIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import { downloadBlob } from "@/lib/api/client/app/contacts/exportContacts";
 import type { ContactImport } from "@/lib/api/models/app/contacts/ContactImport";

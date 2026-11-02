@@ -2,7 +2,7 @@
 // /emails/imports/:id/rows/:line, which re-seals the row and queues it again.
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDownIcon, Loader2Icon, RotateCcwIcon } from "lucide-react";
+import { ChevronDownIcon, Loader2Icon, RotateCcwIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import type { ImportRow, RowFix, RowFixLeg } from "@/lib/api/models/app/emails/MailboxImport";
 import { defaultImapSecurity, defaultSmtpSecurity, validPort, type MailSecurity } from "@/lib/api/models/app/emails/Service";

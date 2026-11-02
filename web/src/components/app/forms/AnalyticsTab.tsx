@@ -7,7 +7,7 @@ import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { formAnalyticsRangeSchema } from "@/lib/browse-other-lists";
 import { useNavigate } from "@tanstack/react-router";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon } from "@/components/icons";
 
 import { EmptyBlock } from "@/components/layout/Page";
 import { MultiTrend, type TrendSeries } from "@/components/ui/charts";

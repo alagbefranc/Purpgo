@@ -5,7 +5,7 @@
 import { useMemo, type ReactNode } from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { placementRange, placementGroupFilter } from "@/lib/browse-accounts-analytics";
-import { InboxIcon } from "lucide-react";
+import { InboxIcon } from "@/components/icons";
 import { DitherRing } from "@/components/ui/dither";
 import { Loading } from "@/components/loader";
 import useWarmupPlacement from "@/lib/api/hooks/app/analytics/useWarmupPlacement";

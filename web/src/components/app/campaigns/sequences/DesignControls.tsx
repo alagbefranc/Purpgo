@@ -20,7 +20,7 @@ import {
     PaintBucketIcon,
     Table2Icon,
     Trash2Icon,
-} from "lucide-react";
+} from "@/components/icons";
 import useClickOutside from "@/hooks/useClickOutside";
 import { useAnchoredFloating } from "@/hooks/useAnchoredFloating";
 import { NumberInput } from "@/components/ui/field";

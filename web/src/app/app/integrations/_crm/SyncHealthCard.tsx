@@ -3,7 +3,7 @@
 // last ran. CRM_SYNCED keeps it live.
 
 import type { ReactNode } from "react";
-import { AlertTriangleIcon, CheckCircle2Icon, Loader2Icon, RotateCcwIcon, Trash2Icon } from "lucide-react";
+import { AlertTriangleIcon, CheckCircle2Icon, Loader2Icon, RotateCcwIcon, Trash2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { useConfirm } from "@/hooks/context/confirm";

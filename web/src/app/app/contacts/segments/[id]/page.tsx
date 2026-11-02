@@ -3,7 +3,7 @@
 
 import React from "react";
 import { Link, useNavigate, useParams } from "@tanstack/react-router";
-import { ArrowLeftIcon, CheckIcon, ChevronDownIcon, CopyIcon, MegaphoneIcon, PencilIcon, Trash2Icon } from "lucide-react";
+import { ArrowLeftIcon, CheckIcon, ChevronDownIcon, CopyIcon, MegaphoneIcon, PencilIcon, Trash2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import ContactsTable from "@/components/app/contacts/ContactsTable";

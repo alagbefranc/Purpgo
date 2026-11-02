@@ -54,7 +54,7 @@ import {
     CodeIcon,
     PencilLineIcon,
     RemoveFormattingIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
 import useClickOutside from "@/hooks/useClickOutside";

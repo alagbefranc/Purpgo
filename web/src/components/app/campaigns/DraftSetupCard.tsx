@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { CheckIcon, MailIcon, PencilLineIcon, RocketIcon, SendIcon, UsersIcon } from "lucide-react";
+import { CheckIcon, MailIcon, PencilLineIcon, RocketIcon, SendIcon, UsersIcon } from "@/components/icons";
 import type Campaign from "@/lib/api/models/app/campaigns/Campaign";
 import getSequences from "@/lib/api/client/app/campaigns/sequences/getSequences";
 import { usePermission } from "@/hooks/usePermission";

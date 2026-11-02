@@ -34,7 +34,7 @@ import {
     WebhookIcon,
     GlobeIcon,
     TagsIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { UnsavedProvider, useUnsavedRegistry } from "@/hooks/context/unsaved";
 import { useAccessRestricted, usePermission, type PermissionKey } from "@/hooks/usePermission";
 import { Page, PageTopbar } from "@/components/layout/Page";

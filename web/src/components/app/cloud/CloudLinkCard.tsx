@@ -7,7 +7,7 @@ import { CLOUD_POOL_ENABLED } from "@/lib/cloudPool";
 import React from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
-import { CheckIcon, CloudIcon, CopyIcon, ExternalLinkIcon, FlameIcon, GlobeIcon, InboxIcon, Loader2Icon, LockIcon, ShieldCheckIcon } from "lucide-react";
+import { CheckIcon, CloudIcon, CopyIcon, ExternalLinkIcon, FlameIcon, GlobeIcon, InboxIcon, Loader2Icon, LockIcon, ShieldCheckIcon } from "@/components/icons";
 import type { AppError } from "@/lib/api/client/normalizeError";
 import buildError from "@/lib/helper/buildError";
 import type { CloudLinkPendingConnect } from "@/lib/api/models/app/cloudlink/CloudLink";

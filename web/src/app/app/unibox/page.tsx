@@ -13,7 +13,7 @@
 import React from "react";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useSearchParams } from "@/hooks/useSearchParams";
-import { ChevronLeftIcon, InboxIcon } from "lucide-react";
+import { ChevronLeftIcon, InboxIcon } from "@/components/icons";
 
 import { ConversationList } from "@/components/app/unibox/ConversationList";
 import { ScheduledList } from "@/components/app/unibox/ScheduledList";

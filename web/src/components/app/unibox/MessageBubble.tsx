@@ -24,7 +24,7 @@ import {
     CornerUpLeftIcon,
     ForwardIcon,
     InfoIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import EmailBody from "./EmailBody";
 import MessageDetails from "./MessageDetails";
 import useUniboxEmail from "@/lib/api/hooks/app/unibox/useUniboxEmail";

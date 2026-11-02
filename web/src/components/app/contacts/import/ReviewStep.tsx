@@ -15,7 +15,7 @@ import {
     TagsIcon,
     UserPlusIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import type { ImportDedupStrategy } from "@/lib/api/client/app/contacts/importContacts";
 import type { ContactImportAnalysis } from "@/lib/api/models/app/contacts/ContactImport";

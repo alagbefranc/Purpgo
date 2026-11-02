@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon } from "@/components/icons";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { PopoverMenu, PopoverMenuContent, PopoverMenuTrigger } from "@/components/ui/popover-menu";
 import { COHORT_TIP, PRESETS, formatWindow, type CampaignPeriod, type DayWindow } from "@/lib/campaignPeriod";

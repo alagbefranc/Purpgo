@@ -13,7 +13,7 @@ import {
     TagIcon,
     TagsIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import type { SelectOption } from "@/components/ui/select-menu";
 import type { SequenceAction, SequenceActionType } from "@/lib/api/models/app/campaigns/sequences/Action";
 

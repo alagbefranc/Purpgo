@@ -6,7 +6,7 @@
 import React from "react";
 import toast from "react-hot-toast/headless";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeftIcon, ChevronRightIcon, ClockIcon, ExternalLinkIcon, GlobeIcon, Loader2Icon, ShieldCheckIcon } from "lucide-react";
+import { ArrowLeftIcon, ChevronRightIcon, ClockIcon, ExternalLinkIcon, GlobeIcon, Loader2Icon, ShieldCheckIcon } from "@/components/icons";
 import { Label, TextInput } from "@/components/ui/field";
 import ProviderLogo from "@/components/app/emails/ProviderLogo";
 import { useFinishGoogleGrant, useStartGoogleGrant } from "@/lib/api/hooks/app/emails/useMailboxGrants";

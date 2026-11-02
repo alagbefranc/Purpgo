@@ -13,7 +13,7 @@ import {
     SlidersHorizontalIcon,
     StarIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import { CheckSquare } from "@/components/ui/check-square";
 import {

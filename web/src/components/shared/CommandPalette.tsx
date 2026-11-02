@@ -13,7 +13,7 @@ import {
   SettingsIcon,
   CreditCardIcon,
   CheckIcon,
-} from 'lucide-react'
+} from '@/components/icons'
 import {
   CommandDialog,
   CommandEmpty,

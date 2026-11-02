@@ -12,7 +12,7 @@ import {
     MailCheckIcon,
     OctagonPauseIcon,
     UserRoundIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import { CrmMark } from "@/components/app/crm/crmProviders";
 import useIntegrationCatalog from "@/lib/api/hooks/app/integrations/useIntegrationCatalog";

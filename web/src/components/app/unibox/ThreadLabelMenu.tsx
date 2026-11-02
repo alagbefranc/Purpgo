@@ -7,7 +7,7 @@
 // The panel is exported on its own for the conversation row's menu.
 
 import React from "react";
-import { CheckIcon, Loader2Icon, PlusIcon, TagIcon } from "lucide-react";
+import { CheckIcon, Loader2Icon, PlusIcon, TagIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { useIsMutating } from "@tanstack/react-query";
 

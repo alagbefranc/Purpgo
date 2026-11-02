@@ -16,7 +16,7 @@ import {
     UploadIcon,
     UsersIcon,
     ZapIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import type { CampaignEstimateResult } from "@/lib/api/client/app/campaigns/estimateCampaign";
 import type Sequence from "@/lib/api/models/app/campaigns/sequences/Sequence";
 import type { DraftMeta } from "./serverDraft";

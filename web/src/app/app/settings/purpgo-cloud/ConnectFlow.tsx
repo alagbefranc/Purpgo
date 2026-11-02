@@ -7,7 +7,7 @@ import React from "react";
 import { cloudMailboxPickerOpened } from "@/lib/cloudMailboxConnect";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
-import { ArrowRightIcon, CheckIcon, CloudIcon, FlameIcon, InboxIcon, Loader2Icon, SparklesIcon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, CloudIcon, FlameIcon, InboxIcon, Loader2Icon, SparklesIcon } from "@/components/icons";
 import type { AppError } from "@/lib/api/client/normalizeError";
 import buildError from "@/lib/helper/buildError";
 import type { CloudLinkMailboxRow, CloudLinkStatus } from "@/lib/api/models/app/cloudlink/CloudLink";

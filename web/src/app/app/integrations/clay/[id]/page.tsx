@@ -15,7 +15,7 @@ import {
     Loader2Icon,
     RefreshCwIcon,
     SendIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { Checkbox } from "@/components/ui/checkbox";

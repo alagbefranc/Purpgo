@@ -28,7 +28,7 @@ import {
     MoreHorizontalIcon,
     TagIcon,
     TrashIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import type UniboxEmail from "@/lib/api/models/app/unibox/UniboxEmail";
 import { useAppStore } from "@/stores";

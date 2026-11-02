@@ -3,7 +3,7 @@
 // header and checkbox-square rows.
 
 import React from "react";
-import { CheckIcon, ChevronDownIcon, PlusIcon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, PlusIcon, XIcon } from "@/components/icons";
 
 import { CheckSquare } from "@/components/ui/check-square";
 import { PopoverMenu, PopoverMenuContent, PopoverMenuTrigger } from "@/components/ui/popover-menu";

@@ -5,7 +5,7 @@
 import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseString } from "@/lib/browse-accounts-analytics";
-import { InboxIcon, Loader2Icon } from "lucide-react";
+import { InboxIcon, Loader2Icon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { Link } from "@tanstack/react-router";
 import { Toggle } from "@/components/app/campaigns/preferences/components/CampaignPreferenceBoolBox";

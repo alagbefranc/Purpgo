@@ -16,7 +16,7 @@ import {
     UploadCloudIcon,
     XIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 

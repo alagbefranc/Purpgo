@@ -14,7 +14,7 @@ import {
     Loader2Icon,
     PlugIcon,
     RefreshCwIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { CrmBadge, CrmMark, CrmSyncedAt } from "@/components/app/crm/crmProviders";

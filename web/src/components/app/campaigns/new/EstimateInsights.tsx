@@ -3,7 +3,7 @@
 // by mailbox.
 
 import React from "react";
-import { CalendarCheckIcon, FlameIcon, GaugeIcon, MinusCircleIcon } from "lucide-react";
+import { CalendarCheckIcon, FlameIcon, GaugeIcon, MinusCircleIcon } from "@/components/icons";
 import type {
     CampaignEstimateResult,
     CampaignEstimateSender,

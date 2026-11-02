@@ -13,7 +13,7 @@ import {
     GiftIcon,
     Loader2Icon,
     LockIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { Navigate } from "@tanstack/react-router";
 import useFeatureAccess from "@/hooks/useFeatureAccess";

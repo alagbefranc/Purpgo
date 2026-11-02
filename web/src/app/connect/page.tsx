@@ -23,7 +23,7 @@ import {
     LockIcon,
     ServerIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import BrandMark from "@/components/shared/BrandMark";
 import ReauthModal from "@/components/app/modals/ReauthModal";

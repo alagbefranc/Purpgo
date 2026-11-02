@@ -14,7 +14,7 @@ import {
     CompassIcon,
     LogOutIcon,
     SettingsIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import { useAppStore } from "@/stores";
 import useLogout from "@/lib/api/hooks/auth/useLogout";
 import {

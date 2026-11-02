@@ -2,7 +2,7 @@
 // fades and chevrons say there is more, the wheel scrolls it sideways, and the
 // child marked data-active="true" is kept in view.
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 export default function ScrollStrip({

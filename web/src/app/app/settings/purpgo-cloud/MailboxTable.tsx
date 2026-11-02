@@ -5,7 +5,7 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast/headless";
-import { AlertTriangleIcon, CloudIcon, Loader2Icon, PauseIcon, PlayIcon, ServerIcon } from "lucide-react";
+import { AlertTriangleIcon, CloudIcon, Loader2Icon, PauseIcon, PlayIcon, ServerIcon } from "@/components/icons";
 import type { AppError } from "@/lib/api/client/normalizeError";
 import buildError from "@/lib/helper/buildError";
 import type { CloudLinkExecutor, CloudLinkMailboxRow, PoolLinkSelfExecution, PoolLinkWarmupHealth } from "@/lib/api/models/app/cloudlink/CloudLink";

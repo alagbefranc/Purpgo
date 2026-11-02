@@ -1,4 +1,4 @@
-import { EyeOffIcon, MonitorIcon, SmartphoneIcon, TabletIcon, type LucideIcon } from "lucide-react";
+import { EyeOffIcon, MonitorIcon, SmartphoneIcon, TabletIcon, type LucideIcon } from "@/components/icons";
 import {
     deviceKind,
     hiddenReason,

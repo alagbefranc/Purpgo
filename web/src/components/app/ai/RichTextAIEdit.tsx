@@ -12,7 +12,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { SparklesIcon } from "lucide-react";
+import { SparklesIcon } from "@/components/icons";
 import type { Editor } from "@tiptap/react";
 import AIEditPopover from "./AIEditPopover";
 import AIRunCard from "./AIRunCard";

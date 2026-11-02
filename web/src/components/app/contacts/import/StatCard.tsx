@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "@/components/icons";
 import AnimatedNumber from "@/components/ui/AnimatedNumber";
 
 export type StatAccent = "emerald" | "sky" | "slate" | "red" | "amber";

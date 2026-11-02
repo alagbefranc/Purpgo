@@ -1,7 +1,7 @@
 // Modified by Purpgo LLC.
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { MailX, LayoutDashboard, LogIn } from "lucide-react";
+import { MailX, LayoutDashboard, LogIn } from "@/components/icons";
 import { Logo } from "@/components/svg";
 
 export default function NotFound() {

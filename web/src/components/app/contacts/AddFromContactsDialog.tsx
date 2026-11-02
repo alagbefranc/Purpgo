@@ -18,7 +18,7 @@ import {
     Loader2Icon,
     UsersIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { SearchInput } from "@/components/ui/field";
 import CategoryPicker from "./CategoryPicker";

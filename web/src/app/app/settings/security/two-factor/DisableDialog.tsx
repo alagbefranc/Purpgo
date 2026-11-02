@@ -3,7 +3,7 @@
 
 import React from "react";
 import toast from "react-hot-toast/headless";
-import { Loader2Icon, ShieldOffIcon, TriangleAlertIcon } from "lucide-react";
+import { Loader2Icon, ShieldOffIcon, TriangleAlertIcon } from "@/components/icons";
 import type { AppError } from "@/lib/api/client/normalizeError";
 import buildError from "@/lib/helper/buildError";
 import { useTwoFactorDisable } from "@/lib/api/hooks/auth/useTwoFactor";

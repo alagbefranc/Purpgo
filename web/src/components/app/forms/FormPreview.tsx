@@ -7,7 +7,7 @@ import { DashboardImage } from "@/components/ui/dashboard-image";
 
 import React from "react";
 import { useDashboardImage } from "@/hooks/useDashboardImage";
-import { ChevronLeftIcon, ChevronRightIcon, CopyIcon, GripVerticalIcon, Trash2Icon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, CopyIcon, GripVerticalIcon, Trash2Icon } from "@/components/icons";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, useSortable, type SortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";

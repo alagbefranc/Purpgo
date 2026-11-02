@@ -8,7 +8,7 @@ import React from "react";
 import { Link } from "@tanstack/react-router";
 import toast from "react-hot-toast/headless";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeftIcon, CheckIcon, ExternalLinkIcon, LinkIcon, Loader2Icon, ShieldAlertIcon } from "lucide-react";
+import { ArrowLeftIcon, CheckIcon, ExternalLinkIcon, LinkIcon, Loader2Icon, ShieldAlertIcon } from "@/components/icons";
 
 import { useConfirm } from "@/hooks/context/confirm";
 import { httpUrl } from "@/lib/safeUrl";

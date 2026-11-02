@@ -17,7 +17,7 @@ import {
     Loader2Icon,
     PlayIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { Label, NumberInput, SearchInput } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";

@@ -5,7 +5,7 @@
 
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { CheckIcon, XIcon } from "lucide-react";
+import { CheckIcon, XIcon } from "@/components/icons";
 import { Logo } from "@/components/svg";
 import { relayOAuthReturn } from "@/lib/oauthReturn";
 

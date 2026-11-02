@@ -4,7 +4,7 @@ import { useMemo, type ReactNode } from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseBoolean, placementGroupFilter } from "@/lib/browse-accounts-analytics";
 import { useNavigate } from "@tanstack/react-router";
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon } from "@/components/icons";
 import { EmptyBlock, SectionBar, Stat, StatStrip } from "@/components/layout/Page";
 import useWarmupPlacement from "@/lib/api/hooks/app/analytics/useWarmupPlacement";
 import type { PlacementGroup, PlacementMailbox } from "@/lib/api/models/app/analytics/WarmupPlacement";

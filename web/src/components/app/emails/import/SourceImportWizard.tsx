@@ -4,7 +4,7 @@
 // MailboxImport job, so the result screen, retries and the Imports menu are one.
 import React from "react";
 import toast from "react-hot-toast/headless";
-import { CheckIcon, ChevronRightIcon, Loader2Icon, UploadIcon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronRightIcon, Loader2Icon, UploadIcon, XIcon } from "@/components/icons";
 import type { MailboxImport, MailboxImportSettings, OnExisting } from "@/lib/api/models/app/emails/MailboxImport";
 import type { SourceImportOptions } from "@/lib/api/models/app/emails/MailboxSources";
 import useMailboxAllowance from "@/lib/api/hooks/app/emails/useMailboxAllowance";

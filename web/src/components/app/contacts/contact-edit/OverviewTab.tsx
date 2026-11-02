@@ -18,7 +18,7 @@ import {
     MailWarningIcon,
     MousePointerClickIcon,
     ReplyIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import type ContactDetail from "@/lib/api/models/app/contacts/ContactDetail";
 import type Contact from "@/lib/api/models/app/contacts/Contact";

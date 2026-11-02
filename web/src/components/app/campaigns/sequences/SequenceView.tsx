@@ -5,7 +5,7 @@
 // content score).
 
 import React from "react";
-import { Loader2Icon, ReplyIcon } from "lucide-react";
+import { Loader2Icon, ReplyIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import type Sequence from "@/lib/api/models/app/campaigns/sequences/Sequence";
 import EmailContentEditor from "./EmailContentEditor";

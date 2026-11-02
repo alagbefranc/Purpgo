@@ -18,7 +18,7 @@ import {
     LockIcon,
     ShieldCheckIcon,
     XIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import { Logo } from "@/components/svg";
 import { FieldError, Label, TextInput } from "@/components/ui/field";

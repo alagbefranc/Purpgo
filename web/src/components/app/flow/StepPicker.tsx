@@ -6,7 +6,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from "@/components/icons";
 import useClickOutside from "@/hooks/useClickOutside";
 import { StepTile, type StepTone } from "./StepCard";
 import { cn } from "@/lib/utils";

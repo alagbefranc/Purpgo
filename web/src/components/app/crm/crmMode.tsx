@@ -4,7 +4,7 @@
 
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { AlertTriangleIcon } from "lucide-react";
+import { AlertTriangleIcon } from "@/components/icons";
 import useCrmProvider from "@/hooks/useCrmProvider";
 import useCrmSyncHealth from "@/lib/api/hooks/app/crm/provider/useCrmSyncHealth";
 import { cn } from "@/lib/utils";

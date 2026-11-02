@@ -3,7 +3,7 @@
 // semantics and click events behave natively while every browser renders the
 // same themed square as CheckSquare. Never ship a bare native checkbox.
 import * as React from "react";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 const BOX = { xs: "size-3", sm: "size-3.5" } as const;

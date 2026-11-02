@@ -22,7 +22,7 @@ import {
     ShieldAlertIcon,
     Trash2Icon,
     Undo2Icon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import PermissionButton from "@/components/ui/PermissionButton";
 import { usePermission } from "@/hooks/usePermission";

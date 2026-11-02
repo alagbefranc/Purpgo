@@ -2,7 +2,7 @@
 // choices every import asks before it starts, whatever the rows came from.
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon } from "@/components/icons";
 import type { MailboxImportSettings, OnExisting } from "@/lib/api/models/app/emails/MailboxImport";
 import { Label, NumberInput, TextInput } from "@/components/ui/field";
 import { SelectMenu, type SelectOption } from "@/components/ui/select-menu";

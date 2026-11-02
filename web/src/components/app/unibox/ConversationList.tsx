@@ -11,7 +11,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckIcon, PanelLeftIcon, SearchIcon, XIcon } from "lucide-react";
+import { CheckIcon, PanelLeftIcon, SearchIcon, XIcon } from "@/components/icons";
 import { AnimatedRow } from "./AnimatedRow";
 import { ConversationItem } from "./ConversationItem";
 import { SelectionBar } from "./SelectionBar";

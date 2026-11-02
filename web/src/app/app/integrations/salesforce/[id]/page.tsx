@@ -22,7 +22,7 @@ import {
     SlidersHorizontalIcon,
     TableIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import ScrollStrip from "@/components/ui/scroll-strip";

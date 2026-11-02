@@ -8,7 +8,7 @@ import useBrowseState from "@/hooks/useBrowseState";
 import { batchTab, batchSenderSort, batchSenderStatus, browseString, browseBoolean } from "@/lib/browse-accounts-analytics";
 import { Link, useNavigate, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowLeftIcon, ArrowUpRightIcon, AtSignIcon, Grid3x3Icon, Loader2Icon, MailIcon, ServerIcon, SquareIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowUpRightIcon, AtSignIcon, Grid3x3Icon, Loader2Icon, MailIcon, ServerIcon, SquareIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 import { EmptyBlock, SectionBar } from "@/components/layout/Page";
 import ScrollStrip from "@/components/ui/scroll-strip";

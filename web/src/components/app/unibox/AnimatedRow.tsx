@@ -7,7 +7,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArchiveIcon, InboxIcon, MoonIcon, TrashIcon } from "lucide-react";
+import { ArchiveIcon, InboxIcon, MoonIcon, TrashIcon } from "@/components/icons";
 
 import {
   rowContent,

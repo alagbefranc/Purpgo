@@ -1,7 +1,7 @@
 // Modified by Purpgo LLC.
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { RefreshCwIcon, ShieldAlertIcon, ShieldCheckIcon } from "lucide-react";
+import { RefreshCwIcon, ShieldAlertIcon, ShieldCheckIcon } from "@/components/icons";
 import toast from "react-hot-toast/headless";
 
 import { useConfirm } from "@/hooks/context/confirm";

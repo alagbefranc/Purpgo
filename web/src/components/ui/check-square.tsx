@@ -3,7 +3,7 @@
 // square when off. Purely visual; the row it sits in is the control.
 // Tones match Checkbox: slate for option toggles, sky for choosing what shows.
 
-import { CheckIcon } from "lucide-react";
+import { CheckIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 const TONE = {

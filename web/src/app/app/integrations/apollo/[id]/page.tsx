@@ -14,7 +14,7 @@ import {
     Loader2Icon,
     RefreshCwIcon,
     type LucideIcon,
-} from "lucide-react";
+} from "@/components/icons";
 
 import ScrollStrip from "@/components/ui/scroll-strip";
 import ResourceViewers from "@/components/app/presence/ResourceViewers";
