@@ -73,6 +73,10 @@ export function VersionPill() {
 
     const running = v.version && v.version !== "dev" ? v.version : v.commit ? `dev ${v.commit.slice(0, 7)}` : "dev";
     const available = v.update_available;
+    // An unstamped build has no meaningful version to show customers: hide the
+    // pill unless there is an update to offer.
+    const stamped = !!v.version && v.version !== "dev";
+    if (!stamped && !available) return null;
     const latest = v.latest?.tag;
 
     let label = available ? (latest ? `Update to ${latest}` : "Update available") : running;
