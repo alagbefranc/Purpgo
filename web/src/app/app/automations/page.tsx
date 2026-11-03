@@ -122,7 +122,7 @@ export default function AutomationsPage() {
                         }
                     />
                 ) : (
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-slate-200/60 border-b border-slate-200/60">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3">
                         {automations.map((a, i) => (
                             <AutomationCard
                                 key={a.id}
@@ -149,14 +149,14 @@ export default function AutomationsPage() {
 // TemplateGallery — one-click prebuilt automations (start points the user tweaks).
 function TemplateGallery({ onPick, busy }: { onPick: (t: AutomationTemplate) => void; busy: boolean }) {
     return (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200/60 border-b border-slate-200/60">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4">
             {AUTOMATION_TEMPLATES.map((t) => (
                 <button
                     key={t.id}
                     type="button"
                     disabled={busy}
                     onClick={() => onPick(t)}
-                    className="text-left bg-white p-4 hover:bg-slate-50/60 transition-colors disabled:opacity-60"
+                    className="text-left bg-white p-4 border-r border-b border-slate-200/60 hover:bg-slate-50/60 transition-colors disabled:opacity-60"
                 >
                     <div className="flex items-center gap-2">
                         <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200/60">
@@ -235,7 +235,7 @@ function AutomationCard({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1], delay: Math.min(index, 12) * 0.03 }}
-            className="text-left bg-white p-5 flex flex-col min-h-[140px] hover:bg-slate-50/60 transition-colors group"
+            className="text-left bg-white p-5 border-r border-b border-slate-200/60 flex flex-col min-h-[140px] hover:bg-slate-50/60 transition-colors group"
         >
             <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2 min-w-0">
