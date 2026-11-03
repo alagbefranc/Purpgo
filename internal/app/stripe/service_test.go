@@ -10,12 +10,12 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	stripeapi "github.com/stripe/stripe-go/v86"
 	workerapp "github.com/purpgo/purpgo/internal/app/worker"
 	"github.com/purpgo/purpgo/internal/config"
 	"github.com/purpgo/purpgo/internal/errx"
 	"github.com/purpgo/purpgo/internal/models"
 	"github.com/purpgo/purpgo/internal/repository"
+	stripeapi "github.com/stripe/stripe-go/v86"
 )
 
 type billingWorkerAssignment struct {
@@ -401,5 +401,12 @@ func TestAsyncCreditPurchaseStoresCustomer(t *testing.T) {
 	}
 	if !repo.updated || repo.sub.StripeCustomerID != "cus_credit" || credits.granted != 500 || !repo.recorded {
 		t.Fatal("purchase did not persist the billing customer and credits")
+	}
+}
+
+func TestManagedPaymentsOffDisables(t *testing.T) {
+	mp := managedPaymentsOff()
+	if mp == nil || mp.Enabled == nil || *mp.Enabled {
+		t.Fatalf("managed payments must be explicitly disabled, got %+v", mp)
 	}
 }

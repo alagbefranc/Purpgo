@@ -14,6 +14,13 @@ import (
 	"github.com/purpgo/purpgo/internal/observability/errs"
 
 	"github.com/google/uuid"
+	"github.com/purpgo/purpgo/internal/app/discount"
+	"github.com/purpgo/purpgo/internal/app/worker"
+	"github.com/purpgo/purpgo/internal/config"
+	"github.com/purpgo/purpgo/internal/errx"
+	"github.com/purpgo/purpgo/internal/models"
+	"github.com/purpgo/purpgo/internal/observability/analytics"
+	"github.com/purpgo/purpgo/internal/repository"
 	"github.com/rs/zerolog/log"
 	"github.com/stripe/stripe-go/v86"
 	portalsession "github.com/stripe/stripe-go/v86/billingportal/session"
@@ -27,13 +34,6 @@ import (
 	"github.com/stripe/stripe-go/v86/subscription"
 	taxcalculation "github.com/stripe/stripe-go/v86/tax/calculation"
 	"github.com/stripe/stripe-go/v86/webhook"
-	"github.com/purpgo/purpgo/internal/app/discount"
-	"github.com/purpgo/purpgo/internal/app/worker"
-	"github.com/purpgo/purpgo/internal/config"
-	"github.com/purpgo/purpgo/internal/errx"
-	"github.com/purpgo/purpgo/internal/models"
-	"github.com/purpgo/purpgo/internal/observability/analytics"
-	"github.com/purpgo/purpgo/internal/repository"
 )
 
 // ProrationPreview represents the preview of a plan change proration
@@ -257,6 +257,7 @@ func (s *stripeService) CreateCheckoutSessionUntil(ctx context.Context, userID u
 		TaxIDCollection:          &stripe.CheckoutSessionTaxIDCollectionParams{Enabled: stripe.Bool(true)},
 		NameCollection:           businessNameCollection(),
 		CustomText:               businessOnlyNotice(),
+		ManagedPayments:          managedPaymentsOff(),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
 			{
 				Price:    stripe.String(priceID),
@@ -430,6 +431,7 @@ func (s *stripeService) CreateCreditCheckoutSession(ctx context.Context, userID,
 		TaxIDCollection:          &stripe.CheckoutSessionTaxIDCollectionParams{Enabled: stripe.Bool(true)},
 		NameCollection:           businessNameCollection(),
 		CustomText:               businessOnlyNotice(),
+		ManagedPayments:          managedPaymentsOff(),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
 			{Price: stripe.String(priceID), Quantity: stripe.Int64(1)},
 		},
@@ -1687,4 +1689,10 @@ func businessOnlyNotice() *stripe.CheckoutSessionCustomTextParams {
 	return &stripe.CheckoutSessionCustomTextParams{
 		Submit: &stripe.CheckoutSessionCustomTextSubmitParams{Message: stripe.String(businessOnlyCheckoutNotice)},
 	}
+}
+
+// managedPaymentsOff opts a Checkout session out of Stripe Managed Payments,
+// which new accounts enable by default and which rejects custom_text.
+func managedPaymentsOff() *stripe.CheckoutSessionManagedPaymentsParams {
+	return &stripe.CheckoutSessionManagedPaymentsParams{Enabled: stripe.Bool(false)}
 }
