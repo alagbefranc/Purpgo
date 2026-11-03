@@ -1521,7 +1521,13 @@ function MailboxStatusPill({ box, status, stale, historicalIssue, warming, compa
     // One word; the icons beside it say which activities are on.
     const label = sending && warming ? "Active" : sending ? "Sending" : resting ? (lifecycle?.state === "reserve" ? "Reserve" : "Resting") : warming ? "Warming" : "Idle";
     const title = [
-        sending ? "Sending campaign emails" : resting ? `Held out of campaign sending${lifecycle?.reason ? `: ${lifecycle.reason}` : ""}` : "Not in a live campaign",
+        sending
+            ? "Sending campaign emails"
+            : resting
+              ? lifecycle?.state === "reserve"
+                  ? "Reserve: you put this mailbox on hold, so campaigns will not send from it until you remove the hold in its Overview"
+                  : `Resting: Purpgo paused campaign sending from this mailbox while it recovers, and puts it back automatically${lifecycle?.reason ? ` (${lifecycle.reason})` : ""}`
+              : "Not in a live campaign",
         warming
             ? "warming up"
             : inCampaign && diagnosticSendingAllowed(box)

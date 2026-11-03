@@ -186,7 +186,7 @@ function LifecycleNotice({
     const hold = useSendHold(mailboxId);
     const reserve = state.state === "reserve";
     const copy = reserve
-        ? "You are holding this mailbox out of campaigns. Warmup keeps running. Turn the hold off below to put it back into rotation."
+        ? "This mailbox is on hold (Reserve), so campaigns will not send from it. Warmup keeps running. Remove the hold to let campaigns use it."
         : hasHealthSignal
             ? "This mailbox is resting: campaigns are not sending from it while its warmup health recovers. It returns on its own once that health is back and has held steady for three days."
             : "This mailbox is resting, but it is in no warmup pool, so there is no health signal to recover on. It returns on its own after three days of rest, or now if you put it back.";
@@ -206,22 +206,22 @@ function LifecycleNotice({
                 <PauseIcon className="w-3.5 h-3.5 mt-px shrink-0 text-slate-500" />
                 <div className="min-w-0 flex-1">
                     <p className="text-[12.5px] font-medium text-slate-900">
-                        Not sending campaigns ({reserve ? "held" : state.state})
+                        <span title={reserve ? "Reserve: you put this mailbox on hold. Only you can release it." : "Resting: Purpgo paused campaign sending from this mailbox while it recovers, and puts it back automatically."}>
+                            Not sending campaigns ({reserve ? "on hold" : state.state})
+                        </span>
                     </p>
                     <p className="text-[11.5px] text-slate-600 leading-relaxed mt-0.5">
                         {copy}
                         {!reserve && state.reason ? ` ${state.reason}.` : ""}
                     </p>
-                    {!reserve && (
-                        <button
-                            type="button"
-                            onClick={resume}
-                            disabled={hold.isPending}
-                            className="mt-2 h-7 px-2.5 inline-flex items-center rounded-md border border-slate-200 bg-white text-[12px] font-medium text-slate-700 hover:border-sky-400 hover:text-sky-700 disabled:opacity-50 transition-colors"
-                        >
-                            {hold.isPending ? "Putting back…" : "Put back into campaigns"}
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        onClick={resume}
+                        disabled={hold.isPending}
+                        className="mt-2 h-7 px-2.5 inline-flex items-center rounded-md border border-slate-200 bg-white text-[12px] font-medium text-slate-700 hover:border-sky-400 hover:text-sky-700 disabled:opacity-50 transition-colors"
+                    >
+                        {hold.isPending ? (reserve ? "Removing hold…" : "Putting back…") : reserve ? "Remove hold" : "Put back into campaigns"}
+                    </button>
                 </div>
             </div>
         </div>
