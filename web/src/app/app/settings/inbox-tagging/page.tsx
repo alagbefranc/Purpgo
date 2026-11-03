@@ -197,10 +197,8 @@ export default function InboxTaggingPage() {
                 <div className="mx-5 mt-4 px-3 py-2.5 rounded-md border border-amber-200 bg-amber-50 flex items-start gap-2">
                     <InfoIcon className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
                     <p className="text-[11.5px] text-amber-800 leading-relaxed">
-                        Classification is off on this instance. It needs a <code className="font-mono">TYPESAFE_API_KEY</code> and{" "}
-                        <code className="font-mono">INBOX_TAGGING_ENABLED=true</code>. It sends message content to the
-                        configured classifier, so it stays off until an operator turns it on deliberately. Timestamp-only
-                        follow-up labels continue to run locally.
+                        Automatic tagging isn't turned on for your workspace yet. Contact support if you'd like it
+                        enabled. Follow-up labels based on reply timing keep working in the meantime.
                     </p>
                 </div>
             )}

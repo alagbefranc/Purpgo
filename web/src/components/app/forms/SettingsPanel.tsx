@@ -170,7 +170,7 @@ export default function SettingsPanel({
                     </div>
                 ) : (
                     <p className="col-span-full text-[11.5px] text-slate-500 rounded-md bg-slate-50 border border-slate-200 px-3 py-2 max-w-3xl">
-                        Submission triage becomes available once the operator configures TypeSafe (TYPESAFE_API_KEY).
+                        Submission triage isn't available on your workspace yet. Contact support if you'd like it enabled.
                     </p>
                 )}
             </Section>
