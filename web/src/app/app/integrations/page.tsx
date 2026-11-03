@@ -349,7 +349,10 @@ function IntegrationsStore({ route, routeKey }: { route: Route; routeKey: string
 
                 <Section title="Popular" description="Most used by workspaces on this instance." onSeeAll={() => go(`${STORE_BASE}/all`)}>
                     <CardGrid>
-                        {builtins.slice(0, 8).map((it) => (
+                        {builtins
+                            .filter((it) => it.kind !== "builtin" || isUsable(it.entry))
+                            .slice(0, 8)
+                            .map((it) => (
                             <AppCard key={it.key} {...cardProps(it)} />
                         ))}
                     </CardGrid>
