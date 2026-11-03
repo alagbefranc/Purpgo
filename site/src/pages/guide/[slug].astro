@@ -1,0 +1,10 @@
+---
+// Modified by Purpgo LLC.
+import GuideShell from '../../components/guide/GuideShell.astro';
+import { guide } from '../../lib/guide';
+export function getStaticPaths() {
+  return guide.slice(1).map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+const { page } = Astro.props;
+---
+<GuideShell page={page} />
