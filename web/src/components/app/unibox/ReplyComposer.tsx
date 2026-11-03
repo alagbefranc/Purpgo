@@ -20,6 +20,8 @@
 // ⌘+Enter sends instantly. Each schedule preset calls /unibox/reply
 // with send_mode="scheduled" plus the concrete scheduled_at.
 
+import { findBracketPlaceholders, placeholderWarning } from "@/lib/bracketPlaceholders";
+import { useConfirm } from "@/hooks/context/confirm";
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -196,6 +198,7 @@ export function ReplyComposer({ threadId, replyTo, mode, seed, onClose }: ReplyC
         () => seed ?? (draftKey ? loadReplyDraft(draftKey) : null),
     );
 
+    const confirm = useConfirm();
     const bodyState = useComposerBody(restored?.body ?? "", restored?.body_html);
     const { body, setBody, html } = bodyState;
     const setBodyValue = bodyState.setValue;
@@ -374,7 +377,15 @@ export function ReplyComposer({ threadId, replyTo, mode, seed, onClose }: ReplyC
         !senderProblem &&
         !isSending;
 
-    const send = async (scheduledAt?: Date) => {
+    const send = async (scheduledAt?: Date, placeholdersOk = false) => {
+        if (canSend && !placeholdersOk) {
+            const found = findBracketPlaceholders(subject, body, html);
+            if (found.length > 0) {
+                const text = `${placeholderWarning(found)} Send anyway?`;
+                confirm.show(text, () => send(scheduledAt, true));
+                return;
+            }
+        }
         if (!canSend && !isSending) {
             if (!hasContent) {
                 toast.error("Body is empty");

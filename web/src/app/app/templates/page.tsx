@@ -5,6 +5,7 @@
 // place. Drag-style reordering is replaced with up/down chevrons so the
 // page stays accessible without a dnd lib.
 
+import { findBracketPlaceholders, placeholderWarning } from "@/lib/bracketPlaceholders";
 import React from "react";
 import useBrowseState from "@/hooks/useBrowseState";
 import { browseSearchSchema } from "@/lib/browse-other-lists";
@@ -519,6 +520,8 @@ function TemplateEditor({
         setActivePresetId(null);
     }
 
+    const placeholders = findBracketPlaceholders(subject, bodyPlain, showHTML ? bodyHTML : "");
+
     async function submit() {
         const trimmedName = name.trim();
         if (!trimmedName) {
@@ -657,6 +660,12 @@ function TemplateEditor({
                                     className="w-full rounded-md border border-slate-200 bg-white text-[12.5px] text-slate-900 placeholder:text-slate-400 outline-none transition-colors focus:border-sky-400 focus:ring-2 focus:ring-sky-100 px-2.5 py-2 resize-y leading-relaxed font-mono"
                                 />
                             </div>
+
+                            {placeholders.length > 0 && (
+                                <p role="status" className="rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-[11.5px] text-amber-800">
+                                    {placeholderWarning(placeholders)} Use a variable like {"{{.FirstName}}"} for anything that changes per contact.
+                                </p>
+                            )}
 
                             <div>
                                 <div className="flex items-center gap-2 mb-1">
