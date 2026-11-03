@@ -38,6 +38,10 @@ const STATUS_PILL: Record<Form["status"], string> = {
     archived: "bg-amber-50 text-amber-700",
 };
 
+// Below this many views a percentage is noise (1 view, 1 submission reads as
+// 100%), so the raw counts are shown instead.
+export const MIN_VIEWS_FOR_RATE = 10;
+
 function conversionValue(f: Form): number {
     if (f.views_count <= 0) return -1;
     return Math.min(100, (f.submissions_count / f.views_count) * 100);
@@ -45,7 +49,9 @@ function conversionValue(f: Form): number {
 
 function conversion(f: Form): string {
     const v = conversionValue(f);
-    return v < 0 ? "–" : `${v.toFixed(1)}%`;
+    if (v < 0) return "–";
+    if (f.views_count < MIN_VIEWS_FOR_RATE) return `${f.submissions_count}/${f.views_count}`;
+    return `${v.toFixed(1)}%`;
 }
 
 type SortKey = "name" | "views" | "starts" | "submissions" | "conversion" | "identified" | "created";
@@ -132,7 +138,7 @@ function FormsList() {
             views,
             starts,
             subs,
-            conversion: views > 0 ? `${Math.min(100, (subs / views) * 100).toFixed(1)}%` : "–",
+            conversion: views <= 0 ? "–" : views < MIN_VIEWS_FOR_RATE ? `${subs}/${views}` : `${Math.min(100, (subs / views) * 100).toFixed(1)}%`,
         };
     }, [forms.data]);
 
