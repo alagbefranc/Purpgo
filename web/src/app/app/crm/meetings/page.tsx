@@ -50,6 +50,7 @@ import AnimatedNumber from "@/components/ui/AnimatedNumber";
 import NewMeetingDialog from "@/components/app/meetings/NewMeetingDialog";
 import { useConfirm } from "@/hooks/context/confirm";
 import useSearchMeetings from "@/lib/api/hooks/app/meetings/useSearchMeetings";
+import useIntegrationConnections from "@/lib/api/hooks/app/integrations/useIntegrationConnections";
 import useMeetingsSummary from "@/lib/api/hooks/app/meetings/useMeetingsSummary";
 import useDeleteMeeting from "@/lib/api/hooks/app/meetings/useDeleteMeeting";
 import {
@@ -166,6 +167,10 @@ function MeetingsBrowser() {
     const { meetings, total, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useSearchMeetings({ filters });
     const { data: summary } = useMeetingsSummary();
+    const { data: connections } = useIntegrationConnections();
+    const bookingConnected = (connections?.connections ?? []).some(
+        (c) => (c.provider === "calendly" || c.provider === "cal_com") && (c.status === "connected" || c.status === "degraded"),
+    );
 
     const rows = meetings ?? [];
     // Provider mode with meeting logging on: booked calls also land in the CRM.
@@ -238,15 +243,21 @@ function MeetingsBrowser() {
                 ) : rows.length === 0 ? (
                     <EmptyBlock
                         title={timeframe === "upcoming" ? "No upcoming meetings" : "No meetings yet"}
-                        body="Schedule a call with a contact, or connect Calendly / Cal.com so calls prospects book land here automatically."
+                        body={
+                            bookingConnected
+                                ? "Schedule a call with a contact. Calls prospects book through your connected scheduler land here automatically."
+                                : "Schedule a call with a contact, or connect Calendly / Cal.com so calls prospects book land here automatically."
+                        }
                         cta={
                             <>
                                 <TopbarAction onClick={() => setCreating(true)} icon={<PlusIcon className="w-3.5 h-3.5" />}>
                                     New meeting
                                 </TopbarAction>
-                                <TopbarAction href="/app/integrations" variant="ghost" icon={<CableIcon className="w-3.5 h-3.5" />}>
-                                    Connect a calendar
-                                </TopbarAction>
+                                {!bookingConnected && (
+                                    <TopbarAction href="/app/integrations" variant="ghost" icon={<CableIcon className="w-3.5 h-3.5" />}>
+                                        Connect a calendar
+                                    </TopbarAction>
+                                )}
                             </>
                         }
                     />
