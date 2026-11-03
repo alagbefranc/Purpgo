@@ -204,3 +204,11 @@ describe("dashboard CSP", () => {
         }
     }, 15000);
 });
+
+describe("cloudflare web analytics beacon", () => {
+    it("allows the beacon script and its reporting endpoint", () => {
+        const policy = dashboardCsp();
+        expect(policy).toMatch(/script-src [^;]*https:\/\/static\.cloudflareinsights\.com/);
+        expect(policy).toMatch(/connect-src [^;]*https:\/\/cloudflareinsights\.com/);
+    });
+});

@@ -9,13 +9,16 @@ export function dashboardCsp({ scripts = [], styles = [], nonce = "", connection
     images?: string[];
 } = {}) {
     const authorization = nonce ? [`'nonce-${nonce}'`] : [];
+    // Cloudflare Pages injects the Web Analytics beacon; it loads from
+    // static.cloudflareinsights.com and reports to cloudflareinsights.com.
+    const beacon = { script: "https://static.cloudflareinsights.com", report: "https://cloudflareinsights.com" };
     return [
         "default-src 'none'",
-        `script-src 'self' https://challenges.cloudflare.com ${[...authorization, ...scripts, ...analytics].join(" ")}`,
+        `script-src 'self' https://challenges.cloudflare.com ${beacon.script} ${[...authorization, ...scripts, ...analytics].join(" ")}`,
         "script-src-attr 'none'",
         `style-src 'self' ${[...authorization, ...styles].join(" ")}`,
         "style-src-attr 'unsafe-inline'",
-        `connect-src 'self' ${[...connections, ...analytics].join(" ")}`,
+        `connect-src 'self' ${beacon.report} ${[...connections, ...analytics].join(" ")}`,
         `img-src 'self' data: blob: ${images.join(" ")}`,
         "font-src 'self'",
         "frame-src 'self' https://challenges.cloudflare.com",
