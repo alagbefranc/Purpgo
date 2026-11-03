@@ -40,8 +40,11 @@ export default function ProfileSettingsPage() {
         () => ({ firstName: normalizeName(firstName), lastName: normalizeName(lastName) }),
         [firstName, lastName],
     );
-    const firstError = nameError("First name", firstName, "person");
-    const lastError = nameError("Last name", lastName, "person");
+    // Only flag a name once the user has edited that field, so an empty last
+    // name on a fresh account is not shown as an error before any typing.
+    const [touched, setTouched] = React.useState({ first: false, last: false });
+    const firstError = touched.first ? nameError("First name", firstName, "person") : null;
+    const lastError = touched.last ? nameError("Last name", lastName, "person") : null;
     const autosave = useAutosave({
         value,
         debounceMs: 700,
@@ -95,7 +98,10 @@ export default function ProfileSettingsPage() {
                         <FieldLabel>First name</FieldLabel>
                         <TextInput
                             value={firstName}
-                            onChange={setFirstName}
+                            onChange={(v) => {
+                                setTouched((t) => ({ ...t, first: true }));
+                                setFirstName(v);
+                            }}
                             invalid={!!firstError}
                             title={firstError ?? undefined}
                             maxLength={PERSON_NAME_MAX}
@@ -108,7 +114,10 @@ export default function ProfileSettingsPage() {
                         <FieldLabel>Last name</FieldLabel>
                         <TextInput
                             value={lastName}
-                            onChange={setLastName}
+                            onChange={(v) => {
+                                setTouched((t) => ({ ...t, last: true }));
+                                setLastName(v);
+                            }}
                             invalid={!!lastError}
                             title={lastError ?? undefined}
                             maxLength={PERSON_NAME_MAX}
