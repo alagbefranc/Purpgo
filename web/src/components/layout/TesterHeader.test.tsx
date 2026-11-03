@@ -48,7 +48,7 @@ describe("dedicated tester header", () => {
 
     it("labels the bounded allowance as test credits in the header and popover", () => {
         render(<CreditsMeter />);
-        const button = screen.getByRole("button", { name: "100 of 100 test credits left" });
+        const button = screen.getByRole("button", { name: "100 of 100 test AI credits left" });
         expect(button).toHaveTextContent("Test credits");
         fireEvent.click(button);
         expect(screen.queryByText("Plan credits")).not.toBeInTheDocument();
@@ -60,7 +60,7 @@ describe("dedicated tester header", () => {
         fixture.subscription.data = { managed: false, status: "active", plan: { id: "customer-plan", name: "Starter" } };
         render(<><PlanPill /><CreditsMeter /></>);
         expect(screen.getByRole("link", { name: "Starter" })).toBeInTheDocument();
-        expect(screen.getByRole("button", { name: "100 of 100 plan credits left" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "100 of 100 monthly AI credits left" })).toBeInTheDocument();
         expect(screen.queryByText("Test")).not.toBeInTheDocument();
     });
 

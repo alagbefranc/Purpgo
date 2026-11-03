@@ -201,7 +201,7 @@ export default function OverviewTab({ onChangePlan, onWarmupPlan }: { onChangePl
                                     />
                                 ) : (
                                     <Stat
-                                        label="Daily sends"
+                                        label="Daily email sends"
                                         value={
                                             limits?.daily_campaign_limit != null
                                                 ? limits.daily_campaign_limit.toLocaleString()
@@ -211,7 +211,7 @@ export default function OverviewTab({ onChangePlan, onWarmupPlan }: { onChangePl
                                                   ? "Custom"
                                                   : plan.sendsPerDay.toLocaleString()
                                         }
-                                        sub="across the workspace"
+                                        sub="campaign emails a day, across the workspace (not AI credits)"
                                     />
                                 )}
                             </div>

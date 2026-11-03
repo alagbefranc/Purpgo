@@ -207,7 +207,7 @@ function TransactionRow({ row }: { row: CreditTransaction }) {
     return (
         <tr className="text-slate-700">
             <td className="px-3 py-2">
-                <span className="text-slate-900">{describeReason(row.reason)}</span>
+                <span className="text-slate-900">{describeRow(row)}</span>
                 {row.model_used && (
                     <span className="ml-1.5 text-[10.5px] text-slate-400 font-mono">
                         {row.model_used}
@@ -226,11 +226,11 @@ function TransactionRow({ row }: { row: CreditTransaction }) {
             </td>
             <td
                 className={`px-3 py-2 text-right font-mono tabular-nums ${
-                    positive ? "text-emerald-700" : "text-slate-600"
+                    row.reason === "monthly_reset" ? "text-slate-600" : positive ? "text-emerald-700" : "text-slate-600"
                 }`}
+                title={row.reason === "monthly_reset" ? `Change from the previous balance: ${positive ? "+" : ""}${row.amount.toLocaleString()}` : undefined}
             >
-                {positive ? "+" : ""}
-                {row.amount.toLocaleString()}
+                {formatAmount(row)}
             </td>
             <td className="px-3 py-2 text-right font-mono tabular-nums text-slate-500">
                 {(row.balance_after + row.purchased_balance_after).toLocaleString()}
@@ -240,6 +240,19 @@ function TransactionRow({ row }: { row: CreditTransaction }) {
             </td>
         </tr>
     );
+}
+
+// A monthly reset sets the plan pool to the allowance; its signed delta is the
+// difference from whatever was left, which reads as a huge charge after a plan
+// change (100,000 left, reset to 250 logs -99,750). Show what it was set to.
+export function describeRow(row: CreditTransaction): string {
+    if (row.reason !== "monthly_reset") return describeReason(row.reason);
+    return row.amount < 0 ? "Monthly allowance reset (unused plan credits expired)" : "Monthly allowance";
+}
+
+export function formatAmount(row: CreditTransaction): string {
+    if (row.reason === "monthly_reset") return `= ${row.balance_after.toLocaleString()}`;
+    return `${row.amount >= 0 ? "+" : ""}${row.amount.toLocaleString()}`;
 }
 
 // describeContext renders the charge's attribution: exactly what ran and who

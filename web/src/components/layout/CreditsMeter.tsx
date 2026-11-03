@@ -74,8 +74,8 @@ export function CreditsMeter() {
             : 0;
 
     const label = spendWindow
-        ? `${spendWindow.spent.toLocaleString()} of ${spendWindow.limit.toLocaleString()} ${isTest ? "test credits" : "credits"} used ${spendWindow.word}`
-        : `${c.monthly_balance.toLocaleString()} of ${c.monthly_allowance.toLocaleString()} ${isTest ? "test" : "plan"} credits left`;
+        ? `${spendWindow.spent.toLocaleString()} of ${spendWindow.limit.toLocaleString()} ${isTest ? "test AI credits" : "AI credits"} used ${spendWindow.word}`
+        : `${c.monthly_balance.toLocaleString()} of ${c.monthly_allowance.toLocaleString()} ${isTest ? "test" : "monthly"} AI credits left`;
     const extraLabel =
         c.purchased_balance > 0 ? `, plus ${c.purchased_balance.toLocaleString()} extra` : "";
 
@@ -96,7 +96,7 @@ export function CreditsMeter() {
                 )}
             >
                 <Ring fraction={fraction} />
-                {isTest && <span>Test credits</span>}
+                {isTest ? <span>Test credits</span> : <span className="opacity-60 font-normal">AI</span>}
                 {spendWindow ? (
                     <span className="flex items-baseline gap-1">
                         <span className="flex items-baseline">
