@@ -13,6 +13,7 @@ import createSequence from "@/lib/api/client/app/campaigns/sequences/createSeque
 import updateSequence from "@/lib/api/client/app/campaigns/sequences/updateSequence";
 import deleteSequence from "@/lib/api/client/app/campaigns/sequences/deleteSequence";
 import { listCampaignSegments, setCampaignSegments } from "@/lib/api/client/app/segments";
+import updateContactsBulk from "@/lib/api/client/app/contacts/updateContactsBulk";
 import estimateCampaign from "@/lib/api/client/app/campaigns/estimateCampaign";
 import { htmlToPlain } from "@/components/app/campaigns/sequences/emailPreview";
 import { hasContent, initialDraft, scheduledDate, toCreateInput, writtenEmails, type Draft, type EmailDraft } from "./draft";
@@ -131,6 +132,22 @@ export async function loadServerDraft(id: string): Promise<LoadedDraft> {
     };
 }
 
+// A locked flow (branches or actions) whose email steps are all still blank:
+// the first email can be written inline without touching the flow's shape.
+export function canWriteFirstEmail(meta: DraftMeta | undefined): boolean {
+    if (!meta?.stepsLocked) return false;
+    return meta.steps
+        .filter((s) => (s.kind ?? "email") === "email")
+        .every((s) => !(s.subject ?? "").trim() && !htmlToPlain(s.body_html ?? "").trim() && !(s.body_plain ?? "").trim());
+}
+
+// Adds individually picked contacts to the campaign as leads. Idempotent: a
+// contact already on it stays on it.
+async function addPickedContacts(campaignId: string, contactIds: string[]) {
+    if (contactIds.length === 0) return;
+    await updateContactsBulk({ contacts: contactIds, add_campaigns: [campaignId], remove_campaigns: [], fields: [] });
+}
+
 const sameSet = (a: string[], b: string[]) => a.length === b.length && a.every((x) => b.includes(x));
 
 // Creates the draft or writes the flow back onto it; onCreated lets a failed save retry as an update.
@@ -144,6 +161,7 @@ export async function saveServerDraft(
         const created = await createCampaign(toCreateInput(d, name));
         onCreated?.(created.id, await getSequences(created.id).then((s) => s.map((x) => x.id), () => []));
         if (d.segmentIds.length > 0) await setCampaignSegments(created.id, d.segmentIds);
+        await addPickedContacts(created.id, d.contactIds);
         return created.id;
     }
     const { id, meta } = existing;
@@ -171,7 +189,21 @@ export async function saveServerDraft(
             await syncSteps(id, writtenEmails(d), current, (created) => meta.knownStepIds.push(created));
         }
     }
+    if (meta.stepsLocked && canWriteFirstEmail(meta)) {
+        // Fill the flow's first (blank) email step, or add one when it has none.
+        const first = writtenEmails(d)[0];
+        if (first) {
+            const target = meta.steps.find((s) => (s.kind ?? "email") === "email")?.id ?? (await createSequence(id)).id;
+            await updateSequence(id, target, {
+                subject: first.subject.trim(),
+                body_html: first.body_html,
+                body_plain: first.body_plain || htmlToPlain(first.body_html),
+                body_code: first.body_code,
+            });
+        }
+    }
     if (!sameSet(d.segmentIds, meta.segmentIds)) await setCampaignSegments(id, d.segmentIds);
+    await addPickedContacts(id, d.contactIds);
     return id;
 }
 

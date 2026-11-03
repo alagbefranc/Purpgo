@@ -51,7 +51,7 @@ import {
     type Draft,
     type StepKey,
 } from "./new/draft";
-import { draftSignature, freshMeta, loadServerDraft, saveServerDraft, type DraftMeta } from "./new/serverDraft";
+import { canWriteFirstEmail, draftSignature, freshMeta, loadServerDraft, saveServerDraft, type DraftMeta } from "./new/serverDraft";
 import { EmailsStep, LeadsStep, LaunchPlanRail, ReviewStep, ScheduleStep, type EstimateState } from "./new/steps";
 import type { Patch } from "./new/fields";
 
@@ -164,14 +164,15 @@ export function NewCampaignDialog({ open, onClose, draftId = null }: Props) {
     const placeholderName = autoName(segmentNames);
     const meta = existing?.meta;
     // Leads can come from the lists picked here or be on a saved draft already.
-    const hasLeads = draft.segmentIds.length > 0 || (meta?.leadCount ?? 0) > 0;
+    const hasLeads = draft.segmentIds.length > 0 || draft.contactIds.length > 0 || (meta?.leadCount ?? 0) > 0;
     const typedName = draft.name.trim();
     const finalName = typedName || placeholderName;
     // A save never fails on the name: one that is not valid yet falls back.
     const savedName =
         typedName.length >= NAME_MIN && typedName.length <= NAME_MAX ? typedName : typedName.length > NAME_MAX ? typedName.slice(0, NAME_MAX) : placeholderName;
 
-    const lockedEmails = meta?.stepsLocked ? meta.steps.filter((s) => (s.kind ?? "email") === "email") : null;
+    const firstOnly = canWriteFirstEmail(meta);
+    const lockedEmails = meta?.stepsLocked && !firstOnly ? meta.steps.filter((s) => (s.kind ?? "email") === "email") : null;
 
     // The live projection behind the rail and the review.
     const at = scheduledDate(draft);
@@ -245,13 +246,15 @@ export function NewCampaignDialog({ open, onClose, draftId = null }: Props) {
         ? "Launching needs the send campaigns permission; a teammate who has it can start it."
         : emailCount === 0
           ? "There is no email to send yet."
-          : !hasLeads || (e && e.recipients === 0 && draft.segmentIds.length === 0)
+          : !hasLeads || (e && e.recipients === 0 && draft.segmentIds.length === 0 && draft.contactIds.length === 0)
             ? "It has no leads yet."
-            : e && e.recipients === 0
+            : e && e.recipients === 0 && draft.contactIds.length === 0
               ? "The chosen lists are empty right now."
               : e && e.mailboxes === 0
-                ? "No active mailbox can send it."
-                : null;
+                ? "No active mailbox can send it. Connect a mailbox or pick a sender tag that matches one."
+                : e && e.steady_capacity === 0 && e.daily_capacity === 0
+                  ? "Every mailbox in the pool is on hold or resting. Remove a hold on the Review step to launch."
+                  : null;
 
     const busy = busyWith !== null;
     // A new flow with only a zone picked is still empty.
@@ -452,6 +455,7 @@ export function NewCampaignDialog({ open, onClose, draftId = null }: Props) {
                                                 selected={emailIndex}
                                                 setSelected={setEmailIndex}
                                                 lockedSteps={lockedEmails}
+                                                firstOnly={firstOnly}
                                                 onOpenSteps={existing ? () => void leaveTo(`/app/campaigns/${existing.id}/steps`) : undefined}
                                             />
                                         )}
@@ -530,7 +534,7 @@ export function NewCampaignDialog({ open, onClose, draftId = null }: Props) {
                                     >
                                         {current.key === "emails" && written.length === 0
                                             ? "Write it later"
-                                            : current.key === "leads" && draft.segmentIds.length === 0
+                                            : current.key === "leads" && draft.segmentIds.length === 0 && draft.contactIds.length === 0
                                               ? "Continue without leads"
                                               : "Continue"}
                                         <ChevronRightIcon className="w-3 h-3" />
@@ -546,16 +550,20 @@ export function NewCampaignDialog({ open, onClose, draftId = null }: Props) {
                                             {busyWith === "draft" ? <Loader2Icon className="w-3 h-3 animate-spin" /> : <ListChecksIcon className="w-3 h-3" />}
                                             Save as draft
                                         </button>
+                                        {/* Disabled buttons get no hover events, so the reason sits on a wrapper. */}
+                                        <span title={launchBlock ? `Can't launch yet: ${launchBlock}` : undefined} className="inline-flex shrink-0">
                                         <button
                                             type="button"
                                             onClick={() => submit("launch")}
                                             disabled={busy || !!launchBlock}
-                                            title={launchBlock ?? undefined}
+                                            aria-describedby={launchBlock ? "launch-block-reason" : undefined}
                                             className="h-7 px-3 rounded-md bg-sky-600 hover:bg-sky-700 text-white text-[12px] font-medium inline-flex items-center gap-1.5 transition-colors disabled:bg-slate-200 disabled:text-slate-500 shrink-0"
                                         >
                                             {busyWith === "launch" ? <Loader2Icon className="w-3 h-3 animate-spin" /> : <LaunchIcon className="w-3 h-3" />}
                                             {launchLabel}
                                         </button>
+                                        </span>
+                                        {launchBlock && <span id="launch-block-reason" className="sr-only">{launchBlock}</span>}
                                     </>
                                 )}
                             </div>

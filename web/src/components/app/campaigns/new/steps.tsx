@@ -47,6 +47,8 @@ import {
 } from "./draft";
 import { ChoiceCard, SectionLabel, SendingWindowFields, StepIntro, SwitchRow, TimezoneField, type Patch } from "./fields";
 import EstimateTimeline from "./EstimateTimeline";
+import { HeldSenders } from "./HeldSenders";
+import { ContactPicker } from "./ContactPicker";
 import { BottleneckNote, FinishSooner, MailboxMix, SenderList, WarmupNote } from "./EstimateInsights";
 import { estimateHeadline, paceLabel, rampStart } from "./estimateText";
 import { htmlToPlain } from "@/components/app/campaigns/sequences/emailPreview";
@@ -58,6 +60,29 @@ export type EstimateState = {
 };
 
 // Leads ------------------------------------------------------------------
+
+function ContactsSection({ draft, patch }: { draft: Draft; patch: Patch }) {
+    const [open, setOpen] = React.useState(draft.contactIds.length > 0);
+    return (
+        <div className="mt-4">
+            <button
+                type="button"
+                onClick={() => setOpen((o) => !o)}
+                aria-expanded={open}
+                className="inline-flex items-center gap-1.5 text-[12px] font-medium text-sky-700 hover:text-sky-800"
+            >
+                <ChevronDownIcon className={cn("w-3 h-3 transition-transform", !open && "-rotate-90")} />
+                {draft.contactIds.length > 0 ? `${plural(draft.contactIds.length, "contact")} picked individually` : "Pick existing contacts"}
+            </button>
+            {open && (
+                <div className="mt-2">
+                    <ContactPicker picked={draft.contactIds} onChange={(ids) => patch({ contactIds: ids })} />
+                    <p className="mt-1 text-[11px] text-slate-400">Picked contacts are added as leads when the campaign is saved.</p>
+                </div>
+            )}
+        </div>
+    );
+}
 
 export function LeadsStep({
     draft,
@@ -112,7 +137,7 @@ export function LeadsStep({
                 <div>
                     <p className="text-[13.5px] text-slate-900 font-semibold">Who should get it?</p>
                     <p className="text-[12px] text-slate-500 mt-0.5">
-                        Pick lead lists. Someone on several lists is emailed once.
+                        Pick lists or segments, or choose contacts one by one. Someone picked more than once is emailed once.
                     </p>
                 </div>
                 {lists.length > 6 && (
@@ -191,6 +216,8 @@ export function LeadsStep({
                 )}
             </div>
 
+            <ContactsSection draft={draft} patch={patch} />
+
             {lists.length > 0 && (
                 <p className="mt-3 flex items-center gap-2 text-[12px] min-h-5">
                     {draft.segmentIds.length === 0 && existingLeads > 0 ? (
@@ -230,6 +257,7 @@ export function EmailsStep({
     setSelected,
     lockedSteps,
     onOpenSteps,
+    firstOnly = false,
 }: {
     draft: Draft;
     patch: Patch;
@@ -238,9 +266,11 @@ export function EmailsStep({
     // A saved flow with branches or actions: shown, edited on the Steps tab.
     lockedSteps?: Sequence[] | null;
     onOpenSteps?: () => void;
+    // A locked flow with no written email yet: write the first one here.
+    firstOnly?: boolean;
 }) {
-    if (lockedSteps) return <LockedSteps steps={lockedSteps} onOpenSteps={onOpenSteps} />;
-    return <EmailsEditor draft={draft} patch={patch} selected={selected} setSelected={setSelected} />;
+    if (lockedSteps && !firstOnly) return <LockedSteps steps={lockedSteps} onOpenSteps={onOpenSteps} />;
+    return <EmailsEditor draft={draft} patch={patch} selected={firstOnly ? 0 : selected} setSelected={setSelected} firstOnly={firstOnly} />;
 }
 
 function LockedSteps({ steps, onOpenSteps }: { steps: Sequence[]; onOpenSteps?: () => void }) {
@@ -280,11 +310,13 @@ function EmailsEditor({
     patch,
     selected,
     setSelected,
+    firstOnly = false,
 }: {
     draft: Draft;
     patch: Patch;
     selected: number;
     setSelected: (i: number) => void;
+    firstOnly?: boolean;
 }) {
     const index = Math.min(selected, draft.emails.length - 1);
     const email = draft.emails[index];
@@ -316,10 +348,14 @@ function EmailsEditor({
         <div>
             <StepIntro
                 title="What will they receive?"
-                hint="Write the first email and its follow-ups, or leave them for the Steps tab. Branches and A/B tests live there too."
+                hint={
+                    firstOnly
+                        ? "Write the first email here. This campaign's flow has branches or action steps, so follow-ups are added on its Steps tab."
+                        : "Write the first email and its follow-ups, or leave them for the Steps tab. Branches and A/B tests live there too."
+                }
             />
 
-            <div className="mb-4 -mx-1">
+            {!firstOnly && <div className="mb-4 -mx-1">
                 <ScrollStrip activeKey={email.id} innerClassName="flex items-center gap-1 px-1 py-0.5">
                     {draft.emails.map((e, i) => {
                         const issue = emailIssue(e, i);
@@ -388,7 +424,7 @@ function EmailsEditor({
                         {draft.stopOnReply ? ", stopping for anyone who replies." : "."}
                     </p>
                 )}
-            </div>
+            </div>}
 
             {index > 0 && (
                 <div className="mb-3 flex flex-wrap items-center gap-2 text-[12px] text-slate-600">
@@ -666,7 +702,8 @@ export function ReviewStep({
         : writtenEmails(draft);
     const steps = Math.max(1, written.length);
     const at = scheduledDate(draft);
-    const hasLeads = draft.segmentIds.length > 0 || existingLeads > 0;
+    const hasLeads = draft.segmentIds.length > 0 || draft.contactIds.length > 0 || existingLeads > 0;
+    const pickedNote = draft.contactIds.length > 0 ? ` + ${plural(draft.contactIds.length, "picked contact")}` : "";
     const headline = estimateHeadline(e, { steps, hasLeads, tz });
     const totalDays = written.slice(1).reduce((n, x) => n + Math.max(0, x.wait_after), 0);
     const start = e ? rampStart(e) : null;
@@ -677,11 +714,13 @@ export function ReviewStep({
             icon: UsersIcon,
             title: "Leads",
             value: hasLeads
-                ? draft.segmentIds.length === 0
-                    ? `${e ? plural(e.recipients, "lead") : "…"} already on it`
-                    : `${e ? plural(e.recipients, "lead") : "…"} from ${segmentNames.join(", ") || plural(draft.segmentIds.length, "list")}${existingLeads > 0 ? " and the leads it has" : ""}`
+                ? draft.segmentIds.length === 0 && existingLeads === 0
+                    ? plural(draft.contactIds.length, "picked contact")
+                    : draft.segmentIds.length === 0
+                    ? `${e ? plural(e.recipients, "lead") : "…"} already on it${pickedNote}`
+                    : `${e ? plural(e.recipients, "lead") : "…"} from ${segmentNames.join(", ") || plural(draft.segmentIds.length, "list")}${existingLeads > 0 ? " and the leads it has" : ""}${pickedNote}`
                 : "None yet. Add them after creating it.",
-            warn: !hasLeads || (e ? e.recipients === 0 : false),
+            warn: !hasLeads || (e ? e.recipients === 0 && draft.contactIds.length === 0 : false),
         },
         {
             key: "emails",
@@ -762,6 +801,8 @@ export function ReviewStep({
                     </>
                 ) : null}
             </div>
+
+            <HeldSenders e={e} />
 
             <div className="mt-5 border border-slate-200 rounded-md divide-y divide-slate-100">
                 {rows.map((r) => (

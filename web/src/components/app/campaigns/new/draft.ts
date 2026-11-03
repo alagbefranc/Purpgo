@@ -25,6 +25,8 @@ export type Draft = {
     description: string;
     // Lead lists (segments). Empty is fine: leads can be added after creating it.
     segmentIds: string[];
+    // Individual existing contacts, added as leads when the draft is saved.
+    contactIds: string[];
     emails: EmailDraft[];
     timezone: string;
     days: number;
@@ -73,6 +75,7 @@ export const initialDraft = (timezone: string): Draft => ({
     nameTouched: false,
     description: "",
     segmentIds: [],
+    contactIds: [],
     emails: [newEmail(0)],
     timezone,
     days: WEEKDAYS_MASK,
@@ -187,6 +190,7 @@ export function isDirty(d: Draft): boolean {
         d.nameTouched ||
         d.description.trim() !== "" ||
         d.segmentIds.length > 0 ||
+        d.contactIds.length > 0 ||
         d.emailTagIds.length > 0 ||
         d.emails.some(hasContent) ||
         d.emails.length > 1
