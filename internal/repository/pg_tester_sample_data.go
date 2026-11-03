@@ -116,8 +116,10 @@ func seedTesterSampleData(ctx context.Context, tx pgx.Tx, orgID, ownerID uuid.UU
 	batch.Queue(`INSERT INTO pipelines (id, organization_id, name, position)
 		VALUES ($1, $2, 'Sample: review pipeline',
 			(SELECT COALESCE(MAX(position), -1) + 1 FROM pipelines WHERE organization_id = $2))`, pipelineID, orgID)
-	stageIDs := []uuid.UUID{uuid.New(), uuid.New(), uuid.New()}
-	for i, stage := range []struct{ name, color string }{{"New", "#38bdf8"}, {"Qualified", "#a855f7"}, {"Won", "#10b981"}} {
+	sampleStages := []struct{ name, color string }{{"New", "#38bdf8"}, {"Qualified", "#a855f7"}, {"Won", "#10b981"}, {"Lost", "#ef4444"}}
+	stageIDs := make([]uuid.UUID, len(sampleStages))
+	for i, stage := range sampleStages {
+		stageIDs[i] = uuid.New()
 		batch.Queue(`INSERT INTO pipeline_stages (id, pipeline_id, name, color, position) VALUES ($1, $2, $3, $4, $5)`,
 			stageIDs[i], pipelineID, stage.name, stage.color, i)
 	}
