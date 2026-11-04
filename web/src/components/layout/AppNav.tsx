@@ -37,6 +37,7 @@ import {
 } from "@/components/icons";
 import { type ReactElement, type ReactNode, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Lock as PadlockIcon } from "lucide-react";
 import { useAppStore } from "@/stores";
 import useFeatureAccess from "@/hooks/useFeatureAccess";
 import { orgHasPermission, useAccessRestricted, usePermission, type PermissionKey } from "@/hooks/usePermission";
@@ -333,12 +334,20 @@ function NavRow({ item, collapsed = false }: { item: NavItem; collapsed?: boolea
                     "text-slate-400 hover:text-slate-700 hover:bg-slate-200/40",
                 )}
             >
-                <item.icon className="w-[14px] h-[14px] shrink-0 text-slate-300 group-hover:text-slate-500" strokeWidth={1.6} aria-hidden="true" />
+                <span className="relative inline-flex shrink-0" aria-hidden="true">
+                    <item.icon className="w-[14px] h-[14px] shrink-0 text-slate-300 group-hover:text-slate-500" strokeWidth={1.6} />
+                    {collapsed && (
+                        <PadlockIcon
+                            className="absolute -right-[5px] -bottom-[4px] w-[9px] h-[9px] rounded-[2px] bg-slate-100 text-slate-400 group-hover:text-slate-500"
+                            strokeWidth={2.25}
+                        />
+                    )}
+                </span>
                 <span className={labelFade(collapsed)}>
                     <span className="truncate flex-1 min-w-0 text-left">{item.title}</span>
-                    <LockIcon
+                    <PadlockIcon
                         className="w-[14px] h-[14px] shrink-0 ml-auto text-slate-400 group-hover:text-slate-500"
-                        strokeWidth={1.8}
+                        strokeWidth={1.75}
                         aria-hidden="true"
                     />
                 </span>
