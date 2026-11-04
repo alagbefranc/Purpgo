@@ -319,29 +319,28 @@ function NavRow({ item, collapsed = false }: { item: NavItem; collapsed?: boolea
     // the full-screen upgrade dialog on click (plans, interval, one-click
     // checkout), instead of routing to a teasing empty page.
     if (locked && minPlan && planBadge) {
+        const unlockLabel = `Unlocks on ${planBadge.label}`;
         return (
-            <NavTip collapsed={collapsed} label={`${item.title} · ${planBadge.label} plan`}>
+            <NavTip collapsed={collapsed} label={`${item.title} · ${unlockLabel}`}>
             <button
                 data-tour={item.url}
                 type="button"
                 onClick={() => upgradeDialog.open({ feature: item.title, minPlan })}
+                aria-label={`${item.title}. ${unlockLabel}`}
+                title={collapsed ? undefined : unlockLabel}
                 className={cn(
                     rowClass(collapsed),
                     "text-slate-400 hover:text-slate-700 hover:bg-slate-200/40",
                 )}
             >
-                <LockIcon className="w-[13px] h-[13px] shrink-0 text-slate-300 group-hover:text-slate-500" strokeWidth={1.8} />
+                <item.icon className="w-[14px] h-[14px] shrink-0 text-slate-300 group-hover:text-slate-500" strokeWidth={1.6} aria-hidden="true" />
                 <span className={labelFade(collapsed)}>
                     <span className="truncate flex-1 min-w-0 text-left">{item.title}</span>
-                    <span
-                        className={cn(
-                            "h-4 px-1.5 rounded text-[9.5px] font-semibold uppercase tracking-[0.06em] border inline-flex items-center",
-                            planBadge.classes,
-                        )}
-                    >
-                        {planBadge.label}
-                        {collapsed && <span className="sr-only"> plan</span>}
-                    </span>
+                    <LockIcon
+                        className="w-[14px] h-[14px] shrink-0 ml-auto text-slate-400 group-hover:text-slate-500"
+                        strokeWidth={1.8}
+                        aria-hidden="true"
+                    />
                 </span>
             </button>
             </NavTip>
