@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { PlusIcon, Trash2Icon, ZapIcon, Loader2Icon } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast/headless";
+import { graphIssues } from "@/components/app/automations/automationGraph";
 import {
     EmptyBlock,
     Page,
@@ -28,7 +29,13 @@ import {
 import useIntegrationConnections from "@/lib/api/hooks/app/integrations/useIntegrationConnections";
 import type { Automation, AutomationWrite } from "@/lib/api/models/app/automations/Automation";
 import { triggerLabel } from "@/lib/api/models/app/automations/meta";
-import { AUTOMATION_TEMPLATES, type AutomationTemplate } from "@/lib/api/models/app/automations/templates";
+import {
+    AUTOMATION_TEMPLATES,
+    bindTemplateConnections,
+    templateNeedsProvider,
+    type AutomationTemplate,
+    type TemplateConnectionRef,
+} from "@/lib/api/models/app/automations/templates";
 import { cn } from "@/lib/utils";
 import ProviderGlyph from "@/app/app/integrations/_components/ProviderGlyph";
 
@@ -51,6 +58,7 @@ export default function AutomationsPage() {
     const navigate = useNavigate();
     const { data, isLoading } = useAutomations();
     const create = useCreateAutomation();
+    const connectionsQuery = useIntegrationConnections();
     // Building automations is a settings action; others can open and test them.
     const canManage = usePermission("MANAGE_SETTINGS");
     const automations = data?.automations ?? [];
@@ -74,11 +82,26 @@ export default function AutomationsPage() {
     };
 
     const newFromTemplate = (t: AutomationTemplate) => {
+        const needsProvider = templateNeedsProvider(t.graph);
+        if (needsProvider && connectionsQuery.isLoading) {
+            toast.error("Still checking your integrations. Try again in a moment.");
+            return;
+        }
+        if (needsProvider && connectionsQuery.isError) {
+            toast.error("Could not load integrations. Try again.");
+            return;
+        }
+        const bound = bindTemplateConnections(t.graph, connectionsQuery.data?.connections ?? []);
+        if (!bound.ok) {
+            toast.error(bound.message);
+            navigate({ to: "/app/integrations" });
+            return;
+        }
         create.mutate(
-            { name: t.name, enabled: false, trigger_event: t.trigger_event, graph: t.graph },
+            { name: t.name, enabled: false, trigger_event: t.trigger_event, graph: bound.graph },
             {
                 onSuccess: (res) => navigate({ to: "/app/automations/$id", params: { id: res.automation.id } }),
-                onError: () => toast.error("Could not create automation"),
+                onError: (err) => toast.error((err as { message?: string })?.message || "Could not create automation"),
             },
         );
     };
@@ -137,7 +160,12 @@ export default function AutomationsPage() {
                 {canManage && (
                     <div className="mt-8">
                         <SectionBar label="Start from a template" />
-                        <TemplateGallery onPick={newFromTemplate} busy={create.isPending} />
+                        <TemplateGallery
+                            onPick={newFromTemplate}
+                            busy={create.isPending}
+                            connections={connectionsQuery.data?.connections ?? []}
+                            connectionsReady={!connectionsQuery.isLoading && !connectionsQuery.isError}
+                        />
                     </div>
                 )}
             </PageBody>
@@ -146,27 +174,42 @@ export default function AutomationsPage() {
 }
 
 // TemplateGallery — one-click prebuilt automations (start points the user tweaks).
-function TemplateGallery({ onPick, busy }: { onPick: (t: AutomationTemplate) => void; busy: boolean }) {
+function TemplateGallery({
+    onPick,
+    busy,
+    connections,
+    connectionsReady,
+}: {
+    onPick: (t: AutomationTemplate) => void;
+    busy: boolean;
+    connections: TemplateConnectionRef[];
+    connectionsReady: boolean;
+}) {
     return (
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-200/60 border-b border-slate-200/60">
-            {AUTOMATION_TEMPLATES.map((t) => (
-                <button
-                    key={t.id}
-                    type="button"
-                    disabled={busy}
-                    onClick={() => onPick(t)}
-                    className="text-left bg-white p-4 hover:bg-slate-50/60 transition-colors disabled:opacity-60"
-                >
-                    <div className="flex items-center gap-2">
-                        <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200/60">
-                            <ZapIcon className="w-3.5 h-3.5" />
-                        </span>
-                        <span className="text-[12.5px] font-medium text-slate-800">{t.name}</span>
-                    </div>
-                    <p className="mt-1.5 text-[11.5px] text-slate-500 leading-relaxed">{t.description}</p>
-                    <div className="mt-2 text-[10px] uppercase tracking-[0.14em] text-slate-400">{triggerLabel(t.trigger_event)}</div>
-                </button>
-            ))}
+            {AUTOMATION_TEMPLATES.map((t) => {
+                const bound = connectionsReady && templateNeedsProvider(t.graph) ? bindTemplateConnections(t.graph, connections) : null;
+                const blocked = bound !== null && !bound.ok;
+                return (
+                    <button
+                        key={t.id}
+                        type="button"
+                        disabled={busy}
+                        onClick={() => onPick(t)}
+                        className="text-left bg-white p-4 hover:bg-slate-50/60 transition-colors disabled:opacity-60"
+                    >
+                        <div className="flex items-center gap-2">
+                            <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200/60">
+                                <ZapIcon className="w-3.5 h-3.5" />
+                            </span>
+                            <span className="text-[12.5px] font-medium text-slate-800">{t.name}</span>
+                        </div>
+                        <p className="mt-1.5 text-[11.5px] text-slate-500 leading-relaxed">{t.description}</p>
+                        {blocked && <p className="mt-2 text-[11.5px] font-medium text-amber-800">{bound.message}</p>}
+                        <div className="mt-2 text-[10px] uppercase tracking-[0.14em] text-slate-400">{triggerLabel(t.trigger_event)}</div>
+                    </button>
+                );
+            })}
         </div>
     );
 }
@@ -205,6 +248,14 @@ function AutomationCard({
 
     const toggle = (e: React.MouseEvent) => {
         e.stopPropagation();
+        if (!a.enabled) {
+            const g = a.graph ?? { nodes: [], edges: [] };
+            const blocking = graphIssues(g, a.trigger_event, g.nodes.map((n) => n.id)).filter((i) => i.blocking);
+            if (blocking.length > 0) {
+                toast.error(blocking[0].message);
+                return;
+            }
+        }
         update.mutate(
             { id: a.id, w: { ...toWrite(a), enabled: !a.enabled } },
             { onError: (err) => toast.error((err as { message?: string })?.message || "Could not update automation") },

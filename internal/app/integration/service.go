@@ -961,7 +961,7 @@ func (s *service) buildAutomation(ctx context.Context, orgID uuid.UUID, w models
 		return nil, fmt.Errorf("unknown trigger event: %s", trigger)
 	}
 
-	if err := s.validateAutomationGraph(ctx, orgID, w.Graph); err != nil {
+	if err := s.validateAutomationGraph(ctx, orgID, w.Graph, w.Enabled); err != nil {
 		return nil, err
 	}
 
@@ -982,8 +982,12 @@ func (s *service) buildAutomation(ctx context.Context, orgID uuid.UUID, w models
 // validateAutomationGraph checks node/edge integrity: a single trigger, edges
 // referencing real nodes, action nodes pointing at org-owned connections (with
 // an SSRF check on any outbound URL), valid condition fields/operators, and no
-// cycles. An empty graph (just being drafted) is allowed.
-func (s *service) validateAutomationGraph(ctx context.Context, orgID uuid.UUID, g models.AutomationGraph) error {
+// cycles. An empty graph (just being drafted) is allowed. A disabled automation
+// may also omit the integration on an external step, or the tag / pipeline a
+// native step still needs: those are filled in the builder, and turning the
+// automation on requires them. A connection that is already chosen is checked
+// either way.
+func (s *service) validateAutomationGraph(ctx context.Context, orgID uuid.UUID, g models.AutomationGraph, enabled bool) error {
 	byID := make(map[string]models.AutomationNode, len(g.Nodes))
 	triggers := 0
 	for _, n := range g.Nodes {
@@ -1005,14 +1009,21 @@ func (s *service) validateAutomationGraph(ctx context.Context, orgID uuid.UUID, 
 				return errors.New("an action node is missing its action")
 			}
 			// Native (Warmbly-internal) actions run on the event's contact with no
-			// external connection — validate their own config instead.
+			// external connection — validate their own config instead. A draft
+			// (disabled) may still be missing the tag or pipeline the template
+			// cannot know; enabling is what requires that config.
 			if models.IsNativeAction(n.Action) {
-				if err := validateNativeActionConfig(n.Action, n.Config); err != nil {
-					return err
+				if enabled {
+					if err := validateNativeActionConfig(n.Action, n.Config); err != nil {
+						return err
+					}
 				}
 				break
 			}
 			if n.ConnectionID == nil {
+				if !enabled {
+					break
+				}
 				return errors.New("an action node has no integration selected")
 			}
 			conn, err := s.repo.GetConnectionByID(ctx, orgID, *n.ConnectionID)
