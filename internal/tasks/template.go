@@ -1,0 +1,378 @@
+package tasks
+
+import (
+	"fmt"
+	"math/rand"
+	"regexp"
+	"strings"
+	"text/template"
+
+	"github.com/google/uuid"
+	"github.com/warmbly/warmbly/internal/app/unsublink"
+	"github.com/warmbly/warmbly/internal/config"
+	"github.com/warmbly/warmbly/internal/models"
+	"github.com/warmbly/warmbly/internal/pkg/generation"
+	"github.com/warmbly/warmbly/internal/pkg/mailhtml"
+	"github.com/warmbly/warmbly/internal/pkg/tmplfuncs"
+	"github.com/warmbly/warmbly/internal/pkg/tmplvars"
+	"github.com/warmbly/warmbly/internal/pkg/warmpersona"
+)
+
+// Conversation represents a warmup conversation for AI generation
+type Conversation struct {
+	ID          uuid.UUID
+	Version     string
+	Subject     string
+	Theme       string
+	Description string
+	Messages    []string
+}
+
+// TemplateContext holds typed per-send values, separate from contact fields.
+type TemplateContext struct {
+	Sender          TemplateSender
+	UnsubscribeLink string
+}
+
+// templateAction matches a single {{ ... }} action (no nested braces).
+var templateAction = tmplvars.ActionPattern
+
+// tmplCache caches parsed templates keyed by the raw template string. A stored
+// nil is a "known-bad" sentinel: that body failed to compile, so future renders
+// skip straight to the naive fallback instead of re-parsing on every recipient.
+// *template.Template is safe for concurrent Execute once parsed, so a single
+// cached instance is reused across the whole send loop.
+var tmplCache tmplfuncs.Cache
+
+// Standard fields and the typed Sender namespace take precedence over custom fields.
+func buildTemplateData(contact models.Contact, context TemplateContext) map[string]any {
+	data := make(map[string]any, len(contact.CustomFields)+7+tmplvars.AliasCount())
+	for k, v := range contact.CustomFields {
+		data[k] = v
+	}
+	data["FirstName"] = contact.FirstName
+	data["LastName"] = contact.LastName
+	data["Email"] = contact.Email
+	data["Company"] = contact.Company
+	data["Phone"] = contact.Phone
+	data["Sender"] = context.Sender
+	data[UnsubscribeLinkVar] = context.UnsubscribeLink
+	tmplvars.AddAliases(data, contact.CustomFields)
+	return data
+}
+
+// normalizeTemplate is the one rewrite every campaign compile goes through.
+func normalizeTemplate(tmpl string) string {
+	out, _ := tmplvars.Normalize(tmpl)
+	return out
+}
+
+// compiledTemplate returns a parsed, cached template for tmpl, or nil if the
+// body is known-bad (caller falls back to standalone actions). missingkey=zero
+// makes absent map keys test false in {{if .X}}. text/template
+// (not html/template) performs no escaping, so the author's HTML body is emitted
+// verbatim.
+func compiledTemplate(tmpl string) *template.Template {
+	if t, ok := tmplCache.Load(tmpl); ok {
+		return t // may be nil (known-bad)
+	}
+	t, err := tmplfuncs.Compile("body", normalizeTemplate(tmpl))
+	if err != nil {
+		tmplCache.Store(tmpl, nil)
+		return nil
+	}
+	tmplCache.Store(tmpl, t)
+	return t
+}
+
+// TemplateError reports why a template would not render as written (a parse
+// error, or a reference that can never resolve), or nil when it is valid.
+func TemplateError(tmpl string) error {
+	return tmplvars.Check(tmpl)
+}
+
+// RenderTemplate renders a sequence template against a contact, supporting Go
+// text/template conditionals ({{if}}/{{else}}/{{eq}}), standard variables, and
+// custom fields. It NEVER hard-fails: any parse or execution error falls back to
+// standalone actions so a send always produces a body. Spintax is
+// intentionally left untouched here (single-brace {a|b} survives the template
+// pass) and expanded later in the pipeline where applicable.
+func RenderTemplate(tmpl string, contact models.Contact) string {
+	return RenderTemplateWith(tmpl, contact, TemplateContext{})
+}
+
+// RenderTemplateWith uses Go's native struct access for the sending mailbox.
+func RenderTemplateWith(tmpl string, contact models.Contact, context TemplateContext) string {
+	if tmpl == "" {
+		return tmpl
+	}
+
+	data := buildTemplateData(contact, context)
+	t := compiledTemplate(tmpl)
+	if t == nil {
+		return fallbackRenderTemplate(tmpl, data)
+	}
+
+	out, err := tmplfuncs.Execute(t, data)
+	if err != nil {
+		return fallbackRenderTemplate(tmpl, data)
+	}
+	return strings.ReplaceAll(out, "<no value>", "")
+}
+
+// RenderHTMLTemplateWith renders an HTML body: every value is escaped for the
+// context it lands in (text, attribute, URL, CSS), so contact data can never
+// add markup or a script: link. Template text, comments included, is kept.
+func RenderHTMLTemplateWith(tmpl string, contact models.Contact, context TemplateContext) string {
+	if !strings.Contains(tmpl, "{{") {
+		return tmpl
+	}
+	data := buildTemplateData(contact, context)
+	if body := compiledHTMLTemplate(tmpl); body != nil {
+		if out, err := tmplfuncs.Execute(body.t, data); err == nil {
+			return body.restore(out)
+		}
+	}
+	return fallbackRenderHTML(tmpl, data)
+}
+
+// Recover standalone actions with the same engine, leaving broken control
+// syntax literal; all of them share one MaxOutput budget.
+func fallbackRenderTemplate(tmpl string, data map[string]any) string {
+	return fallbackRender(tmpl, data, nil)
+}
+
+// fallbackRenderHTML is fallbackRenderTemplate with each value escaped for
+// where it sits in the document.
+func fallbackRenderHTML(tmpl string, data map[string]any) string {
+	return fallbackRender(tmpl, data, &htmlScanner{})
+}
+
+func fallbackRender(tmpl string, data map[string]any, scan *htmlScanner) string {
+	budget := tmplfuncs.MaxOutput
+	var b strings.Builder
+	last := 0
+	for _, loc := range templateAction.FindAllStringIndex(tmpl, -1) {
+		literal, action := tmpl[last:loc[0]], tmpl[loc[0]:loc[1]]
+		b.WriteString(literal)
+		last = loc[1]
+		var at htmlPosition
+		if scan != nil {
+			scan.feed(literal)
+			at = scan.position()
+			scan.sawValue()
+		}
+		t := compiledTemplate(action)
+		if t == nil {
+			b.WriteString(action)
+			continue
+		}
+		out, err := tmplfuncs.ExecuteLimit(t, data, budget)
+		if err != nil {
+			b.WriteString(action)
+			continue
+		}
+		out = strings.ReplaceAll(out, "<no value>", "")
+		if scan != nil {
+			out = at.escape(out)
+		}
+		if len(out) > budget {
+			b.WriteString(action)
+			continue
+		}
+		budget -= len(out)
+		b.WriteString(out)
+	}
+	b.WriteString(tmpl[last:])
+	return b.String()
+}
+
+// TemplatePreview is the result of rendering a campaign template against one
+// contact, plus any problems found — used by the composer's live preview and
+// inline validation so a broken {{if}} or a token that won't resolve is caught
+// before launch instead of shipping literally.
+type TemplatePreview struct {
+	Subject    string   `json:"subject"`
+	BodyHTML   string   `json:"body_html"`
+	BodyPlain  string   `json:"body_plain"`
+	Errors     []string `json:"errors,omitempty"`     // template parse errors (these block sending)
+	Unresolved []string `json:"unresolved,omitempty"` // literal {{…}} tokens left after render
+	// HTMLFindings is what mail clients will do to this body: what they strip,
+	// what CSS they ignore, and whether Gmail will clip it. Advisory only.
+	HTMLFindings []mailhtml.Finding `json:"html_findings,omitempty"`
+}
+
+// PreviewUnsubscribeLink stands in for the per-recipient link in previews.
+// The same width as a real one, so a plain-text preview (where the address is
+// printed in full) reads as wide as the send will.
+const PreviewUnsubscribeLink = "https://example.com" + unsublink.Path + unsublink.ExampleTicket
+
+// unresolvedToken matches a {{…}} token still present after rendering (i.e. one
+// that failed to parse and fell through to literal substitution).
+var unresolvedToken = regexp.MustCompile(`\{\{[^{}]*\}\}`)
+
+// PreviewTemplates renders subject/html/plain against contact EXACTLY as the
+// send path does (template render + spintax), and reports parse errors plus any
+// tokens that did not resolve.
+func PreviewTemplates(subject, bodyHTML, bodyPlain string, contact models.Contact) TemplatePreview {
+	return previewTemplatesWith(subject, bodyHTML, bodyPlain, contact, TemplateContext{UnsubscribeLink: PreviewUnsubscribeLink})
+}
+
+// previewTemplatesWith renders with the same sender context as a real send.
+func previewTemplatesWith(subject, bodyHTML, bodyPlain string, contact models.Contact, context TemplateContext) TemplatePreview {
+	p := TemplatePreview{
+		Subject:   expandSpintax(RenderTemplateWith(subject, contact, context)),
+		BodyHTML:  expandSpintax(RenderHTMLTemplateWith(bodyHTML, contact, context)),
+		BodyPlain: expandSpintax(RenderTemplateWith(bodyPlain, contact, context)),
+	}
+	for _, f := range []struct{ name, raw string }{{"subject", subject}, {"body", bodyHTML}, {"plain text", bodyPlain}} {
+		if err := TemplateError(f.raw); err != nil {
+			p.Errors = append(p.Errors, f.name+": "+err.Error())
+		}
+	}
+	seen := map[string]bool{}
+	for _, out := range []string{p.Subject, p.BodyHTML, p.BodyPlain} {
+		for _, tok := range unresolvedToken.FindAllString(out, -1) {
+			if !seen[tok] {
+				seen[tok] = true
+				p.Unresolved = append(p.Unresolved, tok)
+			}
+		}
+	}
+	return p
+}
+
+// AddSignature places the mailbox signature under the body. HTML gets its own
+// block with a top margin, not <br><br>: the breaks stacked against the body's
+// own trailing margin and showed as blank lines in Apple Mail and Outlook.
+func AddSignature(body string, signature string, isHTML bool) string {
+	if signature == "" {
+		return body
+	}
+
+	if !isHTML {
+		return body + "\n\n" + signature
+	}
+
+	block := `<div style="margin-top:16px">` + signature + `</div>`
+	// Inside the container the email was laid out in, as for the opt-out
+	// footer: after it, a signature lands against the left edge of the window
+	// instead of under the copy it signs off (issue #462).
+	return mailhtml.AppendToContent(body, block)
+}
+
+// AppendForwarded puts the message a forward carries under the note and
+// signature, the order every mail client writes a forward in.
+func AppendForwarded(bodyHTML, bodyPlain, forwardedHTML, forwardedPlain string) (string, string) {
+	if forwardedHTML != "" {
+		if strings.TrimSpace(bodyHTML) == "" {
+			bodyHTML = forwardedHTML
+		} else {
+			bodyHTML = mailhtml.AppendToContent(bodyHTML, "<br>"+forwardedHTML)
+		}
+	}
+	if forwardedPlain != "" {
+		if note := strings.TrimRight(bodyPlain, " \t\r\n"); note == "" {
+			bodyPlain = forwardedPlain
+		} else {
+			bodyPlain = note + "\n\n" + forwardedPlain
+		}
+	}
+	return bodyHTML, bodyPlain
+}
+
+// AddOpenTrackingPixel adds an invisible tracking pixel to HTML email.
+// The pixel URL points to the tracking service endpoint: /t/o/{taskID}.png.
+//
+// An empty host means this install has no tracking host at all, and the pixel
+// is left out. It used to fall back to a hardcoded warmbly.com name, so a
+// self-hosted deployment mailed a pixel pointing at someone else's service:
+// nothing was ever recorded, and the recipient's open was reported to a third
+// party instead.
+func AddOpenTrackingPixel(htmlBody string, taskID uuid.UUID, trackingDomain string) string {
+	pixelURL := config.TrackingURL(trackingDomain, fmt.Sprintf("/t/o/%s.png", taskID.String()))
+	if pixelURL == "" {
+		return htmlBody
+	}
+	pixel := fmt.Sprintf(`<img src="%s" width="1" height="1" style="display:none;" alt="" />`, pixelURL)
+	return mailhtml.InsertBeforeBodyEnd(htmlBody, pixel)
+}
+
+// personaPick chooses from a mailbox's preferred subset of phrasing options so
+// each mailbox keeps a consistent "voice" while still varying message to
+// message. Falls back gracefully for tiny option sets.
+func personaPick(p warmpersona.Persona, axis string, opts []string) string {
+	if len(opts) == 0 {
+		return ""
+	}
+	k := 3
+	if k > len(opts) {
+		k = len(opts)
+	}
+	subset := p.Subset(axis, len(opts), k)
+	if len(subset) == 0 {
+		return opts[rand.Intn(len(opts))]
+	}
+	return opts[subset[rand.Intn(len(subset))]]
+}
+
+// GenerateConversationReplyEmail renders one ordered reply turn. Turn 1 maps
+// to Messages[0]; exhausted threads return false instead of repeating a line.
+func GenerateConversationReplyEmail(conversation Conversation, account models.Email, turn int) (string, bool) {
+	if turn < 1 || turn > len(conversation.Messages) {
+		return "", false
+	}
+	body := strings.TrimSpace(conversation.Messages[turn-1])
+	if body == "" || strings.ContainsAny(body, "<>{}\x00\r") {
+		return "", false
+	}
+
+	signature := account.Name
+	if signature == "" {
+		signature = account.Email
+	}
+
+	rendered, err := generation.RenderCanonicalTurn(body, signature)
+	return rendered, err == nil
+}
+
+// GenerateConversationOpeningEmail renders an AI opening without consuming a
+// pre-generated reply turn.
+func GenerateConversationOpeningEmail(conversation Conversation, account models.Email) string {
+	return generateConversationOpeningEmail(conversation, account)
+}
+
+// GenerateConversationEmail renders an opening or the first ordered reply.
+func GenerateConversationEmail(conversation Conversation, account models.Email, isReply bool) string {
+	if isReply {
+		body, _ := GenerateConversationReplyEmail(conversation, account, 1)
+		return body
+	}
+	return generateConversationOpeningEmail(conversation, account)
+}
+
+// Openings never consume a future reply or append a random question.
+func generateConversationOpeningEmail(conversation Conversation, account models.Email) string {
+	signature := account.Name
+	if signature == "" {
+		signature = account.Email
+	}
+
+	description := strings.TrimSpace(conversation.Description)
+	if description == "" || strings.ContainsAny(description, "<>{}\x00\r") {
+		return ""
+	}
+	rendered, _ := generation.RenderCanonicalTurn(description, signature)
+	return rendered
+}
+
+// ExtractPlainTextFromHTML derives the text/plain alternative that ships
+// beside an HTML body.
+//
+// It used to strip tags with a regex, which put a designed email's whole
+// stylesheet at the top of the text part and ran every paragraph into one
+// line (issue #393). mailhtml renders the document instead, so blocks, lists,
+// table rows and link destinations survive.
+func ExtractPlainTextFromHTML(body string) string {
+	return mailhtml.ToPlainText(body)
+}

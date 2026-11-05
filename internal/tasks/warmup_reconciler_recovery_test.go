@@ -1,0 +1,145 @@
+package tasks
+
+import (
+	"context"
+	"errors"
+	"testing"
+	"time"
+
+	"github.com/google/uuid"
+	"github.com/warmbly/warmbly/internal/repository"
+)
+
+type reconcileRecoveryRepo struct {
+	repository.TaskRepository
+	batches []int
+	calls   int
+	err     error
+}
+
+func (r *reconcileRecoveryRepo) RecoverUnstartedWarmupDispatches(_ context.Context, before time.Time, _ int) (int, error) {
+	if d := time.Since(before); d < 9*time.Minute || d > 11*time.Minute {
+		return 0, errors.New("changed the unstarted-send safety window")
+	}
+	r.calls++
+	if r.err != nil {
+		return 0, r.err
+	}
+	if len(r.batches) == 0 {
+		return 0, nil
+	}
+	n := r.batches[0]
+	r.batches = r.batches[1:]
+	return n, nil
+}
+
+type reconcileEmptyEmailRepo struct{ repository.EmailRepository }
+
+type unknownWarmupRecoveryRepo struct {
+	reconcileRecoveryRepo
+	retirementCalls int
+	retirementErr   error
+}
+
+func (r *unknownWarmupRecoveryRepo) RetireUnknownWarmupSends(_ context.Context, before time.Time, limit int) (int, error) {
+	if d := time.Since(before); d < 9*time.Minute || d > 11*time.Minute || limit != 500 || r.calls != 1 {
+		return 0, errors.New("unknown retirement must follow unstarted recovery with the safety window and batch bound")
+	}
+	r.retirementCalls++
+	return 1, r.retirementErr
+}
+
+func TestWarmupReconcilerRetiresUnknownSendsAfterUnstartedRecovery(t *testing.T) {
+	r := &unknownWarmupRecoveryRepo{}
+	s := &tasksService{taskRepo: r, emailRepo: &reconcileEmptyEmailRepo{}}
+	if _, err := s.ReconcileWarmupSchedules(t.Context(), 500); err != nil || r.retirementCalls != 1 {
+		t.Fatalf("retirements=%d err=%v", r.retirementCalls, err)
+	}
+	r.calls = 0
+	want := errors.New("retirement unavailable")
+	r.retirementErr = want
+	if _, err := s.ReconcileWarmupSchedules(t.Context(), 500); !errors.Is(err, want) || r.retirementCalls != 2 {
+		t.Fatalf("failed retirement must stop the recovery pass: retirements=%d err=%v", r.retirementCalls, err)
+	}
+}
+
+type abandonedPreparationRecoveryRepo struct {
+	reconcileRecoveryRepo
+	preparationCalls int
+	preparationErr   error
+}
+
+func (r *abandonedPreparationRecoveryRepo) RecoverAbandonedWarmupPreparations(_ context.Context, before time.Time, limit int) (int, error) {
+	if d := time.Since(before); d < 9*time.Minute || d > 11*time.Minute || limit != 500 {
+		return 0, errors.New("changed the preparation safety window or batch size")
+	}
+	r.preparationCalls++
+	return 1, r.preparationErr
+}
+
+func TestWarmupReconcilerRecoversAbandonedPreparationsBeforeReseeding(t *testing.T) {
+	r := &abandonedPreparationRecoveryRepo{}
+	s := &tasksService{taskRepo: r, emailRepo: &reconcileEmptyEmailRepo{}}
+	if _, err := s.ReconcileWarmupSchedules(t.Context(), 500); err != nil || r.preparationCalls != 1 || r.calls != 1 {
+		t.Fatalf("preparations=%d dispatches=%d err=%v", r.preparationCalls, r.calls, err)
+	}
+	want := errors.New("preparation recovery unavailable")
+	r.preparationErr = want
+	if _, err := s.ReconcileWarmupSchedules(t.Context(), 500); !errors.Is(err, want) || r.calls != 1 {
+		t.Fatalf("failed preparation recovery must stop reseeding: dispatches=%d err=%v", r.calls, err)
+	}
+}
+
+type concurrentlyRetiredRecoveryRepo struct {
+	reconcileRecoveryRepo
+}
+
+func (r *concurrentlyRetiredRecoveryRepo) RecoverUnstartedWarmupDispatchBatch(_ context.Context, before time.Time, _ int) (int, int, error) {
+	if d := time.Since(before); d < 9*time.Minute || d > 11*time.Minute {
+		return 0, 0, errors.New("changed the safety window")
+	}
+	r.calls++
+	if r.calls == 1 {
+		return 0, 500, nil
+	}
+	return 50, 50, nil
+}
+
+func TestWarmupRecoveryDoesNotStopWhenOtherReconcilerRetiredSelectedBatch(t *testing.T) {
+	r := &concurrentlyRetiredRecoveryRepo{}
+	s := &tasksService{taskRepo: r, emailRepo: &reconcileEmptyEmailRepo{}}
+	if _, err := s.ReconcileWarmupSchedules(t.Context(), 500); err != nil || r.calls != 2 {
+		t.Fatalf("concurrent retirements cut recovery short: calls=%d err=%v", r.calls, err)
+	}
+}
+
+func (*reconcileEmptyEmailRepo) ListWarmupScheduleCandidates(context.Context, int) ([]uuid.UUID, error) {
+	return nil, nil
+}
+
+func TestWarmupRecoveryDrainsMultipleOldBatchesOnStartupWithinBound(t *testing.T) {
+	for _, test := range []struct {
+		name    string
+		batches []int
+		want    int
+	}{
+		{"existing fleet", []int{500, 500, 50}, 3},
+		{"bounded backlog", []int{500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500}, 10},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			r := &reconcileRecoveryRepo{batches: test.batches}
+			s := &tasksService{taskRepo: r, emailRepo: &reconcileEmptyEmailRepo{}}
+			if _, err := s.ReconcileWarmupSchedules(t.Context(), 500); err != nil || r.calls != test.want {
+				t.Fatalf("calls=%d want=%d err=%v", r.calls, test.want, err)
+			}
+		})
+	}
+}
+
+func TestWarmupRecoveryUnavailableDoesNotProceedAsSuccessfulRecovery(t *testing.T) {
+	want := errors.New("database unavailable")
+	s := &tasksService{taskRepo: &reconcileRecoveryRepo{err: want}}
+	if _, err := s.ReconcileWarmupSchedules(t.Context(), 500); !errors.Is(err, want) {
+		t.Fatalf("lost recovery failure: %v", err)
+	}
+}

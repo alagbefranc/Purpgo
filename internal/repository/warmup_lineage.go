@@ -1,0 +1,487 @@
+package repository
+
+import (
+	"context"
+	"errors"
+	"strings"
+	"time"
+
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
+	"github.com/warmbly/warmbly/internal/app/warmupramp"
+	"github.com/warmbly/warmbly/internal/models"
+	"github.com/warmbly/warmbly/internal/pkg/mailhdr"
+)
+
+// WarmupLineageRepository keeps receipt authority separate from pair selection.
+type WarmupLineageRepository interface {
+	RecordVerifiedWarmupParent(context.Context, uuid.UUID, uuid.UUID, uuid.UUID, string, WarmupReceiptProof) error
+	BindWarmupSuccessor(context.Context, uuid.UUID, uuid.UUID, uuid.UUID, time.Time) (bool, error)
+	ExactWarmupParent(context.Context, uuid.UUID) (*WarmupReplyCandidate, error)
+	WarmupExecutionContext(context.Context, uuid.UUID) (uuid.UUID, *WarmupReplyCandidate, error)
+	SaveWarmupLineage(context.Context, uuid.UUID, WarmupLineage) error
+	ClaimWarmupTask(context.Context, uuid.UUID, time.Time) (bool, error)
+	ReleaseUnpublishedWarmupTask(context.Context, uuid.UUID, time.Time) error
+	RescheduleWarmupTask(context.Context, uuid.UUID, time.Time) error
+	UnqueuedWarmupTasks(context.Context, int) ([]WarmupQueueRevision, error)
+	AckWarmupQueue(context.Context, WarmupQueueRevision, string) (bool, error)
+}
+
+type WarmupLineage struct {
+	Subject          string
+	References       []string
+	ScenarioVersion  string
+	RenderingVersion string
+	MaxTurns         int
+}
+
+type WarmupQueueRevision struct {
+	TaskID         uuid.UUID
+	At             time.Time
+	Revision       int64
+	PreviousHandle *string
+}
+
+type WarmupReceiptProof struct {
+	Token         uuid.UUID
+	SenderAddress string
+	MessageID     string
+}
+
+func (r *taskRepository) RecordVerifiedWarmupParent(ctx context.Context, parent, recipient, internalID uuid.UUID, threadID string, proof WarmupReceiptProof) error {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx)
+	if _, err = tx.Exec(ctx, `SELECT pg_advisory_xact_lock(hashtext('warmup_parent_' || $1::text))`, parent); err != nil {
+		return err
+	}
+	tag, err := tx.Exec(ctx, `UPDATE warmup_received wr SET task_id=$1, provider_thread_id=NULLIF($4,'')
+        WHERE wr.email_account_id=$2 AND wr.internal_id=$3 AND wr.task_id IS NULL
+        AND wr.message_id<>''
+        AND NOT EXISTS(SELECT 1 FROM warmup_received prior WHERE prior.task_id=$1)
+        AND EXISTS (SELECT 1 FROM warmup_tokens wt JOIN warmup_tasks original ON original.task_id=wt.task_id
+                    JOIN tasks sent ON sent.id=wt.task_id JOIN email_accounts sender ON sender.id=wt.sender_account_id WHERE wt.task_id=$1
+                    AND original.lineage_version=1 AND wt.recipient_account_id=$2 AND wt.sender_account_id=wr.sender_account_id
+                    AND sent.status='completed' AND sent.email_account_id=wt.sender_account_id
+                    AND wt.expires_at>NOW() AND wt.consumed_at IS NULL AND wt.sent_retired_at IS NULL
+                    AND lower(sender.email)=lower($6) AND wt.sent_message_id<>''
+                    AND (btrim(wt.sent_message_id,'<>')=btrim(wr.message_id,'<>') OR wt.token=$5))`,
+		parent, recipient, internalID, threadID, proof.Token, strings.TrimSpace(proof.SenderAddress))
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		var same bool
+		err = tx.QueryRow(ctx, `SELECT EXISTS(SELECT 1 FROM warmup_received WHERE email_account_id=$2 AND internal_id=$3 AND task_id=$1)`, parent, recipient, internalID).Scan(&same)
+		if err != nil {
+			return err
+		}
+		if !same {
+			var legacy bool
+			if err := tx.QueryRow(ctx, `SELECT NOT EXISTS(SELECT 1 FROM warmup_tasks WHERE task_id=$1 AND lineage_version=1)`, parent).Scan(&legacy); err != nil {
+				return err
+			}
+			if legacy {
+				return nil
+			}
+			return errors.New("verified warmup receipt context unavailable")
+		}
+	}
+	if err := attachDiagnosticAuth(ctx, tx, parent, recipient); err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
+}
+
+// BindWarmupSuccessor binds a verified reply without postponing an existing send.
+func (r *taskRepository) BindWarmupSuccessor(ctx context.Context, parent, recipient, internalID uuid.UUID, at time.Time) (bool, error) {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return false, err
+	}
+	defer tx.Rollback(ctx)
+	if _, err = tx.Exec(ctx, `SELECT pg_advisory_xact_lock(hashtext('warmup_task_' || $1::text))`, recipient); err != nil {
+		return false, err
+	}
+	if _, err = tx.Exec(ctx, `SELECT pg_advisory_xact_lock(hashtext('warmup_parent_' || $1::text))`, parent); err != nil {
+		return false, err
+	}
+	// One pending warmup task per mailbox: a reply takes the free slot, and is skipped when a reply already holds it.
+	var id uuid.UUID
+	var bindable bool
+	err = tx.QueryRow(ctx, `SELECT t.id, (w.task_id IS NOT NULL AND w.target_account_id IS NULL AND w.parent_task_id IS NULL)
+        FROM tasks t LEFT JOIN warmup_tasks w ON w.task_id=t.id
+        WHERE t.email_account_id=$1 AND t.task_type='warmup' AND t.status='pending'
+        ORDER BY 2 DESC, t.scheduled_at NULLS FIRST LIMIT 1 FOR UPDATE OF t`, recipient).Scan(&id, &bindable)
+	if err == nil && !bindable {
+		return false, nil
+	}
+	if errors.Is(err, pgx.ErrNoRows) {
+		id = uuid.New()
+		if _, err = tx.Exec(ctx, `INSERT INTO tasks(id,task_type,email_account_id,status,message_id) VALUES($1,'warmup',$2,'pending','')`, id, recipient); err != nil {
+			return false, err
+		}
+		if _, err = tx.Exec(ctx, `INSERT INTO warmup_tasks(task_id) VALUES($1)`, id); err != nil {
+			return false, err
+		}
+		err = nil
+	}
+	if err != nil {
+		return false, err
+	}
+	tag, err := tx.Exec(ctx, `UPDATE warmup_tasks successor
+        SET target_account_id=wt.sender_account_id, parent_task_id=$2, parent_received_id=$3,
+            parent_message_id=wr.message_id, schedule_revision=successor.schedule_revision+1
+        FROM warmup_tokens wt JOIN warmup_tasks original ON original.task_id=wt.task_id
+        JOIN warmup_received wr ON wr.task_id=wt.task_id AND wr.email_account_id=wt.recipient_account_id
+        JOIN email_accounts ea ON ea.id=wt.recipient_account_id
+        JOIN tasks planned ON planned.id=$1
+        WHERE successor.task_id=$1 AND wt.task_id=$2 AND wr.internal_id=$3 AND wt.recipient_account_id=$4
+        AND (planned.scheduled_at IS NULL OR planned.scheduled_at>=wr.created_at+INTERVAL '45 minutes')
+        AND `+warmupAnswerableSQL, id, parent, internalID, recipient)
+	if err != nil {
+		return false, err
+	}
+	if tag.RowsAffected() == 0 {
+		return false, nil
+	}
+	// Keep an earlier eligible send rather than delaying the mailbox for a reply.
+	if _, err = tx.Exec(ctx, `UPDATE tasks SET scheduled_at=GREATEST(LEAST(scheduled_at,$2),(SELECT created_at+INTERVAL '45 minutes' FROM warmup_received WHERE email_account_id=$3 AND internal_id=$4)),updated_at=NOW() WHERE id=$1`, id, at, recipient, internalID); err != nil {
+		return false, err
+	}
+	return true, tx.Commit(ctx)
+}
+
+// warmupAnswerableSQL is when received warmup mail may still be answered, over aliases wt, original, wr and ea (the recipient).
+const warmupAnswerableSQL = `ea.status='active' AND ea.warmup IS NOT NULL AND ea.warmup_paused_at IS NULL
+        AND wr.retired_at IS NULL AND wr.created_at>NOW()-INTERVAL '7 days'
+        AND original.lineage_version=1 AND original.subject<>'' AND wt.conversation_id IS NOT NULL
+        AND wt.expires_at>NOW() AND wt.sent_retired_at IS NULL
+        AND wt.conversation_turn+1<original.max_turns AND wr.message_id<>''
+        AND wt.sent_message_id<>'' AND wr.sender_account_id=wt.sender_account_id
+        AND NOT EXISTS(SELECT 1 FROM warmup_tasks prior WHERE prior.parent_task_id=wt.task_id)`
+
+// WarmupReplyShareRepository holds a mailbox's warmup replies to its configured share of its sends.
+type WarmupReplyShareRepository interface {
+	WarmupReplyShare(context.Context, uuid.UUID) (int, int, error)
+	OwedWarmupReplies(context.Context, uuid.UUID, int, WarmupReplyExclusions) ([]WarmupOwedReply, error)
+	BindClaimedWarmupReply(context.Context, uuid.UUID, uuid.UUID, uuid.UUID, uuid.UUID) (bool, error)
+}
+
+// WarmupOwedReply is received warmup mail the mailbox could answer now.
+type WarmupOwedReply struct {
+	ParentTaskID uuid.UUID
+	ReceivedID   uuid.UUID
+	SenderID     uuid.UUID
+	Parent       WarmupReplyCandidate
+}
+
+// WarmupReplyExclusions keeps rejected messages and unavailable senders from occupying later batches.
+type WarmupReplyExclusions struct {
+	Parents []uuid.UUID
+	Senders []uuid.UUID
+}
+
+// WarmupReplyShare is the mailbox's warmup sends and replies over the share window, as the analytics count them.
+func (r *taskRepository) WarmupReplyShare(ctx context.Context, mailbox uuid.UUID) (int, int, error) {
+	var sent, replied int
+	err := r.db.QueryRow(ctx, `SELECT COALESCE(SUM(emails_sent),0),COALESCE(SUM(emails_replied),0) FROM warmup_statistics
+        WHERE email_account_id=$1 AND date>(NOW() AT TIME ZONE 'UTC')::date-$2::int`, mailbox, warmupramp.ReplyShareWindowDays).Scan(&sent, &replied)
+	return sent, replied, err
+}
+
+const owedWarmupRepliesFromSQL = `FROM warmup_received wr
+        JOIN warmup_tokens wt ON wt.task_id=wr.task_id AND wt.recipient_account_id=wr.email_account_id
+        JOIN warmup_tasks original ON original.task_id=wt.task_id
+        JOIN email_accounts ea ON ea.id=wr.email_account_id
+        WHERE wr.email_account_id=$1 AND wr.created_at<=NOW()-INTERVAL '45 minutes'
+        AND wt.task_id<>ALL(COALESCE($2::uuid[],'{}'::uuid[]))
+        AND wt.sender_account_id<>ALL(COALESCE($3::uuid[],'{}'::uuid[]))
+        AND ` + warmupAnswerableSQL
+
+// recoveringWarmupReplySenders classifies every eligible sender before limiting the messages considered for a reply.
+func (r *taskRepository) recoveringWarmupReplySenders(ctx context.Context, recipient uuid.UUID, excluded WarmupReplyExclusions) ([]uuid.UUID, error) {
+	rows, err := r.db.Query(ctx, `WITH senders AS (SELECT DISTINCT wt.sender_account_id AS id `+owedWarmupRepliesFromSQL+`)
+        SELECT sender.id, sender.mail_host, sender.provider, sender.email, COALESCE(h.health_state,'healthy'),
+        EXISTS (`+strings.ReplaceAll(activeCampaignsForAccountSQL, "$1", "s.id")+`)
+        FROM senders s JOIN email_accounts sender ON sender.id=s.id
+        LEFT JOIN LATERAL (`+warmupGateStandingSQL("s.id")+`) h ON true`, recipient, excluded.Parents, excluded.Senders)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	priority := []uuid.UUID{}
+	for rows.Next() {
+		var sender models.Email
+		var health models.WarmupHealthState
+		var campaigning bool
+		if err := rows.Scan(&sender.ID, &sender.MailHost, &sender.Provider, &sender.Email, &health, &campaigning); err != nil {
+			return nil, err
+		}
+		if health == models.WarmupHealthWatch || health == models.WarmupHealthThrottled || sender.ConsumerMailbox() || campaigning {
+			priority = append(priority, sender.ID)
+		}
+	}
+	return priority, rows.Err()
+}
+
+// OwedWarmupReplies applies recovery priority before the limit, then orders eligible messages newest first.
+func (r *taskRepository) OwedWarmupReplies(ctx context.Context, recipient uuid.UUID, limit int, excluded WarmupReplyExclusions) ([]WarmupOwedReply, error) {
+	priority, err := r.recoveringWarmupReplySenders(ctx, recipient, excluded)
+	if err != nil {
+		return nil, err
+	}
+	rows, err := r.db.Query(ctx, `SELECT wt.task_id, wr.internal_id, wt.sender_account_id,
+        wr.message_id, original.subject, wr.provider_thread_id,
+        COALESCE(wt.conversation_theme,''),COALESCE(wt.content_source,''),wt.conversation_id,wt.conversation_turn,
+        COALESCE(original.reference_ids,'{}'::text[]),original.scenario_version,original.rendering_version,original.max_turns
+        `+owedWarmupRepliesFromSQL+`
+        ORDER BY (wt.sender_account_id=ANY($5::uuid[])) DESC, wr.created_at DESC, wt.task_id LIMIT $4`, recipient, excluded.Parents, excluded.Senders, limit, priority)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []WarmupOwedReply
+	for rows.Next() {
+		var o WarmupOwedReply
+		c := &o.Parent
+		if err := rows.Scan(&o.ParentTaskID, &o.ReceivedID, &o.SenderID, &c.MessageID, &c.Subject, &c.ThreadID, &c.ConversationTheme, &c.ContentSource, &c.ConversationID, &c.ConversationTurn, &c.References, &c.ScenarioVersion, &c.RenderingVersion, &c.MaxTurns); err != nil {
+			return nil, err
+		}
+		out = append(out, o)
+	}
+	return out, rows.Err()
+}
+
+// BindClaimedWarmupReply makes the mailbox's claimed, unpublished plain send the reply to one owed message.
+func (r *taskRepository) BindClaimedWarmupReply(ctx context.Context, task, recipient, parent, internalID uuid.UUID) (bool, error) {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return false, err
+	}
+	defer tx.Rollback(ctx)
+	if _, err = tx.Exec(ctx, `SELECT pg_advisory_xact_lock(hashtext('warmup_task_' || $1::text))`, recipient); err != nil {
+		return false, err
+	}
+	if _, err = tx.Exec(ctx, `SELECT pg_advisory_xact_lock(hashtext('warmup_parent_' || $1::text))`, parent); err != nil {
+		return false, err
+	}
+	tag, err := tx.Exec(ctx, `UPDATE warmup_tasks successor
+        SET target_account_id=wt.sender_account_id, parent_task_id=$2, parent_received_id=$3, parent_message_id=wr.message_id
+        FROM tasks claimed, warmup_tokens wt JOIN warmup_tasks original ON original.task_id=wt.task_id
+        JOIN warmup_received wr ON wr.task_id=wt.task_id AND wr.email_account_id=wt.recipient_account_id
+        JOIN email_accounts ea ON ea.id=wt.recipient_account_id
+        WHERE successor.task_id=$1 AND claimed.id=$1 AND claimed.email_account_id=$4
+        AND claimed.task_type='warmup' AND claimed.status='active'
+        AND successor.target_account_id IS NULL AND successor.parent_task_id IS NULL AND successor.dispatch_nonce IS NULL
+        AND wt.task_id=$2 AND wr.internal_id=$3 AND wt.recipient_account_id=$4
+        AND wr.created_at<=NOW()-INTERVAL '45 minutes'
+        AND `+warmupAnswerableSQL, task, parent, internalID, recipient)
+	if err != nil {
+		return false, err
+	}
+	if tag.RowsAffected() == 0 {
+		return false, nil
+	}
+	return true, tx.Commit(ctx)
+}
+
+func (r *taskRepository) ExactWarmupParent(ctx context.Context, successor uuid.UUID) (*WarmupReplyCandidate, error) {
+	c := &WarmupReplyCandidate{}
+	err := r.db.QueryRow(ctx, `SELECT wr.message_id, original.subject, wr.provider_thread_id,
+        COALESCE(wt.conversation_theme,''),COALESCE(wt.content_source,''),wt.conversation_id,wt.conversation_turn,
+        COALESCE(original.reference_ids,'{}'::text[]),original.scenario_version,original.rendering_version,original.max_turns
+        FROM warmup_tasks reply JOIN tasks t ON t.id=reply.task_id
+        JOIN warmup_tokens wt ON wt.task_id=reply.parent_task_id AND wt.recipient_account_id=t.email_account_id AND wt.sender_account_id=reply.target_account_id
+        JOIN warmup_tasks original ON original.task_id=wt.task_id
+        JOIN warmup_received wr ON wr.task_id=wt.task_id AND wr.internal_id=reply.parent_received_id AND wr.email_account_id=t.email_account_id
+        WHERE reply.task_id=$1 AND wr.message_id=reply.parent_message_id AND wr.retired_at IS NULL
+        AND wr.created_at>NOW()-INTERVAL '7 days' AND original.lineage_version=1
+        AND wt.expires_at>NOW() AND wt.sent_retired_at IS NULL
+        AND wt.conversation_turn+1<original.max_turns
+        AND wt.sent_message_id<>'' AND wr.sender_account_id=wt.sender_account_id`, successor).Scan(&c.MessageID, &c.Subject, &c.ThreadID, &c.ConversationTheme, &c.ContentSource, &c.ConversationID, &c.ConversationTurn, &c.References, &c.ScenarioVersion, &c.RenderingVersion, &c.MaxTurns)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return nil, nil
+	}
+	return c, err
+}
+
+func (r *taskRepository) WarmupExecutionContext(ctx context.Context, task uuid.UUID) (uuid.UUID, *WarmupReplyCandidate, error) {
+	var recipient uuid.UUID
+	c := &WarmupReplyCandidate{}
+	err := r.db.QueryRow(ctx, `SELECT wt.recipient_account_id,w.subject,wt.content_source,wt.conversation_id,wt.conversation_turn,w.scenario_version,w.rendering_version,w.max_turns
+        FROM warmup_tasks w JOIN warmup_tokens wt ON wt.task_id=w.task_id JOIN tasks t ON t.id=w.task_id
+        JOIN email_accounts sender ON sender.id=t.email_account_id JOIN email_accounts receiver ON receiver.id=wt.recipient_account_id
+        WHERE w.task_id=$1 AND wt.sender_account_id=t.email_account_id AND w.lineage_version=1
+        AND wt.expires_at>NOW() AND wt.sent_retired_at IS NULL AND wt.conversation_id IS NOT NULL
+        AND NOT recipient_suppressed(sender.organization_id,receiver.email)`, task).Scan(&recipient, &c.Subject, &c.ContentSource, &c.ConversationID, &c.ConversationTurn, &c.ScenarioVersion, &c.RenderingVersion, &c.MaxTurns)
+	return recipient, c, err
+}
+
+func (r *taskRepository) SaveWarmupLineage(ctx context.Context, taskID uuid.UUID, l WarmupLineage) error {
+	if l.Subject == "" || l.ScenarioVersion == "" || l.RenderingVersion == "" || l.MaxTurns < 1 || l.MaxTurns > 6 {
+		return errors.New("invalid diagnostic lineage")
+	}
+	if _, err := mailhdr.References(l.References); err != nil {
+		return err
+	}
+	tag, err := r.db.Exec(ctx, `UPDATE warmup_tasks SET lineage_version=1,subject=$2,reference_ids=$3,scenario_version=$4,rendering_version=$5,max_turns=$6 WHERE task_id=$1 AND dispatch_nonce IS NULL`, taskID, l.Subject, l.References, l.ScenarioVersion, l.RenderingVersion, l.MaxTurns)
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() != 1 {
+		return errors.New("diagnostic lineage unavailable")
+	}
+	return nil
+}
+
+func (r *taskRepository) ClaimWarmupTask(ctx context.Context, id uuid.UUID, now time.Time) (bool, error) {
+	tx, err := r.warmupSchedulingTx(ctx, id)
+	if err != nil {
+		return false, err
+	}
+	defer tx.Rollback(ctx)
+	tag, err := tx.Exec(ctx, `UPDATE tasks t SET status='active',updated_at=NOW() WHERE id=$1 AND task_type='warmup' AND status='pending' AND (scheduled_at IS NULL OR scheduled_at<=$2)
+    AND NOT EXISTS(SELECT 1 FROM tasks other WHERE other.email_account_id=t.email_account_id AND other.task_type='warmup' AND other.status='active')`, id, now)
+	if err != nil {
+		return false, err
+	}
+	return tag.RowsAffected() == 1, tx.Commit(ctx)
+}
+
+func (r *taskRepository) warmupSchedulingTx(ctx context.Context, id uuid.UUID) (pgx.Tx, error) {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var account uuid.UUID
+	if err = tx.QueryRow(ctx, `SELECT email_account_id FROM tasks WHERE id=$1`, id).Scan(&account); err == nil {
+		_, err = tx.Exec(ctx, `SELECT pg_advisory_xact_lock(hashtext('warmup_task_' || $1::text))`, account)
+	}
+	if err != nil {
+		_ = tx.Rollback(ctx)
+		return nil, err
+	}
+	return tx, nil
+}
+
+func (r *taskRepository) ReleaseUnpublishedWarmupTask(ctx context.Context, id uuid.UUID, at time.Time) error {
+	tx, err := r.warmupSchedulingTx(ctx, id)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx)
+	// An unpublished task's unsent tokens go with it, or each retry adds one to its recipient's day.
+	_, err = tx.Exec(ctx, `WITH released AS(UPDATE tasks t SET status='pending',scheduled_at=$2,updated_at=NOW() FROM warmup_tasks w
+        WHERE t.id=$1 AND w.task_id=t.id AND t.status='active' AND w.dispatch_nonce IS NULL RETURNING t.id),
+        removed AS(DELETE FROM warmup_tokens WHERE task_id IN(SELECT id FROM released) AND sent_message_id='')
+        UPDATE warmup_tasks SET schedule_revision=schedule_revision+1 WHERE task_id IN(SELECT id FROM released)`, id, at)
+	if err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
+}
+
+func (r *taskRepository) RescheduleWarmupTask(ctx context.Context, id uuid.UUID, at time.Time) error {
+	tx, err := r.warmupSchedulingTx(ctx, id)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx)
+	_, err = tx.Exec(ctx, `WITH moved AS (UPDATE tasks SET scheduled_at=$2,updated_at=NOW() WHERE id=$1 AND status='pending' RETURNING id)
+        UPDATE warmup_tasks SET schedule_revision=schedule_revision+1 WHERE task_id IN (SELECT id FROM moved)`, id, at)
+	if err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
+}
+
+// ReplaceParkedWarmupTask moves a mailbox's pending warmup task to at. A plain wakeup moves either way; a reply only comes earlier, never before its 45-minute floor after the mail it answers. The reconciler requeues the new revision.
+func (r *taskRepository) ReplaceParkedWarmupTask(ctx context.Context, accountID uuid.UUID, at time.Time) (bool, error) {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return false, err
+	}
+	defer tx.Rollback(ctx)
+	if _, err = tx.Exec(ctx, `SELECT pg_advisory_xact_lock(hashtext('warmup_task_' || $1::text))`, accountID); err != nil {
+		return false, err
+	}
+	tag, err := tx.Exec(ctx, `WITH slot AS (SELECT t.id, w.parent_task_id IS NULL AS plain,
+            CASE WHEN w.parent_task_id IS NULL THEN $2::timestamptz ELSE GREATEST($2::timestamptz, COALESCE(
+                (SELECT wr.created_at+INTERVAL '45 minutes' FROM warmup_received wr WHERE wr.email_account_id=t.email_account_id AND wr.internal_id=w.parent_received_id), $2::timestamptz)) END AS at
+        FROM tasks t JOIN warmup_tasks w ON w.task_id=t.id
+        WHERE t.email_account_id=$1 AND t.task_type='warmup' AND t.status='pending' AND w.dispatch_nonce IS NULL
+        AND ((w.target_account_id IS NULL AND w.parent_task_id IS NULL) OR (w.parent_task_id IS NOT NULL AND w.target_account_id IS NOT NULL))),
+        moved AS (UPDATE tasks t SET scheduled_at=slot.at,updated_at=NOW() FROM slot
+        WHERE t.id=slot.id AND t.status='pending' AND (slot.plain OR t.scheduled_at>slot.at) RETURNING t.id)
+        UPDATE warmup_tasks SET schedule_revision=schedule_revision+1 WHERE task_id IN (SELECT id FROM moved)`, accountID, at)
+	if err != nil {
+		return false, err
+	}
+	return tag.RowsAffected() > 0, tx.Commit(ctx)
+}
+
+func (r *taskRepository) UnqueuedWarmupTasks(ctx context.Context, limit int) ([]WarmupQueueRevision, error) {
+	rows, err := r.db.Query(ctx, `SELECT t.id,t.scheduled_at,w.schedule_revision,t.cloud_task_name FROM tasks t JOIN warmup_tasks w ON w.task_id=t.id WHERE t.status='pending' AND t.scheduled_at IS NOT NULL AND (w.schedule_revision>w.queued_revision OR t.scheduled_at<NOW()-INTERVAL '10 minutes' AND t.updated_at<NOW()-INTERVAL '10 minutes') ORDER BY t.scheduled_at LIMIT $1`, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	out := []WarmupQueueRevision{}
+	for rows.Next() {
+		var v WarmupQueueRevision
+		if err := rows.Scan(&v.TaskID, &v.At, &v.Revision, &v.PreviousHandle); err != nil {
+			return nil, err
+		}
+		out = append(out, v)
+	}
+	return out, rows.Err()
+}
+
+func (r *taskRepository) AckWarmupQueue(ctx context.Context, v WarmupQueueRevision, handle string) (bool, error) {
+	tx, err := r.warmupSchedulingTx(ctx, v.TaskID)
+	if err != nil {
+		return false, err
+	}
+	defer tx.Rollback(ctx)
+	tag, err := tx.Exec(ctx, `WITH queued AS (UPDATE warmup_tasks w SET queued_revision=$2 FROM tasks t WHERE w.task_id=$1 AND t.id=w.task_id AND t.status='pending' AND t.scheduled_at=$3 AND w.schedule_revision=$2 RETURNING w.task_id)
+        UPDATE tasks SET cloud_task_name=$4,updated_at=NOW() WHERE id IN(SELECT task_id FROM queued)`, v.TaskID, v.Revision, v.At, handle)
+	if err != nil {
+		return false, err
+	}
+	return tag.RowsAffected() == 1, tx.Commit(ctx)
+}
+
+func (r *taskRepository) CountWarmupDispatchReservations(ctx context.Context, id uuid.UUID, start, end time.Time) (int, error) {
+	var n int
+	err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM tasks WHERE email_account_id=$1 AND task_type='warmup' AND status IN('active','completed') AND COALESCE(completed_at,updated_at)>=$2 AND COALESCE(completed_at,updated_at)<$3`, id, start, end).Scan(&n)
+	return n, err
+}
+
+const warmupDispatchUsageSQL = `WITH usage AS MATERIALIZED (
+    SELECT task_type, COALESCE(completed_at,updated_at) AS sent_at
+    FROM tasks
+    WHERE email_account_id=$1 AND id<>$2 AND status IN('active','completed')
+      AND task_type IN('warmup','campaign','email','placement') AND message_id<>''
+      AND COALESCE(completed_at,updated_at)>=LEAST($3::timestamptz,$5::timestamptz)
+      AND COALESCE(completed_at,updated_at)<GREATEST($4::timestamptz,$6::timestamptz)
+)
+SELECT
+    COUNT(*) FILTER(WHERE task_type='warmup' AND sent_at>=$3 AND sent_at<$4),
+    COUNT(*) FILTER(WHERE sent_at>=$3 AND sent_at<$4),
+    COUNT(*) FILTER(WHERE sent_at>=$5 AND sent_at<$6),
+    (SELECT COALESCE(completed_at,updated_at) FROM tasks
+     WHERE email_account_id=$1 AND id<>$2 AND status IN('active','completed')
+       AND task_type IN('warmup','campaign','email','placement') AND message_id<>''
+       AND COALESCE(completed_at,updated_at) IS NOT NULL
+     ORDER BY COALESCE(completed_at,updated_at) DESC NULLS LAST LIMIT 1)
+FROM usage`
+
+func (r *taskRepository) WarmupDispatchUsage(ctx context.Context, id, excluded uuid.UUID, start, end, hourStart, hourEnd time.Time) (int, int, int, *time.Time, error) {
+	var warmup, daily, hourly int
+	var last *time.Time
+	err := r.db.QueryRow(ctx, warmupDispatchUsageSQL, id, excluded, start, end, hourStart, hourEnd).Scan(&warmup, &daily, &hourly, &last)
+	return warmup, daily, hourly, last, err
+}

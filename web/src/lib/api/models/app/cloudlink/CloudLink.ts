@@ -1,0 +1,212 @@
+// Shapes for the self-hosted warmup pool link, both sides.
+//
+// Self-hosted side:  GET/POST /cloud-link/*   (Settings > Warmbly Cloud)
+// Cloud side:        GET/POST /pool-link/*    (the /connect approval page and
+//                    the workspace's linked instances)
+
+import type { WarmupPartnerLimit, WarmupSendFailure } from "@/lib/api/models/app/analytics/AccountStatus";
+
+
+export interface PoolLinkOrgInfo {
+    id: string;
+    name: string;
+}
+
+export interface PoolLinkInstance {
+    id: string;
+    organization_id: string;
+    name: string;
+    url: string;
+    version: string;
+    created_at: Date;
+    last_seen_at?: Date | null;
+    revoked_at?: Date | null;
+    mailbox_count: number;
+}
+
+export interface PoolLinkPlan {
+    tier: "free" | "paid";
+    /** null when unlimited */
+    mailbox_limit: number | null;
+    enrolled: number;
+    /** Mailboxes with warmup on and not paused; older servers do not send it. */
+    warming?: number;
+    price_usd: number;
+    /** Where a free workspace picks a paid plan; only on the free tier. */
+    upgrade_url?: string;
+    /** The cloud's billing page; absent when the cloud runs without billing. */
+    manage_url?: string;
+    warmup_entitled: boolean;
+    /** True when a linked instance can add no new mailboxes until the workspace subscribes; older servers do not send it. */
+    subscription_required?: boolean;
+}
+
+/** Root redirects Warmbly Cloud serves for this linked instance. */
+export interface PoolLinkRedirectOffer {
+    available: boolean;
+    host?: string;
+    limit: number;
+    used: number;
+}
+
+/** Which side runs an enrolled mailbox's warmup: Cloud with a copy of its credential, or this instance. */
+export type CloudLinkExecutor = "cloud" | "instance";
+
+/** Whether this instance may keep a mailbox's only credential; absent from a Cloud too old to offer it. */
+export interface PoolLinkSelfExecution {
+    protocol: number;
+    granted: boolean;
+    expires_at?: Date | null;
+}
+
+export interface PoolLinkInstanceInfo {
+	 smtp_association_protocol?: number;
+    self_execution?: PoolLinkSelfExecution | null;
+    instance: PoolLinkInstance;
+    organization: PoolLinkOrgInfo;
+    plan: PoolLinkPlan;
+    /** Absent from a Cloud that does not serve redirects. */
+    redirects?: PoolLinkRedirectOffer | null;
+}
+
+export interface PoolLinkWarmupSettings {
+    base: number;
+    max: number;
+    increase: number;
+    reply_rate: number;
+    start_time: string;
+    end_time: string;
+    days: number;
+    timezone: string;
+}
+
+export interface PoolLinkWarmupStatus {
+    enabled: boolean;
+    paused: boolean;
+    paused_at?: Date | null;
+    started_at: Date;
+    current_volume: number;
+    target_volume: number;
+    max_volume: number;
+    reply_rate: number;
+    days_active: number;
+    /** Older clouds do not send these. */
+    partner_limit?: WarmupPartnerLimit;
+    send_failure?: WarmupSendFailure;
+}
+
+export interface PoolLinkWarmupHealth {
+    state: "healthy" | "watch" | "throttled" | "quarantined" | "blocked";
+    score: number;
+    reason?: string;
+    /** @deprecated Always 0 since the warmup spam score was retired; read score and reason. */
+    spam_score: number;
+    blocked_until?: Date | null;
+    evaluated_at?: Date | null;
+    partner_mailboxes_7d?: number;
+    partner_domains_7d?: number;
+    partner_organizations_7d?: number;
+    received_7d?: number;
+    senders_7d?: number;
+}
+
+export interface PoolLinkMailboxError {
+    id: string;
+    error_code: string;
+    severity: string;
+    title: string;
+    message: string;
+    action_required?: string | null;
+    created_at: Date;
+}
+
+export interface PoolLinkMailboxState {
+    participation?: DiagnosticParticipation;
+    remote_id: string;
+    email_account_id: string;
+    email: string;
+    name: string;
+    provider: string;
+    status: string;
+    enrolled_at: Date;
+    /** The cloud holds the only credential; the instance sends with brokered tokens. */
+    managed: boolean;
+    warmup?: PoolLinkWarmupStatus | null;
+    health?: PoolLinkWarmupHealth | null;
+    sent_today: number;
+    sent_7d: number;
+    replied_7d: number;
+    spam_placed_7d: number;
+    errors?: PoolLinkMailboxError[];
+    auth_state: string;
+    settings: PoolLinkWarmupSettings;
+}
+
+export interface DiagnosticParticipation {
+    mode: "legacy" | "diagnostic" | "off";
+    send: boolean;
+    receive: boolean;
+    shared_daily_limit?: number | null;
+    rolling_recipient_limit?: number | null;
+}
+
+export interface CloudLink {
+    /** Absent on a legacy instance-wide connection. */
+    organization_id?: string | null;
+    cloud_url: string;
+    instance_id: string;
+    organization_name: string;
+    connected_at: Date;
+    last_synced_at?: Date | null;
+    last_error?: string;
+}
+
+export interface CloudLinkStatus {
+    legacy_connected?: boolean;
+    connected: boolean;
+    link?: CloudLink | null;
+    info?: PoolLinkInstanceInfo | null;
+    reachable: boolean;
+    error?: string;
+    default_cloud_url: string;
+}
+
+export interface CloudLinkMailboxRow {
+	independent_smtp?: boolean;
+    legacy?: boolean;
+    id: string;
+    email: string;
+    name: string;
+    provider: string;
+    status: string;
+    enrolled: boolean;
+    enrolled_at?: Date | null;
+    managed: boolean;
+    cloud?: PoolLinkMailboxState | null;
+    enrollment_state?: "active" | "pending_enroll" | "pending_remove";
+    standing_observed_at?: Date | null;
+    /** When this instance last copied Warmbly Cloud's warmup settings onto the mailbox. */
+    settings_observed_at?: Date | null;
+    /** Absent from older servers, which only run the cloud executor. */
+    executor?: CloudLinkExecutor;
+    /** Cloud commands this instance has not answered yet. */
+    commands_pending?: number;
+    /** Commands answered failed, refused or expired in the last day. */
+    commands_failed?: number;
+}
+
+/** A Google or Microsoft consent started through Warmbly Cloud. */
+export interface CloudLinkOAuthStart {
+    url: string;
+    session: string;
+}
+
+/** A mailbox connected directly on the cloud workspace that this instance can adopt. */
+export interface PoolLinkWorkspaceMailbox {
+    id: string;
+    email: string;
+    name: string;
+    provider: string;
+    status: string;
+    mail_host?: string;
+}
